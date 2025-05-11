@@ -16,10 +16,10 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     #region Conctructor
 
-    public GenericRepository(DatabaseContext context, DbSet<TEntity> dbSet)
+    public GenericRepository(DatabaseContext context)
     {
         _context = context;
-        _dbSet = dbSet;
+        _dbSet = context.Set<TEntity>();
     }
 
     #endregion

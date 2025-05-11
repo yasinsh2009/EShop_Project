@@ -1,14 +1,15 @@
 using EShop.Domain.Context;
 using Microsoft.EntityFrameworkCore;
+using ServiceHost.DIContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-#region Dependency injection Container
+#region Dependency Injection Container
 
-//builder.Services.
+builder.Services.RegisterService();
 
 #endregion
 

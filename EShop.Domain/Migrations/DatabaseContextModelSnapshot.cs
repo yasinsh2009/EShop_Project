@@ -60,7 +60,7 @@ namespace EShop.Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Avatar")
+                    b.Property<string>("AvatarPath")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 

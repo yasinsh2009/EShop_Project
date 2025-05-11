@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EShop.Domain.Entities.Common;
+using Microsoft.AspNetCore.Http;
 
 namespace EShop.Domain.Entities.Account.User;
 
@@ -53,7 +54,7 @@ public class User : BaseEntity
 
     [Display(Name = "تصویر آواتار")]
     [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-    public string? Avatar { get; set; }
+    public string? AvatarPath { get; set; }
 
     [Display(Name = "بلاک شده / نشده")]
     public bool IsBlocked { get; set; }
