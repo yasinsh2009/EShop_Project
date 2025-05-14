@@ -1,4 +1,6 @@
-﻿using EShop.Application.Services.Implementation;
+﻿using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using EShop.Application.Services.Implementation;
 using EShop.Application.Services.Interface;
 using EShop.Domain.Repository.Implementation;
 using EShop.Domain.Repository.Interface;
@@ -24,6 +26,9 @@ public static class DIContainer
         #region Common Services
 
         services.AddHttpContextAccessor();
+        services.AddSingleton<HtmlEncoder>(
+            HtmlEncoder.Create(allowedRanges: [UnicodeRanges.BasicLatin, UnicodeRanges.Arabic])
+        );
 
         #endregion
     }

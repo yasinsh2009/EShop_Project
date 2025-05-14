@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Account\Role\" />
-    <Folder Include="DTOs\Account\User\" />
     <Folder Include="Entities\Account\Role\" />
     <Folder Include="Entities\Account\User\" />
   </ItemGroup>

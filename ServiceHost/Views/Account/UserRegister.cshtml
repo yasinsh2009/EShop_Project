@@ -1,0 +1,97 @@
+﻿@model EShop.Domain.DTOs.Account.User.UserRegisterDTO
+
+@{
+    ViewData["Title"] = "ثبت نام کاربر";
+}
+
+@section script {
+    <partial name="_JqueryValidators" />
+}
+
+<section class="content vh-100">
+    <div class="container-fluid h-100">
+        <div class="auth h-100 d-flex align-items-center">
+            <div class="container-fluid">
+                <div class="auth-items">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="auth-form shadow-xl rounded-3  mt-5 bg-white">
+                                <div class="auth-form-title header-logo d-flex align-items-center justify-content-between title-panel mb-4 slider-title-desc-center">
+                                    <h2 class="text-center h4 text-muted title-font">ثبت نام</h2>
+                                    <a href="">
+                                        <img src="~/MainTemplate/assets/image/logo.png" class="auth-logo" alt="">
+                                    </a>
+                                </div>
+                                <form id="form-auth" class="py-3" asp-controller="Account" asp-action="UserRegister" method="post">
+                                    <input type="hidden" asp-for="Salt"/>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="text" class="form-control" asp-for="FirstName">
+                                            <label class="form-label label-float">نام <span class="text-danger">*</span></label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="FirstName">لطفا این فیلد را خالی نگذارید.</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="text" class="form-control" asp-for="LastName">
+                                            <label class="form-label label-float">نام خانوادگی
+                                                <span class="text-danger">*</span></label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="LastName">لطفا این فیلد را خالی نگذارید.</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="number" class="form-control" asp-for="Mobile">
+                                            <label class="form-label label-float">شماره همراه
+                                                <span class="text-danger">*</span></label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Mobile">لطفا این فیلد را خالی نگذارید.</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="email" class="form-control" asp-for="Email">
+                                            <label class="form-label label-float">ایمیل
+                                                <span class="text-info">(اختیاری)</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="password" class="form-control" asp-for="Password">
+                                            <label class="form-label label-float">رمز عبور
+                                                <span class="text-danger">*</span></label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Password">لطفا این فیلد را خالی نگذارید.</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="password" class="form-control" asp-for="ConfirmPassword">
+                                            <label class="form-label label-float">تکرار (تائید) رمز عبور
+                                                <span class="text-danger">*</span></label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="ConfirmPassword">لطفا این فیلد را خالی نگذارید.</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn main-color-two-bg text-white w-100 py-3 mb-2">ثبت نام</button>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="btn text-black w-100 py-3x" asp-controller="Account" asp-action="Login">حساب کاربری دارید؟ ورود</a>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <p class="loginTermsDesc lh-lg mt-3">
+                                با ورود و یا ثبت نام در فروشگاه تکنوسنتر شما <a class="underlined fw-bold" href="/rules/">
+                                    شرایط و
+                                    قوانین
+                                </a> استفاده از سرویس‌های سایت فروشگاه تکنوسنتر و <a class="underlined fw-bold" href="/privacy-polices/">
+                                    قوانین حریم
+                                    خصوصی
+                                </a> آن را می‌پذیرید.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

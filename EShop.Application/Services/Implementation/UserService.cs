@@ -27,43 +27,53 @@ public class UserService : IUserService
 
     #region Services
 
-    public async Task<RegisterUserResult> RegisterUser(RegisterUserDTO register)
+    #region Account
+
+    #region User Register
+
+    public async Task<UserRegisterResult> UserRegister(UserRegisterDTO register)
     {
         try
         {
             if (!await IsUserExistByMobile(register.Mobile))
             {
+                var salt = PasswordManager.GenerateSalt(16);
+
                 var newUser = new User
                 {
                     FirstName = register.FirstName,
                     LastName = register.LastName,
                     Mobile = register.Mobile,
                     MobileActiveCode = new Random().Next(100000, 999999).ToString(),
-                    Email = register.Email != null ? register.Email : "info@gmail.com",
+                    Email = register.Email ?? "info@gmail.com",
                     EmailActiveCode = Guid.NewGuid().ToString("N"),
-                    Password = Sha256Example.ComputeSHA256Hash(register.Password),
+                    Password = PasswordManager.HashPassword(register.Password, salt),
+                    Salt = salt,
                     AvatarPath = register.AvatarPath != null
-                        ? await ImageCreator.CreateImage(register.AvatarPath, "user")
-                        : null,
+                        ? await ImageCreator.CreateImage(register.AvatarPath, "user") : null,
                     RoleId = 2
                 };
 
-                await _userRepository.AddEntity(newUser);
-                await _userRepository.SaveChanges();
+                if (newUser.IsMobileActive)
+                {
+                    //todo : Send Message to mobile
 
-                //todo : Send Message to mobile
+                    await _userRepository.AddEntity(newUser);
+                    await _userRepository.SaveChanges();
 
-                return RegisterUserResult.Success;
+                    return UserRegisterResult.Success;
+                }
+
+                return UserRegisterResult.Error;
             }
             else
             {
-                return RegisterUserResult.MobileExists;
+                return UserRegisterResult.MobileExists;
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine("خطای ثبت نام کاربر :", e);
-            return RegisterUserResult.Error;
+            return UserRegisterResult.Error;
         }
 
     }
@@ -78,18 +88,64 @@ public class UserService : IUserService
 
     #endregion
 
+    #region User Login
+
+    public async Task<UserLoginResult> UserLogin(UserLoginDTO login)
+    {
+        var user = await _userRepository
+            .GetQuery()
+            .SingleOrDefaultAsync
+            (x => x.Mobile == login.Mobile &&
+                  x.Password == PasswordManager.HashPassword(login.Password, login.Salt));
+
+        if (user == null)
+        {
+            return UserLoginResult.NotFound;
+        }
+
+        if (user.Mobile != login.Mobile)
+        {
+            return UserLoginResult.WrongInformation;
+        }
+
+        if (user.Password != PasswordManager.HashPassword(login.Password, login.Salt))
+        {
+            return UserLoginResult.WrongInformation;
+        }
+
+        if (!user.IsMobileActive)
+        {
+            return UserLoginResult.MobileNotActivated;
+        }
+
+        return UserLoginResult.Success;
+    }
+
+    public async Task<User> GetUserByMobile(string mobile)
+    {
+        return await _userRepository
+            .GetQuery()
+            .SingleOrDefaultAsync(x => x.Mobile == mobile);
+    }
+
+    #endregion
+
+    #endregion
+
+    #endregion
+
     #region Dispose
 
     public async ValueTask DisposeAsync()
     {
         if (_userRepository != null)
         {
-            _userRepository.DisposeAsync();
+            await _userRepository.DisposeAsync();
         }
 
         if (_roleRepository != null)
         {
-            _roleRepository.DisposeAsync();
+            await _roleRepository.DisposeAsync();
         }
     }
 

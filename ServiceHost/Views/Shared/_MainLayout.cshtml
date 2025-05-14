@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <partial name="_HeaderReferences" />
+    @await RenderSectionAsync("style", false)
 
 </head>
 <body>
@@ -191,6 +192,7 @@
     <!--============ end mobile menu ==============-->
 
     <partial name="_FooterReferences" />
+    @await RenderSectionAsync("script", false)
     <partial name="_SiteMessage" />
 
     <!-- initial config contact button  -->
