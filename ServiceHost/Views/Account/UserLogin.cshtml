@@ -1,7 +1,14 @@
-﻿@model EShop.Domain.DTOs.Account.User.UserLoginDTO
+﻿@using EShop.Domain.DTOs.Site
+@model EShop.Domain.DTOs.Account.User.UserLoginDto
 
 @{
     ViewData["Title"] = "ورود کاربر";
+}
+
+@section script
+{
+    <partial name="_JqueryValidators"/>
+    <partial name="_CaptchaScripts" />
 }
 
 <section class="content vh-100">
@@ -19,31 +26,21 @@
                                     </a>
                                 </div>
                                 <form id="form-auth" class="py-3" asp-controller="Account" asp-action="UserLogin" method="post">
-                                    <div class="comment-item mb-3">
-                                        <div class="mb-2">
-                                            <input type="text" class="form-control" asp-for="Mobile">
-                                            <label class="form-label label-float">
-                                                شماره همراه
-                                                <span class="text-info">یا</span>
-                                                ایمیل
-                                            </label>
-                                        </div>
-                                        <span></span>
-                                    </div>
+                                    <partial name="_CaptchaInput" model="@(new CaptchaDto())"/>
                                     <div class="comment-item mb-3 position-relative step-passwd" style="">
+                                        <span class="text-black"></span>
                                         <div class="mb-2">
                                             <input type="password" class="form-control" asp-for="Password">
                                             <label class="form-label label-float">
                                                 رمز عبور
                                             </label>
                                             <div class="inline-btn-text">
-                                                <a @* asp-controller="Account" asp-action="ForgetPassword" *@ class="btn border-0 main-color-three-bg text-black">
+                                                <a class="btn border-0 main-color-three-bg text-black">
                                                     ورود با
                                                     پیامک
                                                 </a>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="text-center mb-2">
                                         <button type="submit" class="btn main-color-two-bg text-white w-100 py-3">ورود</button>

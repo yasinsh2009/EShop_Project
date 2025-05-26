@@ -4,6 +4,8 @@ using EShop.Application.Services.Implementation;
 using EShop.Application.Services.Interface;
 using EShop.Domain.Repository.Implementation;
 using EShop.Domain.Repository.Interface;
+using GoogleReCaptcha.V3;
+using GoogleReCaptcha.V3.Interface;
 
 namespace ServiceHost.DIContainer;
 
@@ -29,6 +31,7 @@ public static class DIContainer
         services.AddSingleton<HtmlEncoder>(
             HtmlEncoder.Create(allowedRanges: [UnicodeRanges.BasicLatin, UnicodeRanges.Arabic])
         );
+        services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
 
         #endregion
     }

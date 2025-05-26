@@ -9,14 +9,14 @@ public interface IUserService : IAsyncDisposable
 
     #region User register
 
-    Task<UserRegisterResult> UserRegister(UserRegisterDTO register);
+    Task<UserRegisterResult> UserRegister(UserRegisterDto register);
     Task<bool> IsUserExistByMobile(string mobile);
 
     #endregion
 
     #region User Login
 
-    Task<UserLoginResult> UserLogin(UserLoginDTO login);
+    Task<UserLoginResult> UserLogin(UserLoginDto login);
     Task<User> GetUserByMobile(string mobile);
 
     #endregion

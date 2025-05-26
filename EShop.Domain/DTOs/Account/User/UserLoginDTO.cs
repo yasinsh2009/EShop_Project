@@ -1,23 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+using EShop.Domain.DTOs.Site;
 
 namespace EShop.Domain.DTOs.Account.User;
 
-public class UserLoginDTO
+public class UserLoginDto : CaptchaDto
 {
-    [Display(Name = "تلفن همراه")]
-    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-    [MaxLength(11, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-    [MinLength(11, ErrorMessage = "{0} نمی تواند کمتر از {1} کاراکتر باشد")]
-    [RegularExpression("^[0-9]*$", ErrorMessage = "فقط اعداد مجاز می باشد")]
-    public string Mobile { get; set; }
-
-    [Display(Name = "ایمیل")]
-    [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-    [EmailAddress(ErrorMessage = "فرمت ایمیل صحیح نمی باشد")]
-    [DataType(DataType.EmailAddress)]
-    public string? Email { get; set; }
-
     [Display(Name = "کلمه ی عبور")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]

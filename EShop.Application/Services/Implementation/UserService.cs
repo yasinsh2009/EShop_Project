@@ -4,9 +4,7 @@ using EShop.Domain.DTOs.Account.User;
 using EShop.Domain.Entities.Account.Role;
 using EShop.Domain.Entities.Account.User;
 using EShop.Domain.Repository.Interface;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
-using Resume.Application.Utilities;
 
 namespace EShop.Application.Services.Implementation;
 
@@ -31,45 +29,30 @@ public class UserService : IUserService
 
     #region User Register
 
-    public async Task<UserRegisterResult> UserRegister(UserRegisterDTO register)
+    public async Task<UserRegisterResult> UserRegister(UserRegisterDto register)
     {
         try
         {
-            if (!await IsUserExistByMobile(register.Mobile))
+            var newUser = new User
             {
-                var salt = PasswordManager.GenerateSalt(16);
+                Mobile = register.Mobile,
+                MobileActiveCode = new Random().Next(100000, 999999).ToString(),
+                RoleId = 2
+            };
 
-                var newUser = new User
-                {
-                    FirstName = register.FirstName,
-                    LastName = register.LastName,
-                    Mobile = register.Mobile,
-                    MobileActiveCode = new Random().Next(100000, 999999).ToString(),
-                    Email = register.Email ?? "info@gmail.com",
-                    EmailActiveCode = Guid.NewGuid().ToString("N"),
-                    Password = PasswordManager.HashPassword(register.Password, salt),
-                    Salt = salt,
-                    AvatarPath = register.AvatarPath != null
-                        ? await ImageCreator.CreateImage(register.AvatarPath, "user") : null,
-                    RoleId = 2
-                };
+            //todo : Send Message to mobile
 
-                if (newUser.IsMobileActive)
-                {
-                    //todo : Send Message to mobile
-
-                    await _userRepository.AddEntity(newUser);
-                    await _userRepository.SaveChanges();
-
-                    return UserRegisterResult.Success;
-                }
-
-                return UserRegisterResult.Error;
-            }
-            else
+            if (newUser.IsMobileActive)
             {
-                return UserRegisterResult.MobileExists;
+
+
+                await _userRepository.AddEntity(newUser);
+                await _userRepository.SaveChanges();
+
+                return UserRegisterResult.Success;
             }
+
+            return UserRegisterResult.Error;
         }
         catch (Exception e)
         {
@@ -90,22 +73,16 @@ public class UserService : IUserService
 
     #region User Login
 
-    public async Task<UserLoginResult> UserLogin(UserLoginDTO login)
+    public async Task<UserLoginResult> UserLogin(UserLoginDto login)
     {
         var user = await _userRepository
             .GetQuery()
             .SingleOrDefaultAsync
-            (x => x.Mobile == login.Mobile &&
-                  x.Password == PasswordManager.HashPassword(login.Password, login.Salt));
+            (x => x.Password == PasswordManager.HashPassword(login.Password, login.Salt));
 
         if (user == null)
         {
             return UserLoginResult.NotFound;
-        }
-
-        if (user.Mobile != login.Mobile)
-        {
-            return UserLoginResult.WrongInformation;
         }
 
         if (user.Password != PasswordManager.HashPassword(login.Password, login.Salt))
