@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EShop.Application.Services.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ServiceHost.ViewComponents
 {
@@ -30,9 +31,17 @@ namespace ServiceHost.ViewComponents
 
     public class SiteFooterViewComponent : ViewComponent
     {
+        private readonly ISiteService _siteService;
+
+        public SiteFooterViewComponent(ISiteService siteService)
+        {
+            _siteService = siteService;
+        }
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("SiteFooter");
+            var siteSetting = await _siteService.GetDefaultSiteSetting();
+            return View("SiteFooter", siteSetting);
         }
     }
 

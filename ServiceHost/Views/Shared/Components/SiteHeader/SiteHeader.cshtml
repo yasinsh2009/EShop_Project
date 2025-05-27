@@ -340,9 +340,17 @@
             <div class="col-xl-6 order-xl-1 d-xl-block d-none">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center">
-                        @if (User.Identity is { IsAuthenticated: false })
+                        @if (User.Identity is { IsAuthenticated: true })
                         {
-                            <a class="btn btn-info" asp-controller="Account" asp-action="UserRegister"> 
+                            <a class="nav-link border-animate fromCenter" href=""><i class="bi bi-person">@User.Identity.Name</i></a>
+                            <ul class="level-one">
+                                <li><a href="">حساب کاربری</a></li>
+                                <li><a href="">خروج</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a class="btn btn-info" asp-controller="Account" asp-action="UserRegister">
                                 <i class="bi bi-person"></i>
                                 <span class="fw-bold ms-1">وارد شوید</span>
                             </a>

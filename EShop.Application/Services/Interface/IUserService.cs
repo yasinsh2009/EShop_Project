@@ -21,5 +21,11 @@ public interface IUserService : IAsyncDisposable
 
     #endregion
 
+    #region Activation Mobile
+
+    Task<bool> ActivateMobile(ActivateMobileDto activateMobile);
+
+    #endregion
+
     #endregion
 }

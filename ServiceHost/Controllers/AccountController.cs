@@ -71,8 +71,8 @@ namespace ServiceHost.Controllers
                         break;
                     case UserRegisterResult.Error:
                         TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد، لطفا مجددا امتحان نمایید.";
-                        return RedirectToAction("ActivateMobile", "Account");
-                        break;
+                        return RedirectToAction("ActivateMobile", "Account",
+                            new { mobile = register.Mobile});
                 }
             }
             return View(register);
@@ -166,6 +166,49 @@ namespace ServiceHost.Controllers
             return View();
         }
 
+        #endregion
+
+        #region Activation Mobile
+
+        [HttpGet("activation-mobile/{mobile}")]
+        public async Task<IActionResult> ActivateMobile(string mobile)
+        {
+            if (User.Identity is { IsAuthenticated: true })
+            {
+                return Redirect("/");
+            }
+
+            var activateMobile = new ActivateMobileDto() { Mobile = mobile };
+            return View(activateMobile);
+        }
+
+        [HttpPost("activation-mobile/{mobile}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> ActivateMobile(ActivateMobileDto activateMobile)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(activateMobile.Captcha))
+            {
+                TempData[ErrorMessage] = "کد کپچای شما تایید نشد.";
+                TempData[WarningMessage] = "لطفا از اتصال اینترنت خود اطمینان حاصل فرمایید";
+                return View(activateMobile);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = await _userService.ActivateMobile(activateMobile);
+
+                if (result)
+                {
+                    TempData[SuccessMessage] = "حساب کاربری شما با موفقیت فعال گردید";
+                    TempData[InfoMessage] = "شما وارد حساب کاربری خود شدید";
+
+                    return Redirect("/");
+                }
+
+                TempData[ErrorMessage] = "متاسفانه حساب کاربری شما فعال نشد";
+            }
+
+            return View(activateMobile);
+        }
         #endregion
 
         #endregion

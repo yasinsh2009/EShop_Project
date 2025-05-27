@@ -1,13 +1,13 @@
-﻿<footer class="footer">
+﻿@model EShop.Domain.DTOs.Site.SiteSettingDto
+
+<footer class="footer">
     <div class="container-fluid">
         <div class="row gy-4">
             <div class="col-lg-2">
-                <h6 class="fs-2 fw-900 text-center border-top main-color-one-border border-4 border-bottom py-3">فروشــــــگــــــاه <br>ایــــــنــــتـــرنتی <br>آبـــــــتــــــیــــــن</h6>
+                <h6 class="fs-2 fw-900 text-center border-top main-color-one-border border-4 border-bottom py-3"><strong>@Model.SiteName</strong></h6>
             </div>
             <div class="col-lg-4">
-                <p class="text-muted font-16 lh-lg text-justify">
-                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد،
-                </p>
+                <p class="text-muted font-16 lh-lg text-justify">@Model.FooterText</p>
             </div>
             <div class="col-lg-3">
                 <div class="row">
@@ -16,16 +16,16 @@
                             <div class="w-40-px h-40-px rounded-circle d-flex align-items-center justify-content-center text-center main-color-one-bg"><i class="bi bi-phone-flip"></i></div>
                             <div class="ms-3">
                                 <small class="font-14 text-muted">شماره تماس</small>
-                                <h6 class="fw-normal mt-2 text-muted"> <span class="fw-900 text-dark">1234567</span> 021</h6>
+                                <h6 class="fw-normal mt-2 text-muted">@Model.Phone</h6>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-12">
                         <div class="d-flex mt-2 align-items-center rounded-5 alert main-color-one-border border">
-                            <div class="w-40-px h-40-px d-flex align-items-center justify-content-center text-center rounded-circle main-color-one-bg"><i class="bi bi-clock"></i></div>
+                            <div class="w-40-px h-40-px d-flex align-items-center justify-content-center text-center rounded-circle main-color-one-bg"><i class="bi bi-envelope"></i></div>
                             <div class="ms-3">
-                                <small class="font-14 text-muted">ساعت کاری</small>
-                                <h6 class="fw-900 mt-2 text-dark">24 ساعته شبانه روز</h6>
+                                <small class="font-14 text-muted">ایمیل</small>
+                                <h6 class="fw-900 mt-2 text-dark">@Model.Email</h6>
                             </div>
                         </div>
                     </div>
@@ -62,17 +62,17 @@
             <div class="col-12">
                 <nav class="navbar navbar-expand justify-content-center ">
                     <ul class="navbar-nav justify-content-evenly footer-namad w-50">
-                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="assets/image/namad/enamad.png" alt=""></a></li>
-                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="assets/image/namad/namad-01.png" alt=""></a></li>
-                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="assets/image/namad/namad-02.png" alt=""></a></li>
-                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="assets/image/namad/namad-03.png" alt=""></a></li>
-                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="assets/image/namad/rezi.png" alt=""></a></li>
+                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="~/MainTemplate/assets/image/namad/enamad.png" alt=""></a></li>
+                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="~/MainTemplate/assets/image/namad/namad-01.png" alt=""></a></li>
+                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="~/MainTemplate/assets/image/namad/namad-02.png" alt=""></a></li>
+                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="~/MainTemplate/assets/image/namad/namad-03.png" alt=""></a></li>
+                        <li class="nav-item footer-namad-item"><a href="" class="nav-link text-muted-two"><img src="~/MainTemplate/assets/image/namad/rezi.png" alt=""></a></li>
                     </ul>
                 </nav>
             </div>
             <div class="col-12">
                 <div class="footer-copy-right pt-3 d-flex justify-content-between align-items-center">
-                    <p class="font-16 my-4">کلی حقوق این سایت متعلق به <span class="fw-bold">راستچین</span> می باشد</p>
+                    <p class="font-16 my-4">@Model.CopyRight</p>
                     <div class="footer-contact-link text-center">
                         <a href="#" role="button" class="btn main-color-two-bg text-white" onclick="topFunction()"><i class="bi bi-chevron-up"></i></a>
                     </div>

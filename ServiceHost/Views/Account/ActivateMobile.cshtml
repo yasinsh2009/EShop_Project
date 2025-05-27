@@ -1,8 +1,15 @@
-﻿@using System.Reflection
-
+﻿@using EShop.Domain.DTOs.Site
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model EShop.Domain.DTOs.Account.User.ActivateMobileDto
 
 @{
-    ViewData["Title"] = "ورود";
+    ViewData["Title"] = "فعال سازی حساب کاربری";
+}
+
+@section script
+{
+    <partial name="_JqueryValidators" />
+    <partial name="_CaptchaScripts" />
 }
 
 <section class="content vh-100">
@@ -19,7 +26,9 @@
                                         <img src="assets/image/logo.png" class="auth-logo" alt="">
                                     </a>
                                 </div>
-                                <form id="form-auth" class="py-3" @* asp-controller="Account" asp-action="UserLogin" method="post" *@>
+                                <form id="form-auth" class="py-3" asp-controller="Account" asp-action="ActivateMobile" method="post">
+                                    <partial name="_CaptchaInput" model="@(new CaptchaDto())" />
+                                    <input type="hidden" asp-for="Mobile"/>
                                     <div class="alert text-center alert-success">
                                         لطفا کد شش رقمی ارسال شده به شماره همراه {@ViewBag.Mobile} را وارد کنید.
                                     </div>
@@ -42,7 +51,7 @@
                                         <label>
                                             <input placeholder="_" type="number" step="1" min="0" max="9">
                                         </label>
-                                        <input id="otp-value" type="hidden" name="otp">
+                                        <input id="otp-value" type="hidden" name="otp" asp-for="MobileActivationCode">
                                     </div>
                                     <!-- Countdown timer html -->
                                     <div class="countDownContainer">
@@ -53,17 +62,16 @@
                                     </div>
                                     <div class="form-group mt-4">
                                         <button type="submit" id="submit" class="btn-login w-100 btn text-white rounded-3">
-                                            وورد به
-                                            سایت
+                                            ورود به سایت
                                         </button>
                                     </div>
                                 </form>
                             </div>
                             <p class="loginTermsDesc lh-lg mt-3">
-                                با ورود و یا ثبت نام در آبتین شما <a class="underlined fw-bold" href="/rules/">
+                                با ورود و یا ثبت نام در فروشگاه تکنوسنتر شما <a class="underlined fw-bold" href="/rules/">
                                     شرایط و
                                     قوانین
-                                </a> استفاده از سرویس‌های سایت آبتین و <a class="underlined fw-bold" href="/privacy-polices/">
+                                </a> استفاده از سرویس‌های سایت فروشگاه تکنوسنتر و <a class="underlined fw-bold" href="/privacy-polices/">
                                     قوانین حریم
                                     خصوصی
                                 </a> آن را می‌پذیرید.

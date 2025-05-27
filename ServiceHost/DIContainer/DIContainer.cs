@@ -22,6 +22,8 @@ public static class DIContainer
         #region General Services
 
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<ISiteService, SiteService>();
+        services.AddTransient<ISmsService, SmsService>();
 
         #endregion
 

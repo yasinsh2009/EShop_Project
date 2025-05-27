@@ -14,11 +14,13 @@ public class UserService : IUserService
 
     private readonly IGenericRepository<User> _userRepository;
     private readonly IGenericRepository<Role> _roleRepository;
+    private readonly ISmsService _smsService;
 
-    public UserService(IGenericRepository<User> userRepository, IGenericRepository<Role> roleRepository)
+    public UserService(IGenericRepository<User> userRepository, IGenericRepository<Role> roleRepository, ISmsService smsService)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
+        _smsService = smsService;
     }
 
     #endregion
@@ -36,16 +38,14 @@ public class UserService : IUserService
             var newUser = new User
             {
                 Mobile = register.Mobile,
-                MobileActiveCode = new Random().Next(100000, 999999).ToString(),
+                MobileActiveCode = new Random().Next(1000000, 9999999).ToString(),
                 RoleId = 2
             };
 
-            //todo : Send Message to mobile
+            await _smsService.SendVerificationSms(register.Mobile, newUser.MobileActiveCode);
 
             if (newUser.IsMobileActive)
             {
-
-
                 await _userRepository.AddEntity(newUser);
                 await _userRepository.SaveChanges();
 
@@ -103,6 +103,31 @@ public class UserService : IUserService
         return await _userRepository
             .GetQuery()
             .SingleOrDefaultAsync(x => x.Mobile == mobile);
+    }
+
+    #endregion
+
+    #region Activation Mobile
+
+    public async Task<bool> ActivateMobile(ActivateMobileDto activateMobile)
+    {
+        var user = await _userRepository
+            .GetQuery()
+            .SingleOrDefaultAsync(x => x.Mobile == activateMobile.Mobile);
+
+        if (user != null)
+        {
+            if (user.MobileActiveCode == activateMobile.MobileActivationCode)
+            {
+                user.IsMobileActive = true;
+                user.MobileActiveCode = new Random().Next(10000, 999999).ToString();
+                await _userRepository.SaveChanges();
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion

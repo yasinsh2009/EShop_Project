@@ -28,7 +28,7 @@
                                 <form id="form-auth" class="py-3" asp-controller="Account" asp-action="UserRegister" method="post">
                                     <partial name="_CaptchaInput" model="@(new CaptchaDto())" />
                                     <div class="mb-3">
-                                        <span class="text-black">برای <span class="main-color-one">ثبت نام</span> یا <span>ورود</span> شماره همراه خود را وارد نمایید</span>
+                                        <span class="text-black mb-3">برای <span class="main-color-one">ثبت نام</span> یا <span class="main-color-one">ورود</span> شماره همراه خود را وارد نمایید</span>
                                         <div class="comment-item mb-2">
                                             <input type="number" class="form-control" asp-for="Mobile">
                                             <label class="form-label label-float">
