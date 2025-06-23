@@ -1,0 +1,26 @@
+﻿@model List<EShop.Domain.DTOs.Site.QuestionDto>
+
+<div class="card mt-5 card-style1 border-0">
+    <div class="card-body p-4 p-md-5 p-xl-6">
+        <div class="text-center mb-2-3 mb-lg-6">
+            <h2 class="h3 mb-0 title-font">سوالات متداول</h2>
+        </div>
+        <div id="accordion" class="accordion-style">
+            @foreach (var item in Model)
+            {
+                <div class="card mb-3">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">@item.QuestionTitle</button>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion" style="">
+                        <div class="card-body">
+                            @item.Answer
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

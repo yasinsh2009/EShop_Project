@@ -46,4 +46,44 @@ namespace ServiceHost.ViewComponents
     }
 
     #endregion
+
+    #region AboutUs > Features
+
+    public class FeaturesViewComponent : ViewComponent
+    {
+        private readonly ISiteService _siteService;
+
+        public FeaturesViewComponent(ISiteService siteService)
+        {
+            _siteService = siteService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var feature = await _siteService.GetAllFeatures();
+            return View("Features", feature);
+        }
+    }
+
+    #endregion
+
+    #region AboutUs > Questions
+
+    public class QuestionsViewComponent : ViewComponent
+    {
+        private readonly ISiteService _siteService;
+
+        public QuestionsViewComponent(ISiteService siteService)
+        {
+            _siteService = siteService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var question = await _siteService.GetAllQuestions();
+            return View("Questions", question);
+        }
+    }
+
+    #endregion
 }

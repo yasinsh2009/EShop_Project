@@ -1,0 +1,15 @@
+﻿@model List<EShop.Domain.DTOs.Site.FeatureDto>
+
+<div class="shop-feature-parent shop-feature">
+    <div class="row justify-content-center gy-4 gx-2 row-cols-1 row-cols-lg-5 row-cols-xl-5">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="shop-feature-item shadow-top">
+                    <img alt="@item.FeatureTitle" src="@item.Image">
+                    <h5 class="mt-2">@item.FeatureTitle</h5>
+                </div>
+            </div>
+        }
+    </div>
+</div>

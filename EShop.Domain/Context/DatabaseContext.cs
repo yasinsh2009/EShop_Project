@@ -1,5 +1,6 @@
 ﻿using EShop.Domain.Entities.Account.Role;
 using EShop.Domain.Entities.Account.User;
+using EShop.Domain.Entities.Contact;
 using EShop.Domain.Entities.Site;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,21 @@ public class DatabaseContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+
+    #endregion
+
+    #region Company Information
+
     public DbSet<SiteSetting> SiteSettings { get; set; }
+    public DbSet<AboutUs> AboutUs { get; set; }
+    public DbSet<Feature> Features { get; set; }
+    public DbSet<Question> Questions { get; set; }
+
+    #endregion
+
+    #region Contact Us
+
+    public DbSet<ContactUs> Contacts { get; set; }
 
     #endregion
 

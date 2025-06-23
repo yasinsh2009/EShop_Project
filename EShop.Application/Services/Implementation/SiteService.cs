@@ -11,15 +11,23 @@ public class SiteService : ISiteService
     #region Constructor
 
     private readonly IGenericRepository<SiteSetting> _siteSettingRepository;
+    private readonly IGenericRepository<AboutUs> _aboutUsRepository;
+    private readonly IGenericRepository<Feature> _featureRepository;
+    private readonly IGenericRepository<Question> _questionRepository;
 
-    public SiteService(IGenericRepository<SiteSetting> siteSettingRepository)
+    public SiteService(IGenericRepository<SiteSetting> siteSettingRepository, IGenericRepository<AboutUs> aboutUsRepository, IGenericRepository<Feature> featureRepository, IGenericRepository<Question> questionRepository)
     {
         _siteSettingRepository = siteSettingRepository;
+        _aboutUsRepository = aboutUsRepository;
+        _featureRepository = featureRepository;
+        _questionRepository = questionRepository;
     }
 
     #endregion
 
     #region Services
+
+    #region SiteSetting
 
     #region Get Default Site Setting
 
@@ -48,11 +56,77 @@ public class SiteService : ISiteService
 
     #endregion
 
+    #region AboutUs
+
+    public async Task<List<AboutUsDto>> GetAboutUs()
+    {
+        return await _aboutUsRepository
+            .GetQuery()
+            .AsQueryable()
+            .Where(x => !x.IsDelete)
+            .Select(x => new AboutUsDto
+            {
+                Id = x.Id,
+                HeaderTitle = x.HeaderTitle,
+                Description = x.Description
+            }).OrderByDescending(x => x.Id)
+            .ToListAsync();
+    }
+
+    #region Features
+
+    public async Task<List<FeatureDto>> GetAllFeatures()
+    {
+        return await _featureRepository
+            .GetQuery()
+            .AsQueryable()
+            .Where(x => !x.IsDelete)
+            .Select(x => new FeatureDto
+            {
+                Id = x.Id,
+                FeatureTitle = x.FeatureTitle,
+                Image = x.Image,
+            }).OrderByDescending(x => x.Id)
+            .ToListAsync();
+    }
+
+    #endregion
+
+    #region Questions
+
+    public async Task<List<QuestionDto>> GetAllQuestions()
+    {
+        return await _questionRepository
+            .GetQuery()
+            .AsQueryable()
+            .Where(x => !x.IsDelete)
+            .Select(x => new QuestionDto
+            {
+                Id = x.Id,
+                QuestionTitle = x.QuestionTitle,
+                Answer = x.Answer
+            }).OrderByDescending(x => x.Id)
+            .ToListAsync();
+    }
+
+    #endregion
+
+    #endregion
+
+    #endregion
+
     #region Dispose
 
     public async ValueTask DisposeAsync()
     {
-        // TODO release managed resources here
+        if (_siteSettingRepository != null)
+        {
+            _siteSettingRepository.DisposeAsync();
+        }
+        if (_aboutUsRepository != null)
+        {
+            _aboutUsRepository.DisposeAsync();
+        }
     }
 
     #endregion

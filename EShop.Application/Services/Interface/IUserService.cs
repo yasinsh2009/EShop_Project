@@ -7,6 +7,12 @@ public interface IUserService : IAsyncDisposable
 {
     #region Account
 
+    #region User Validation
+
+    Task<UserValidationResult> IsUserValidate(UserValidationDto validate);
+
+    #endregion
+
     #region User register
 
     Task<UserRegisterResult> UserRegister(UserRegisterDto register);
@@ -24,6 +30,12 @@ public interface IUserService : IAsyncDisposable
     #region Activation Mobile
 
     Task<bool> ActivateMobile(ActivateMobileDto activateMobile);
+
+    #endregion
+
+    #region Restore User Password
+
+    Task<ForgotPasswordResult> RestoreUserPassword(ForgotPasswordDto forgot);
 
     #endregion
 

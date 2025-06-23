@@ -1,10 +1,13 @@
-﻿using System.Security.Claims;
-using EShop.Application.Services.Interface;
+﻿using EShop.Application.Services.Interface;
 using EShop.Domain.DTOs.Account.User;
+using EShop.Domain.Entities.Account.User;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Security.Claims;
 
 namespace ServiceHost.Controllers
 {
@@ -26,15 +29,67 @@ namespace ServiceHost.Controllers
 
         #region Actions
 
-        #region User Register
+        #region User Validation
 
-        [HttpGet("user-register")]
-        public async Task<IActionResult> UserRegister()
+        [HttpGet("user-validation")]
+        public IActionResult UserValidation()
         {
             if (User.Identity is { IsAuthenticated: true })
             {
                 return Redirect("/");
             }
+
+            return View();
+        }
+
+        [HttpPost("user-validation"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserValidation(UserValidationDto validate)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(validate.Captcha))
+            {
+                TempData[ErrorMessage] = "کد کپچای شما تایید نشد.";
+                TempData[WarningMessage] = "لطفا از اتصال اینترنت خود اطمینان حاصل فرمایید";
+                return View(validate);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = await _userService.IsUserValidate(validate);
+
+                switch (result)
+                {
+                    case UserValidationResult.ExistAndActive:
+                        return RedirectToAction("UserLogin", "Account",
+                            new { mobile = validate.Mobile });
+                    case UserValidationResult.ExistAndNotActive:
+                        string activationText =
+                            $"به نظر می رسد که حساب شما فعال نیست، برای فعالسازی حساب کاربری خود لطفا کد شش رقمی ارسال شده به شماره همراه {validate.Mobile} را وارد کنید.";
+                        return RedirectToAction("ActivateMobile", "Account",
+                            new { mobile = validate.Mobile, activateText = activationText });
+                    case UserValidationResult.NotExists:
+                        return RedirectToAction("UserRegister", "Account",
+                            new { mobile = validate.Mobile });
+                    case UserValidationResult.Error:
+                        TempData[ErrorMessage] = "در فرایند اعتبارسنجی کاربر خطایی رخ داد، لطفا مجددا تلاش کنید.";
+                        ModelState.AddModelError("Mobile", "در فرایند اعتبارسنجی کاربر خطایی رخ داد، لطفا بعدا تلاش کنید.");
+                        return RedirectToAction("UserValidation", "Account");
+                }
+            }
+            return View();
+        }
+
+        #endregion
+
+        #region User Register
+
+        [HttpGet("user-register")]
+        public async Task<IActionResult> UserRegister(string mobile)
+        {
+            if (User.Identity is { IsAuthenticated: true })
+            {
+                return Redirect("/");
+            }
+
             return View();
         }
 
@@ -50,31 +105,25 @@ namespace ServiceHost.Controllers
 
             if (ModelState.IsValid)
             {
-                if (!await _userService.IsUserExistByMobile(register.Mobile))
-                {
-                    return RedirectToAction("UserLogin", "Account",
-                        new { mobile = register.Mobile });
-                }
-
                 var result = await _userService.UserRegister(register);
 
                 switch (result)
                 {
                     case UserRegisterResult.Success:
                         TempData[SuccessMessage] = "کاربر با موفقیت ثبت گردید.";
-                        TempData[InfoMessage] =
-                            $"کد تایید، جهت فعالسازی حساب کاربری به شماره همراه {register.Mobile} ارسال گردید.";
-                        break;
+                        string activationText =
+                            $"لطفا کد شش رقمی ارسال شده به شماره همراه {register.Mobile} را وارد کنید.";
+                        return RedirectToAction("ActivateMobile", "Account",
+                            new { mobile = register.Mobile, activateText = activationText });
                     case UserRegisterResult.MobileExists:
-                        TempData[WarningMessage] = $"شماره همراه {register.Mobile} تکراری می باشد.";
-                        ModelState.AddModelError("Mobile", "شماره همراه تکراری می باشد.");
-                        break;
+                        return RedirectToAction("UserLogin", "Account",
+                            new { mobile = register.Mobile });
                     case UserRegisterResult.Error:
                         TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد، لطفا مجددا امتحان نمایید.";
-                        return RedirectToAction("ActivateMobile", "Account",
-                            new { mobile = register.Mobile});
+                        break;
                 }
             }
+
             return View(register);
         }
 
@@ -97,7 +146,7 @@ namespace ServiceHost.Controllers
             return View();
         }
 
-        [HttpGet("user-login"), ValidateAntiForgeryToken]
+        [HttpPost("user-login"), ValidateAntiForgeryToken]
         public async Task<IActionResult> UserLogin(UserLoginDto login, string mobile)
         {
             if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
@@ -113,18 +162,35 @@ namespace ServiceHost.Controllers
 
                 switch (result)
                 {
+                    case UserLoginResult.MobileNotActivated:
+                        TempData[ErrorMessage] = $"شماره همراه {mobile} فعال نشده است.";
+                        ModelState.AddModelError("Mobile", "شماره همراه شما فعال نشده است.");
+                        return RedirectToAction("ActivateMobile", "Account",
+                            new { mobile = login.Mobile });
+                    case UserLoginResult.UserNotFound:
+                        return RedirectToAction("UserRegister", "Account",
+                            new { mobile = login.Mobile });
+                    case UserLoginResult.WrongPassword:
+                        TempData[ErrorMessage] = "رمز عبور اشتباه می باشد.";
+                        ModelState.AddModelError("Password", "رمز عبور اشتباه می باشد.");
+                        TempData[InfoMessage] =
+                            "می توانید برای بازیابی رمز عبور خود از سرویس بازیابی رمز عبور استفاده کنید";
+                        break;
+                    case UserLoginResult.Error:
+                        TempData[ErrorMessage] = "در ورود به حساب کاربری خطایی رخ داد، لطفا مجددا تلاش نمایید.";
+                        break;
                     case UserLoginResult.Success:
 
                         var user = await _userService.GetUserByMobile(mobile);
 
                         var claims = new List<Claim>
-                            {
-                                new Claim(ClaimTypes.MobilePhone, mobile),
-                                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                                new Claim(ClaimTypes.Email, user.Email),
-                                new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
-                                new Claim(ClaimTypes.Role, user.RoleId.ToString()),
-                            };
+                        {
+                            new Claim(ClaimTypes.MobilePhone, mobile),
+                            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                            new Claim(ClaimTypes.Email, user.Email),
+                            new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
+                            new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+                        };
 
                         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
@@ -137,29 +203,19 @@ namespace ServiceHost.Controllers
 
                         await HttpContext.SignInAsync(principal, properties);
 
-                        TempData[SuccessMessage] = "ورود شما با موفقیت انجام شد.";
-
                         if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                         {
                             return Redirect(ReturnUrl);
                         }
 
-                        return RedirectToAction("Index", "Home");
-                    case UserLoginResult.MobileNotActivated:
-                        TempData[ErrorMessage] = $"شماره همراه {mobile} فعال نشده است.";
-                        ModelState.AddModelError("Mobile", "شماره همراه شما فعال نشده است.");
-                        break;
-                    case UserLoginResult.NotFound:
-                        TempData[ErrorMessage] = "کاربری با این مشخصات یافت نشد.";
-                        ModelState.AddModelError("Mobile", "کاربری با این مشخصات یافت نشد.");
-                        break;
-                    case UserLoginResult.WrongInformation:
-                        TempData[ErrorMessage] = "رمز عبور اشتباه است.";
-                        ModelState.AddModelError("Mobile", "رمز عبور اشتباه است.");
-                        break;
-                    case UserLoginResult.Error:
-                        TempData[ErrorMessage] = "در ورود به حساب کاربری خطایی رخ داد، لطفا مجددا تلاش نمایید.";
-                        break;
+                        if (user.TwoFactorAuthentication == true)
+                        {
+                            return RedirectToAction();
+                        }
+
+                        TempData[InfoMessage] = "شما با موفقیت وارد حساب کاربری خود شدید.";
+
+                        return Redirect("/");
                 }
             }
 
@@ -171,14 +227,16 @@ namespace ServiceHost.Controllers
         #region Activation Mobile
 
         [HttpGet("activation-mobile/{mobile}")]
-        public async Task<IActionResult> ActivateMobile(string mobile)
+        public async Task<IActionResult> ActivateMobile(string mobile, string activateText)
         {
             if (User.Identity is { IsAuthenticated: true })
             {
                 return Redirect("/");
             }
 
-            var activateMobile = new ActivateMobileDto() { Mobile = mobile };
+
+
+            var activateMobile = new ActivateMobileDto { Mobile = mobile };
             return View(activateMobile);
         }
 
@@ -199,16 +257,67 @@ namespace ServiceHost.Controllers
                 if (result)
                 {
                     TempData[SuccessMessage] = "حساب کاربری شما با موفقیت فعال گردید";
-                    TempData[InfoMessage] = "شما وارد حساب کاربری خود شدید";
-
-                    return Redirect("/");
+                    return RedirectToAction("UserLogin", "Account",
+                        new { mobile = activateMobile.Mobile });
                 }
 
-                TempData[ErrorMessage] = "متاسفانه حساب کاربری شما فعال نشد";
+                TempData[ErrorMessage] = "متاسفانه حساب کاربری شما فعال نشد، لطفا مجددا تلاش کنید.";
             }
 
             return View(activateMobile);
         }
+
+        #endregion
+
+        #region Restore User Password
+
+        [HttpGet("restore-user-password/{mobile}")]
+        public async Task<IActionResult> RestoreUserPassword(string mobile)
+        {
+            if (User.Identity is { IsAuthenticated: true })
+            {
+                return Redirect("/");
+            }
+
+            ViewBag.Mobile = mobile;
+            return View();
+        }
+
+        [HttpPost("restore-user-password/{mobile}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreUserPassword(ForgotPasswordDto forgot)
+        {
+            if (!await _captchaValidator.IsCaptchaPassedAsync(forgot.Captcha))
+            {
+                TempData[ErrorMessage] = "کد کپچای شما تایید نشد.";
+                TempData[WarningMessage] = "لطفا از اتصال اینترنت خود اطمینان حاصل فرمایید";
+                return View(forgot);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = await _userService.RestoreUserPassword(forgot);
+
+                switch (result)
+                {
+                    case ForgotPasswordResult.Success:
+                        TempData[SuccessMessage] = $"رمز عبور جدید با موفقیت به شماره همراه {forgot.Mobile} ارسال شد.";
+                        TempData[InfoMessage] = "لطفا پس از ورود به حساب کاربری خود، رمز عبور خود را تغییر دهید.";
+                        return RedirectToAction("UserLogin", "Account",
+                            new { mobile = forgot.Mobile });
+                    case ForgotPasswordResult.UserNotFound:
+                        TempData[InfoMessage] =
+                            $"کاربری با شماره همراه {forgot.Mobile} وجود ندارد، شما می توانید با این شماره همراه ثبت نام کنید";
+                        return RedirectToAction("UserRegister", "Account",
+                            new { mobile = forgot.Mobile });
+                    case ForgotPasswordResult.Error:
+                        TempData[ErrorMessage] = "در فرایند بازیابی رمز عبور خطایی رخ داد، لطفا مجددا تلاش کنید.";
+                        break;
+                }
+            }
+
+            return View(forgot);
+        }
+
         #endregion
 
         #endregion

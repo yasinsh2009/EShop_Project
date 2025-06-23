@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EShop.Domain.Entities.Common;
+using EShop.Domain.Entities.Contact;
 using Microsoft.AspNetCore.Http;
 
 namespace EShop.Domain.Entities.Account.User;
@@ -12,11 +13,11 @@ public class User : BaseEntity
 
     [Display(Name = "نام")]
     [MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-    public string? FirstName { get; set; }
+    public string FirstName { get; set; }
 
     [Display(Name = "نام خانوادگی")]
     [MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-    public string? LastName { get; set; }
+    public string LastName { get; set; }
 
     [Display(Name = "تلفن همراه")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -45,14 +46,17 @@ public class User : BaseEntity
     [Display(Name = "ایمیل فعال / غیرفعال")]
     public bool? IsEmailActive { get; set; }
 
+    [Display(Name = "تائید دو مرحله ای فعال / غیرفعال")]
+    public bool? TwoFactorAuthentication { get; set; }
+
     [Display(Name = "کلمه ی عبور")]
     [DataType(DataType.Password)]
-    [MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-    public string? Password { get; set; }
+    [MinLength(6, ErrorMessage = "{0} نمی تواند کمتر از {1} کاراکتر باشد")]
+    public string Password { get; set; }
 
     [Display(Name = "نمک")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-    public string? Salt { get; set; }
+    public string Salt { get; set; }
 
     [Display(Name = "تصویر آواتار")]
     [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
@@ -67,6 +71,7 @@ public class User : BaseEntity
     #region Relations
 
     public Role.Role Role { get; set; }
+    public ICollection<ContactUs> Contacts { get; set; }
 
     #endregion
 }

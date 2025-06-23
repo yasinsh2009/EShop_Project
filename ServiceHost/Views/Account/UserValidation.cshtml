@@ -1,0 +1,62 @@
+﻿@using EShop.Domain.DTOs.Site
+@model EShop.Domain.DTOs.Account.User.UserValidationDto
+
+@{
+    ViewData["Title"] = "ورود | ثبت نام";
+}
+
+@section script {
+    <partial name="_JqueryValidators" />
+    <partial name="_CaptchaScripts" />
+}
+
+<section class="content vh-100">
+    <div class="container-fluid h-100">
+        <div class="auth h-100 d-flex align-items-center">
+            <div class="container-fluid">
+                <div class="auth-items">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="auth-form shadow-xl rounded-3  mt-5 bg-white">
+                                <div class="auth-form-title header-logo d-flex align-items-center justify-content-between title-panel mb-4 slider-title-desc-center">
+                                    <h2 class="text-center h4 text-muted title-font">@ViewData["Title"]</h2>
+                                    <a href="">
+                                        <img src="~/MainTemplate/assets/image/logo.png" class="auth-logo" alt="">
+                                    </a>
+                                </div>
+                                <form class="py-3" asp-controller="Account" asp-action="UserValidation" method="post">
+                                    <partial name="_CaptchaInput" model="@(new CaptchaDto())" />
+                                    <div class="alert text-center alert-success">
+                                        برای <span class="main-color-one">ورود</span> یا <span class="main-color-one">ثبت نام</span> شماره همراه خود را وارد کنید.
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="number" class="form-control" asp-for="Mobile">
+                                            <label class="form-label label-float">
+                                                شماره همراه
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text text-danger" asp-validation-for="Mobile"></span>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn main-color-two-bg text-white w-100 py-3">ورود | ثبت نام</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <p class="loginTermsDesc lh-lg mt-3">
+                                با ورود و یا ثبت نام در فروشگاه تکنوسنتر شما <a class="underlined fw-bold" href="/rules/">
+                                    شرایط و
+                                    قوانین
+                                </a> استفاده از سرویس‌های سایت فروشگاه تکنوسنتر و <a class="underlined fw-bold" href="/privacy-polices/">
+                                    قوانین حریم
+                                    خصوصی
+                                </a> آن را می‌پذیرید.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

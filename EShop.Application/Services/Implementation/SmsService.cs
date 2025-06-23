@@ -30,6 +30,18 @@ public class SmsService : ISmsService
 
     #endregion
 
+    #region Restore User Password
+
+    public async Task SendRestorePasswordSms(string mobile, string newPassword)
+    {
+        var apiKey = _configuration.GetSection("KavenegarSmsApiKey")["apiKey"];
+        var api = new Kavenegar.KavenegarApi(apiKey);
+
+        await api.VerifyLookup(mobile, newPassword, "VerifyRecoverPassword");
+    }
+
+    #endregion
+
     #endregion
 
     #region Dispose

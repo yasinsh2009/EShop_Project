@@ -24,6 +24,7 @@ public static class DIContainer
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<ISiteService, SiteService>();
         services.AddTransient<ISmsService, SmsService>();
+        services.AddTransient<IContactService, ContactService>();
 
         #endregion
 

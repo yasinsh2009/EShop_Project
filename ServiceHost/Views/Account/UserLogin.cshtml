@@ -7,7 +7,7 @@
 
 @section script
 {
-    <partial name="_JqueryValidators"/>
+    <partial name="_JqueryValidators" />
     <partial name="_CaptchaScripts" />
 }
 
@@ -25,25 +25,40 @@
                                         <img src="~/MainTemplate/assets/image/logo.png" class="auth-logo" alt="">
                                     </a>
                                 </div>
-                                <form id="form-auth" class="py-3" asp-controller="Account" asp-action="UserLogin" method="post">
-                                    <partial name="_CaptchaInput" model="@(new CaptchaDto())"/>
-                                    <div class="comment-item mb-3 position-relative step-passwd" style="">
-                                        <span class="text-black"></span>
-                                        <div class="mb-2">
+                                <form class="py-3" asp-controller="Account" asp-action="UserLogin" method="post">
+                                    <partial name="_CaptchaInput" model="@(new CaptchaDto())" />
+                                    <div class="alert text-center alert-success">
+                                        برای ورود رمز عبور خود را وارد کنید
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="number" class="form-control" asp-for="Mobile">
+                                            <label class="form-label label-float">
+                                                شماره همراه
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Mobile"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
                                             <input type="password" class="form-control" asp-for="Password">
                                             <label class="form-label label-float">
                                                 رمز عبور
+                                                <span class="text-danger">*</span>
                                             </label>
                                             <div class="inline-btn-text">
-                                                <a class="btn border-0 main-color-three-bg text-black">
-                                                    ورود با
-                                                    پیامک
+                                                <a asp-controller="Account" asp-action="RestoreUserPassword" class="btn border-0 main-color-three-bg text-black">
+                                                    بازیابی رمز عبور
                                                 </a>
                                             </div>
                                         </div>
+                                        <span class="text-danger" asp-validation-for="Password"></span>
                                     </div>
                                     <div class="text-center mb-2">
-                                        <button type="submit" class="btn main-color-two-bg text-white w-100 py-3">ورود</button>
+                                        <button type="submit" class="btn main-color-two-bg text-white w-100 py-3">
+                                            ورود
+                                        </button>
                                     </div>
                                 </form>
                             </div>

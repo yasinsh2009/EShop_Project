@@ -1,5 +1,4 @@
 ﻿@using EShop.Domain.DTOs.Site
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model EShop.Domain.DTOs.Account.User.UserRegisterDto
 
 @{
@@ -25,10 +24,12 @@
                                         <img src="~/MainTemplate/assets/image/logo.png" class="auth-logo" alt="">
                                     </a>
                                 </div>
-                                <form id="form-auth" class="py-3" asp-controller="Account" asp-action="UserRegister" method="post">
+                                <form class="py-3" asp-controller="Account" asp-action="UserRegister" method="post">
                                     <partial name="_CaptchaInput" model="@(new CaptchaDto())" />
+                                    <div class="alert text-center alert-success">
+                                        به نظر می رسد شما کاربر جدید هستید، برای ثبت نام فرم زیر را پر کنید.
+                                    </div>
                                     <div class="mb-3">
-                                        <span class="text-black mb-3">برای <span class="main-color-one">ثبت نام</span> یا <span class="main-color-one">ورود</span> شماره همراه خود را وارد نمایید</span>
                                         <div class="comment-item mb-2">
                                             <input type="number" class="form-control" asp-for="Mobile">
                                             <label class="form-label label-float">
@@ -36,13 +37,52 @@
                                                 <span class="text-danger">*</span>
                                             </label>
                                         </div>
-                                        <span class="text-danger" asp-validation-for="Mobile">لطفا این فیلد را خالی نگذارید.</span>
+                                        <span class="text-danger" asp-validation-for="Mobile"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="text" class="form-control" asp-for="FirstName">
+                                            <label class="form-label label-float">
+                                                نام
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="text" class="form-control" asp-for="LastName">
+                                            <label class="form-label label-float">
+                                                نام خانوادگی
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="LastName"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="password" class="form-control" asp-for="Password">
+                                            <label class="form-label label-float">
+                                                رمز عبور
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Password"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="comment-item mb-2">
+                                            <input type="password" class="form-control" asp-for="ConfirmPassword">
+                                            <label class="form-label label-float">
+                                                تکرار (تائید رمز عبور)
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
                                     </div>
                                     <div class="text-center">
-                                        <button class="btn main-color-two-bg text-white w-100 py-3 mb-2">ثبت نام</button>
+                                        <button type="submit" class="btn main-color-two-bg text-white w-100 py-3 mb-2">ثبت نام</button>
                                     </div>
                                 </form>
-
                             </div>
                             <p class="loginTermsDesc lh-lg mt-3">
                                 با ورود و یا ثبت نام در فروشگاه تکنوسنتر شما <a class="underlined fw-bold" href="/rules/">

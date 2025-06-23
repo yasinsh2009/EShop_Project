@@ -342,18 +342,22 @@
                     <div class="d-flex align-items-center">
                         @if (User.Identity is { IsAuthenticated: true })
                         {
-                            <a class="nav-link border-animate fromCenter" href=""><i class="bi bi-person">@User.Identity.Name</i></a>
-                            <ul class="level-one">
-                                <li><a href="">حساب کاربری</a></li>
-                                <li><a href="">خروج</a></li>
-                            </ul>
+                            <div class="nav-item">
+                                <a class="nav-link border-animate fromCenter" href=""><i class="bi bi-person">@User.Identity.Name</i></a>
+                                <ul class="level-one">
+                                    <li><a href="">حساب کاربری</a></li>
+                                    <li><a href="">خروج</a></li>
+                                </ul>
+                            </div>
                         }
                         else
                         {
-                            <a class="btn btn-info" asp-controller="Account" asp-action="UserRegister">
-                                <i class="bi bi-person"></i>
-                                <span class="fw-bold ms-1">وارد شوید</span>
-                            </a>
+                            <div class="nav-item">
+                                <a class="btn btn-info" asp-controller="Account" asp-action="UserValidation">
+                                    <i class="bi bi-person"></i>
+                                    <span class="fw-bold ms-1">ثبت نام | ورود</span>
+                                </a>
+                            </div>
                         }
                     </div>
                     <div class="pip mx-2"></div>
@@ -366,12 +370,12 @@
                             </li>
                             <li class="nav-item"><a href="" class="nav-link font-12 bs-text-gray-600">گزارش</a></li>
                             <li class="nav-item">
-                                <a href="" class="nav-link font-12 bs-text-gray-600">سوالات متداول</a>
+                                <a asp-controller="Home" asp-action="AboutUs" class="nav-link font-12 bs-text-gray-600">سوالات متداول</a>
                             </li>
                             <li class="nav-item"><a href="" class="nav-link font-12 bs-text-gray-600">وبلاگ</a></li>
-                            <li class="nav-item"><a href="" class="nav-link font-12 bs-text-gray-600">درباره ما</a></li>
+                            <li class="nav-item"><a asp-controller="Home" asp-action="AboutUs" class="nav-link font-12 bs-text-gray-600">درباره ما</a></li>
                             <li class="nav-item">
-                                <a href="" class="nav-link font-12 bs-text-gray-600">تماس با ما</a>
+                                <a asp-controller="Home" asp-action="SendContactMessage" class="nav-link font-12 bs-text-gray-600">تماس با ما</a>
                             </li>
                         </ul>
                     </nav>
