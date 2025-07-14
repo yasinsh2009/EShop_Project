@@ -187,7 +187,6 @@ namespace ServiceHost.Controllers
                         {
                             new Claim(ClaimTypes.MobilePhone, mobile),
                             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                            new Claim(ClaimTypes.Email, user.Email),
                             new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
                             new Claim(ClaimTypes.Role, user.RoleId.ToString()),
                         };
@@ -224,6 +223,18 @@ namespace ServiceHost.Controllers
 
         #endregion
 
+        #region User Logout
+
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            TempData[InfoMessage] = "شما از حساب کاربری خارج شدید";
+            return Redirect("/");
+        }
+
+        #endregion
+
         #region Activation Mobile
 
         [HttpGet("activation-mobile/{mobile}")]
@@ -234,9 +245,9 @@ namespace ServiceHost.Controllers
                 return Redirect("/");
             }
 
-
-
             var activateMobile = new ActivateMobileDto { Mobile = mobile };
+            ViewBag.ActivationText = activateText;
+
             return View(activateMobile);
         }
 
@@ -272,14 +283,13 @@ namespace ServiceHost.Controllers
         #region Restore User Password
 
         [HttpGet("restore-user-password/{mobile}")]
-        public async Task<IActionResult> RestoreUserPassword(string mobile)
+        public async Task<IActionResult> RestoreUserPassword()
         {
             if (User.Identity is { IsAuthenticated: true })
             {
                 return Redirect("/");
             }
 
-            ViewBag.Mobile = mobile;
             return View();
         }
 

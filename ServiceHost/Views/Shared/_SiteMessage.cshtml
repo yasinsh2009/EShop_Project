@@ -1,42 +1,32 @@
-﻿@if (TempData["SuccessMessage"] != null ||
-     TempData["ErrorMessage"] != null ||
-     TempData["InfoMessage"] != null ||
-     TempData["WarningMessage"] != null
-     )
+﻿@if (TempData["SuccessMessage"] != null)
 {
-    if (TempData["SuccessMessage"] != null)
-    {
-        <script>
-            $(document).ready( function () {
-                ShowMessage('پیغام موفقیت', '@TempData["SuccessMessage"]', 'success')
-            });
-        </script>
-    }
-
-    if (TempData["ErrorMessage"] != null)
-    {
-        <script>
-            $(document).ready( function () {
-                ShowMessage('پیغام خطا', '@TempData["ErrorMessage"]', 'error')
-            });
-        </script>
-    }
-
-    if (TempData["InfoMessage"] != null)
-    {
-        <script>
-            $(document).ready( function () {
-                ShowMessage('پیغام اطلاعیه', '@TempData["InfoMessage"]', 'info')
-            });
-        </script>
-    }
-
-    if (TempData["WarningMessage"] != null)
-    {
-        <script>
-            $(document).ready( function () {
-                ShowMessage('پیغام اخطار', '@TempData["WarningMessage"]', 'warning')
-            });
-        </script>
-    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("موفقیت", "@TempData["SuccessMessage"]", "success");
+        });
+    </script>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("خطا", "@TempData["ErrorMessage"]", "error");
+        });
+    </script>
+}
+@if (TempData["WarningMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("هشدار", "@TempData["WarningMessage"]", "warning");
+        });
+    </script>
+}
+@if (TempData["InfoMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("اطلاعیه", "@TempData["InfoMessage"]", "info");
+        });
+    </script>
 }

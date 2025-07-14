@@ -342,13 +342,10 @@
                     <div class="d-flex align-items-center">
                         @if (User.Identity is { IsAuthenticated: true })
                         {
-                            <div class="nav-item">
-                                <a class="nav-link border-animate fromCenter" href=""><i class="bi bi-person">@User.Identity.Name</i></a>
-                                <ul class="level-one">
-                                    <li><a href="">حساب کاربری</a></li>
-                                    <li><a href="">خروج</a></li>
-                                </ul>
-                            </div>
+                            <a class="btn btn-info" asp-area="User" asp-controller="Home" asp-action="Dashboard">
+                                <i class="bi bi-person"></i>
+                                <span class="fw-bold ms-1">@User.Identity.Name</span>
+                            </a>
                         }
                         else
                         {

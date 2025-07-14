@@ -1,12 +1,19 @@
 using EShop.Domain.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ServiceHost.DIContainer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+var mvcBuilder = builder.Services.AddControllersWithViews();
+
+#if DEBUG
+
+mvcBuilder.AddRazorRuntimeCompilation();
+
+#endif
 
 #region Dependency Injection Container
 
@@ -52,13 +59,17 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+
 app.UseRouting();
 
 app.UseAuthorization();
-app.UseAuthentication();
+//app.UseAuthentication();
 
-//app.MapDefaultControllerRoute();
-app.UseStaticFiles();
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

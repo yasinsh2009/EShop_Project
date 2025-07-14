@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "پنل کاربری";
+}
+
+<section class="content my-xl-3 my-5 py-xl-4 py-5">
+    <div class="container-fluid">
+        <div class="row gy-3">
+            <!-- side nav -->
+            @await Component.InvokeAsync("UserSidebarDashboard")
+            <!-- main content -->
+            <div class="col-xl-9">
+                <!-- status card -->
+                <div class="row gy-3">
+                    <div class="col-md-4">
+                        <div class="status-card d-flex align-items-center">
+                            <i class="bi bi-wallet2"></i>
+                            <div class="ms-3">
+                                <h6 class="mt-2 text-start">کیف پول</h6>
+                                <p>موجودی: تومان</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="status-card d-flex align-items-center">
+                            <i class="bi bi-bag-check"></i>
+                            <div class="ms-3">
+                                <h6 class="mt-2 text-start">سفارش‌ها</h6>
+                                <p>سفارشی ثبت نشده</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="status-card d-flex align-items-center">
+                            <i class="bi bi-ticket-perforated"></i>
+                            <div class="ms-3">
+                                <h6 class="mt-2 text-start">تیکت‌ها</h6>
+                                <p>تیکتی ثبت نشده</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

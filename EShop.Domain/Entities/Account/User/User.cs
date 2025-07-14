@@ -68,6 +68,14 @@ public class User : BaseEntity
 
     #endregion
 
+    public void Edit(string firstName, string lastName, string? email, string mobile)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        Mobile = mobile;
+    }
+
     #region Relations
 
     public Role.Role Role { get; set; }

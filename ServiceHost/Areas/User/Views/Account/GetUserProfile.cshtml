@@ -1,0 +1,65 @@
+﻿@model EShop.Domain.DTOs.Account.User.ReadUserProfileDto
+
+@{
+    ViewData["Title"] = "اطلاعات حساب کاربری";
+}
+
+<section class="content my-xl-3 my-5 py-xl-4 py-5">
+    <div class="container-fluid">
+        <div class="row gy-3">
+            <!-- side nav -->
+            @await Component.InvokeAsync("UserSidebarDashboard")
+            <!-- main content -->
+            <div class="col-xl-9">
+                <div class="row gy-4 align-items-center">
+                    <div class="col-6">
+                        <div class="section-title-title">
+                            <h2 class="fw-900 h4">
+                                پروفایل<span class="with-highlight ms-1">@User.Identity.Name</span>
+                            </h2>
+                            <div class="Dottedsquare"></div>
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex align-items-center justify-content-end gap-2">
+                        <div class="text-end">
+                            <a asp-area="User" asp-controller="Account" asp-action="ChangeUserPassword" class="btn main-color-one-bg rounded-3 btn-action-panel"><i class="bi bi-lock-fill me-2"></i>تغییر رمز عبور</a>
+                        </div>
+                        <div class="text-end">
+                            <a asp-area="User" asp-controller="Account" asp-action="EditUserProfile" class="btn main-color-one-bg rounded-3 btn-action-panel"><i class="bi bi-pencil-square me-2"></i>ویرایش</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="table-custom mt-5 slider-parent bg-transparent p-0">
+                        <div class="table-responsive shadow-box roundedTable p-0">
+                            <table class="table main-table rounded-0">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h6 class="fw-bold font-15 text-muted ">نام و نام خانوادگی:</h6>
+                                            <p class=" mt-2 font-14">@User.Identity.Name</p>
+                                        </td>
+                                        <td>
+                                            <h6 class="text-muted fw-bold font-15 ">شماره تلفن:</h6>
+                                            <p class=" mt-2 font-14">@Model.Mobile</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="fw-bold font-15 text-muted">پست الکترونیک:</h6>
+                                            <p class=" mt-2 font-14">@Model.Email</p>
+                                        </td>
+                                        <td class="no-border">
+                                            <h6 class="fw-bold font-15 text-muted">تاریخ پیوستن به تکنوسنتر</h6>
+                                            <p class=" mt-2 font-14">@Model.RegisterDate</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

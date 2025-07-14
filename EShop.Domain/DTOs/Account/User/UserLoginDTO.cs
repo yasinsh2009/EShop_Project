@@ -13,13 +13,10 @@ public class UserLoginDto : CaptchaDto
     public string Mobile { get; set; }
 
     [Display(Name = "کلمه ی عبور")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [DataType(DataType.Password)]
     [MinLength(6, ErrorMessage = "{0} نمی تواند کمتر از {1} کاراکتر باشد")]
     public string Password { get; set; }
-
-    [Display(Name = "نمک")]
-    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-    public string Salt { get; set; }
 
     public bool RememberMe { get; set; }
 }

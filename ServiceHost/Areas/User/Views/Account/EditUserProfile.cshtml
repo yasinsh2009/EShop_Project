@@ -1,0 +1,119 @@
+﻿@using EShop.Application.Utilities
+@model EShop.Domain.DTOs.Account.User.UpdateUserProfileDto
+
+@{
+    ViewData["Title"] = "ویرایش اطلاعات حساب کاربری";
+    var avatar = ViewBag.AvatarImage;
+}
+
+@section script {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById("avatar");
+            const avatarImage = document.getElementById("avatarPreview");
+
+            fileInput.addEventListener("change", function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        avatarImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}
+
+
+
+<section class="content my-5 py-5">
+    <div class="container-fluid">
+        <div class="row gy-4">
+
+            <!-- ✅ سایدبار داشبورد -->
+            @await Component.InvokeAsync("UserSidebarDashboard")
+
+            <!-- ✅ فرم و آپلود عکس -->
+            <div class="col-lg-9">
+                <form asp-area="User" asp-controller="Account" asp-action="EditUserProfile" method="post" enctype="multipart/form-data">
+                    <div class="row g-4">
+
+                        <!-- کارت عکس پروفایل -->
+                        <div class="col-md-4">
+                            <div class="card rounded-4 text-center py-4 shadow-sm d-flex justify-content-center align-items-center">
+                                <h5 class="mb-3 fw-bold">تصویر پروفایل</h5>
+                                <div class="mb-3">
+                                    <img src="@(!string.IsNullOrEmpty(avatar) ? PathExtension.UserAvatarOrigin + avatar : PathExtension.DefaultAvatar)"
+                                         alt="@User.Identity.Name" title="@User.Identity.Name"
+                                         class="rounded-circle"
+                                         id="avatarPreview"
+                                         style="width: 100px; height: 100px; object-fit: cover;" />
+                                </div>
+
+                                <!-- input hidden -->
+                                <input name="avatar" type="file" class="d-none" id="avatar" />
+                                <label for="avatar" class="btn btn-primary w-75 cursor-pointer">
+                                    بارگذاری عکس
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- کارت فرم اطلاعات -->
+                        <div class="col-md-8">
+                            <div class="card rounded-4 p-4 shadow-sm">
+                                <h5 class="fw-bold mb-4">اطلاعات کاربری</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="comment-item mb-2">
+                                            <input type="text" class="form-control" asp-for="FirstName">
+                                            <label class="form-label label-float">
+                                                نام
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="comment-item mb-2">
+                                            <input type="text" class="form-control" asp-for="LastName">
+                                            <label class="form-label label-float">
+                                                نام خانوادگی
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="LastName"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="comment-item mb-2">
+                                            <input type="number" class="form-control" asp-for="Mobile">
+                                            <label class="form-label label-float">
+                                                شماره همراه
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Mobile"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="comment-item mb-2">
+                                            <input type="email" class="form-control" asp-for="Email">
+                                            <label class="form-label label-float">
+                                                پست الکترونیک
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-end mt-3">
+                                        <button type="submit" class="btn btn-danger px-4">ویرایش</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
