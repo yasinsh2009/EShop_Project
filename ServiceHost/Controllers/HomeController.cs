@@ -1,10 +1,9 @@
 ﻿using EShop.Application.Services.Implementation;
 using EShop.Application.Services.Interface;
-using EShop.Domain.DTOs.Account.User;
 using EShop.Domain.DTOs.Contact;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Mvc;
-using ServiceHost.PerstationExtentions;
+using ServiceHost.PresentationExtensions;
 
 namespace ServiceHost.Controllers
 {
@@ -25,6 +24,8 @@ namespace ServiceHost.Controllers
 
         public IActionResult Index()
         {
+            TempData[WarningMessage] = "چطوری جوووووووون دل؟";
+            TempData[ErrorMessage] = "برقراری عزیز؟";
             return View();
         }
 

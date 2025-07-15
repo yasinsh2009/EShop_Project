@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Resume.Application.Utilities
+namespace EShop.Application.Utilities
 {
     public static class PersianDate
     {

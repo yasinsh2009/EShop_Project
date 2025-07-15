@@ -1,6 +1,7 @@
 ﻿using EShop.Domain.Entities.Account.Role;
 using EShop.Domain.Entities.Account.User;
 using EShop.Domain.Entities.Contact;
+using EShop.Domain.Entities.Contact.Ticket;
 using EShop.Domain.Entities.Site;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,13 @@ public class DatabaseContext : DbContext
     #region Contact Us
 
     public DbSet<ContactUs> Contacts { get; set; }
+
+    #region Ticket
+
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<TicketMessage> TicketMessages { get; set; }
+
+    #endregion
 
     #endregion
 

@@ -1,0 +1,86 @@
+﻿@using EShop.Domain.Entities.Contact.Ticket
+@model EShop.Domain.DTOs.Contact.Ticket.AddTicketDto
+
+@{
+    ViewData["Title"] = "ثبت تیکت جدید";
+}
+
+@{
+    ViewData["Title"] = "پنل کاربری";
+}
+
+<section class="content my-xl-3 my-5 py-xl-4 py-5">
+    <div class="container-fluid">
+        <div class="row gy-3">
+            <!-- side nav -->
+            @await Component.InvokeAsync("UserSidebarDashboard")
+            <!-- main content -->
+            <div class="col-lg-9">
+                <form asp-area="User" asp-controller="Ticket" asp-action="AddUserTicket" method="post">
+                    <div class="row g-4">
+                        <div class="col-xl-12">
+                            <div class="card rounded-4 p-4 shadow-sm">
+                                <h5 class="fw-bold mb-4">اطلاعات کاربری</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <div class="comment-item mb-2">
+                                            <input type="text" class="form-control" asp-for="Title">
+                                            <label class="form-label label-float">
+                                                عنوان تیکت
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Title"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex border-ui bg-white alert align-items-center justify-content-between">
+                                            <div class="product-meta-color w-100">
+                                                <label class="font-16 fw-bold icon-circle">
+                                                    اولویت تیکت
+                                                </label>
+                                                <div class="product-meta-color-items mt-3">
+                                                    <select asp-for="TicketPriority" asp-items="@(Html.GetEnumSelectList<TicketPriority>())" class="form-select">
+                                                        <option value="0">انتخاب نمایید ...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="TicketSection"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex border-ui bg-white alert align-items-center justify-content-between">
+                                            <div class="product-meta-color w-100">
+                                                <label class="font-16 fw-bold icon-circle">
+                                                    بخش مورد نظر
+                                                </label>
+                                                <div class="product-meta-color-items mt-3">
+                                                    <select asp-for="TicketSection" asp-items="@(Html.GetEnumSelectList<TicketSection>())" class="form-select">
+                                                        <option value="0">انتخاب نمایید ...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="TicketPriority"></span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="comment-item mb-2">
+                                            <div class="col-12 w-100">
+                                                <textarea class="form-control" asp-for="Text" ckeditor="1" rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Text"></span>
+                                    </div>
+                                    <div class="col-12 text-end mt-3">
+                                        <button type="submit" class="btn btn-danger px-4">ثبت تیکت</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+

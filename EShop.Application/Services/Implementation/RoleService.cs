@@ -22,7 +22,6 @@ public class RoleService : IRoleService
     {
         var role = await _roleRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Id == roleId && !x.IsDelete);
 
         if (role != null)

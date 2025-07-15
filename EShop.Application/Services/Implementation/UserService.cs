@@ -7,8 +7,6 @@ using EShop.Domain.Entities.Account.User;
 using EShop.Domain.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using Resume.Application.Utilities;
 
 namespace EShop.Application.Services.Implementation;
 
@@ -37,12 +35,10 @@ public class UserService : IUserService
     #region Account
 
     #region User Validation
-
     public async Task<UserValidationResult> IsUserValidate(UserValidationDto validate)
     {
         var user = await _userRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Mobile == validate.Mobile);
 
         if (user != null)
@@ -99,12 +95,10 @@ public class UserService : IUserService
             return UserRegisterResult.Error;
         }
     }
-
     public async Task<bool> IsUserExistByMobile(string mobile)
     {
         var user = await _userRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Mobile == mobile);
 
         if (user != null)
@@ -151,7 +145,6 @@ public class UserService : IUserService
             return UserLoginResult.Error;
         }
     }
-
     public async Task<User> GetUserByMobile(string mobile)
     {
         var user = await _userRepository
@@ -198,7 +191,6 @@ public class UserService : IUserService
             {
                 var user = await _userRepository
                     .GetQuery()
-                    .AsQueryable()
                     .SingleOrDefaultAsync(x => x.Mobile == forgot.Mobile);
 
                 if (user == null)
@@ -234,7 +226,6 @@ public class UserService : IUserService
     {
         var user = await _userRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Id == userId);
 
         if (user != null)
@@ -253,7 +244,6 @@ public class UserService : IUserService
     {
         var user = await _userRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Id == userId);
 
         if (user != null)
@@ -272,7 +262,6 @@ public class UserService : IUserService
     {
         var user = await _userRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Id == userId && !x.IsDelete);
 
         if (user != null)
@@ -313,7 +302,6 @@ public class UserService : IUserService
 
         return null;
     }
-
     public async Task<UpdateUserProfileResult> EditUserProfile(UpdateUserProfileDto profile, long userId, IFormFile? avatar)
     {
         try
@@ -356,7 +344,6 @@ public class UserService : IUserService
     {
         var user = await _userRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Id == userId && !x.IsBlocked && !x.IsDelete);
 
         if (user == null)
@@ -381,12 +368,10 @@ public class UserService : IUserService
 
         return ChangeUserPasswordResult.Success;
     }
-
     public async Task<string[]> GetUserFullNameById(long userId)
     {
         var user = await _userRepository
             .GetQuery()
-            .AsQueryable()
             .SingleOrDefaultAsync(x => x.Id == userId && !x.IsBlocked && !x.IsDelete);
 
         if (user != null)
@@ -401,7 +386,6 @@ public class UserService : IUserService
 
         return null;
     }
-
     public async Task<string> GetUserMobileById(long userId)
     {
         var user = await _userRepository

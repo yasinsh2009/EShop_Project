@@ -6,28 +6,6 @@
     var avatar = ViewBag.AvatarImage;
 }
 
-@section script {
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const fileInput = document.getElementById("avatar");
-            const avatarImage = document.getElementById("avatarPreview");
-
-            fileInput.addEventListener("change", function () {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        avatarImage.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-    </script>
-}
-
-
-
 <section class="content my-5 py-5">
     <div class="container-fluid">
         <div class="row gy-4">

@@ -29,13 +29,10 @@ public class SiteService : ISiteService
 
     #region SiteSetting
 
-    #region Get Default Site Setting
-
     public async Task<SiteSettingDto> GetDefaultSiteSetting()
     {
         var siteSetting = await _siteSettingRepository
             .GetQuery()
-            .AsQueryable()
             .Select(x => new SiteSettingDto
             {
                 SiteName = x.SiteName,
@@ -54,15 +51,12 @@ public class SiteService : ISiteService
 
     #endregion
 
-    #endregion
-
     #region AboutUs
 
     public async Task<List<AboutUsDto>> GetAboutUs()
     {
         return await _aboutUsRepository
             .GetQuery()
-            .AsQueryable()
             .Where(x => !x.IsDelete)
             .Select(x => new AboutUsDto
             {
@@ -79,7 +73,6 @@ public class SiteService : ISiteService
     {
         return await _featureRepository
             .GetQuery()
-            .AsQueryable()
             .Where(x => !x.IsDelete)
             .Select(x => new FeatureDto
             {
@@ -98,7 +91,6 @@ public class SiteService : ISiteService
     {
         return await _questionRepository
             .GetQuery()
-            .AsQueryable()
             .Where(x => !x.IsDelete)
             .Select(x => new QuestionDto
             {

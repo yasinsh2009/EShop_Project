@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EShop.Domain.DTOs.Site;
-using Microsoft.AspNetCore.Http;
 
 namespace EShop.Domain.DTOs.Account.User;
 

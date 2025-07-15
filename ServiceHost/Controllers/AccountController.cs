@@ -1,5 +1,4 @@
 ﻿using EShop.Application.Services.Interface;
-using EShop.Domain.DTOs.Account.User;
 using EShop.Domain.Entities.Account.User;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Security.Claims;
+using EShop.Domain.DTOs.Account.User;
 
 namespace ServiceHost.Controllers
 {

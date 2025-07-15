@@ -53,3 +53,71 @@ function ShowMessage(title, message, type) {
             break;
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.getElementById("avatar");
+    const avatarImage = document.getElementById("avatarPreview");
+
+    fileInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                avatarImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
+$(document).ready(function () {
+    var editors = $("[ckeditor]");
+    if (editors.length > 0) {
+        $.getScript('/MainTemplate/assets/js/ckeditor.js', function () {
+            $(editors).each(function (index, value) {
+                var id = $(value).attr('ckeditor');
+                ClassicEditor.create(document.querySelector('[ckeditor="' + id + '"]'),
+                    {
+                        toolbar: {
+                            items: [
+                                'heading',
+                                '|',
+                                'bold',
+                                'italic',
+                                'link',
+                                '|',
+                                'fontSize',
+                                'fontColor',
+                                '|',
+                                'imageUpload',
+                                'blockQuote',
+                                'insertTable',
+                                'undo',
+                                'redo',
+                                'codeBlock'
+                            ]
+                        },
+                        language: 'fa',
+                        table: {
+                            contentToolbar: [
+                                'tableColumn',
+                                'tableRow',
+                                'mergeTableCells'
+                            ]
+                        },
+                        licenseKey: '',
+                        simpleUpload: {
+                            // The URL that the images are uploaded to.
+                            uploadUrl: '/Uploader/UploadImage'
+                        }
+
+                    })
+                    .then(editor => {
+                        window.editor = editor;
+                    }).catch(err => {
+                        console.error(err);
+                    });
+            });
+        });
+    }
+});

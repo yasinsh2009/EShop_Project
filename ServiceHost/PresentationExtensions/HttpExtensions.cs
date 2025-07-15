@@ -1,4 +1,4 @@
-﻿namespace ServiceHost.PerstationExtentions;
+﻿namespace ServiceHost.PresentationExtensions;
 
 public static class HttpExtensions
 {

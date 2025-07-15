@@ -1,0 +1,84 @@
+﻿@using Eshop.Application.Extensions
+@using EShop.Application.Utilities
+@model EShop.Domain.DTOs.Contact.Ticket.FilterTicketDto
+
+@{
+    ViewData["Title"] = "آخرین تیکت ها";
+}
+
+<section class="content my-xl-3 my-5 py-xl-4 py-5">
+    <div class="container-fluid">
+        <div class="row gy-3">
+            <!-- side nav -->
+            @await Component.InvokeAsync("UserSidebarDashboard")
+            <!-- main content -->
+            <div class="col-xl-9">
+                <div class="row gy-4 align-items-center">
+                    <div class="col-6">
+                        <div class="section-title-title">
+                            <h2 class="fw-900 h4">
+                                آخرین<span class="with-highlight ms-1">تیکت ها </span>
+                            </h2>
+                            <div class="Dottedsquare"></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <a asp-area="User" asp-controller="Ticket" asp-action="AddUserTicket" class="btn main-color-one-bg rounded-3 btn-action-panel"><i class="bi bi-pencil-square me-2"></i>تیکت جدید</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    @if (Model.Tickets.Any())
+                    {
+                        <div class="table-custom border-ui mt-4 slider-parent rounded-4 p-0">
+                            <div class="table-responsive shadow-box roundedTable p-0">
+                                <table class="table main-table rounded-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">شناسه</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">عنوان</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">وضعیت</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">تاریخ ثبت تیکت</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">نمایش</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var ticket in Model.Tickets)
+                                        {
+                                            <tr>
+                                                <td class="align-middle text-center"><p class="mt-2 font-16">@ticket.Id</p></td>
+                                                <td class="align-middle text-center">
+                                                    <p class="mt-2 font-16">
+                                                        @ticket.Title
+                                                    </p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <span class="badge bg-secondary ms-2">@ticket.TicketState.GetEnumName()</span>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <p class="mt-2 font-16">@ticket.CreateDate.ToStringShamsiDate()</p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a asp-area="User" asp-controller="Ticket" asp-action="GetTicketDetail" class="btn main-color-two-bg shadow-none btn-sm text-white">
+                                                        <i class="bi bi-eye me-1"></i> نمایش
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <partial name="_PagingPartial" />
+                    }
+                    else
+                    {
+                        <partial name="NoItemFound" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

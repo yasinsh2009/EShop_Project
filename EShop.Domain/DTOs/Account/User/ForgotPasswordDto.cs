@@ -1,5 +1,5 @@
-﻿using EShop.Domain.DTOs.Site;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using EShop.Domain.DTOs.Site;
 
 namespace EShop.Domain.DTOs.Account.User;
 
