@@ -183,8 +183,9 @@ public class ContactService : IContactService
         var ticketMessage = await _ticketMessageRepository
             .GetQuery()
             .Include(x => x.Ticket)
+            .ThenInclude(x => x.Owner)
             .Where(x => x.TicketId == ticketId && !x.IsDelete)
-            .OrderByDescending(x => x.CreateDate)
+            .OrderBy(x => x.CreateDate)
             .ToListAsync();
 
         if (ticket == null || ticket.OwnerId != userId)
@@ -198,6 +199,99 @@ public class ContactService : IContactService
             TicketMessage = ticketMessage
         };
     }
+    public async Task<string?> GetOwnerTicketAvatar(long ticketId)
+    {
+        var ticket = await _ticketRepository
+            .GetQuery()
+            .Include(x => x.Owner)
+            .SingleOrDefaultAsync(x => x.Id == ticketId);
+        if (ticket != null)
+        {
+            return ticket.Owner.AvatarPath;
+        }
+
+        return "Not Found!";
+    }
+    public async Task<string?> GetAdminAvatar(long ticketId)
+    {
+        var ticket = await _ticketMessageRepository
+            .GetQuery()
+            .Include(x => x.Sender)
+            .SingleOrDefaultAsync(x => x.Id == ticketId);
+
+        if (ticket != null)
+        {
+            return ticket.Sender.AvatarPath;
+        }
+
+        return "Not Found!";
+    }
+    public async Task<AnswerTicketResult> OwnerAnswerTicket(AnswerTicketDto answer, long userId)
+    {
+        try
+        {
+            var ticket = await _ticketRepository.GetEntityById(answer.Id);
+
+            if (ticket == null)
+            {
+                return AnswerTicketResult.NotForUser;
+            }
+
+            var ticketMessage = new TicketMessage
+            {
+                TicketId = ticket.Id,
+                SenderId = userId,
+                Text = answer.Text
+            };
+
+            await _ticketMessageRepository.AddEntity(ticketMessage);
+            await _ticketMessageRepository.SaveChanges();
+
+            ticket.IsReadByOwner = true;
+            ticket.IsReadByAdmin = false;
+            ticket.TicketState = TicketState.UnderProgress;
+            await _ticketRepository.SaveChanges();
+
+            return AnswerTicketResult.Success;
+        }
+        catch (Exception e)
+        {
+            return AnswerTicketResult.Error;
+        }
+    }
+    public async Task<AnswerTicketResult> AdminAnswerTicket(AnswerTicketDto answer, long userId)
+    {
+        try
+        {
+            var ticket = await _ticketRepository.GetEntityById(answer.Id);
+
+            if (ticket == null)
+            {
+                return AnswerTicketResult.NotFound;
+            }
+
+            var ticketMessage = new TicketMessage
+            {
+                TicketId = ticket.Id,
+                SenderId = userId,
+                Text = answer.Text
+            };
+
+            await _ticketMessageRepository.AddEntity(ticketMessage);
+            await _ticketMessageRepository.SaveChanges();
+
+            ticket.IsReadByOwner = false;
+            ticket.IsReadByAdmin = true;
+            ticket.TicketState = TicketState.Answered;
+            await _ticketRepository.SaveChanges();
+
+            return AnswerTicketResult.Success;
+        }
+        catch (Exception e)
+        {
+            return AnswerTicketResult.Error;
+        }
+    }
 
     #endregion
 
@@ -205,23 +299,7 @@ public class ContactService : IContactService
 
     #region Dispose
 
-    public async ValueTask DisposeAsync()
-    {
-        if (_contactRepository != null)
-        {
-            _contactRepository.DisposeAsync();
-        }
-
-        if (_ticketRepository != null)
-        {
-            _ticketRepository.DisposeAsync();
-        }
-
-        if (_ticketMessageRepository != null)
-        {
-            _ticketMessageRepository.DisposeAsync();
-        }
-    }
+    public async ValueTask DisposeAsync() { }
 
     #endregion
 }

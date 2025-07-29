@@ -24,8 +24,6 @@ namespace ServiceHost.Controllers
 
         public IActionResult Index()
         {
-            TempData[WarningMessage] = "چطوری جوووووووون دل؟";
-            TempData[ErrorMessage] = "برقراری عزیز؟";
             return View();
         }
 

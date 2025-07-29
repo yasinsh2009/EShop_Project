@@ -34,13 +34,7 @@ public class RoleService : IRoleService
 
     #region Dispose
 
-    public async ValueTask DisposeAsync()
-    {
-        if (_roleRepository != null)
-        {
-            await _roleRepository.DisposeAsync();
-        }
-    }
+    public async ValueTask DisposeAsync() { }
 
     #endregion
 }

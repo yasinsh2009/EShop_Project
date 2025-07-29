@@ -15,6 +15,7 @@ namespace EShop.Domain.DTOs.Contact.Ticket
     {
         NotForUser,
         NotFound,
-        Success
+        Success,
+        Error
     }
 }

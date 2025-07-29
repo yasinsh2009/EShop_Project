@@ -109,17 +109,7 @@ public class SiteService : ISiteService
 
     #region Dispose
 
-    public async ValueTask DisposeAsync()
-    {
-        if (_siteSettingRepository != null)
-        {
-            _siteSettingRepository.DisposeAsync();
-        }
-        if (_aboutUsRepository != null)
-        {
-            _aboutUsRepository.DisposeAsync();
-        }
-    }
+    public async ValueTask DisposeAsync() { }
 
     #endregion
 }

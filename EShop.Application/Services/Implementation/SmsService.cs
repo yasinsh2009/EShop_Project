@@ -46,10 +46,7 @@ public class SmsService : ISmsService
 
     #region Dispose
 
-    public async ValueTask DisposeAsync()
-    {
-        // TODO release managed resources here
-    }
+    public async ValueTask DisposeAsync() { }
 
     #endregion
 }

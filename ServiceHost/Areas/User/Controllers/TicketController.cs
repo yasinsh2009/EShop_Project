@@ -1,5 +1,6 @@
 ﻿using EShop.Application.Services.Interface;
 using EShop.Domain.DTOs.Contact.Ticket;
+using EShop.Domain.Entities.Contact.Ticket;
 using Microsoft.AspNetCore.Mvc;
 using ServiceHost.Controllers;
 using ServiceHost.PresentationExtensions;
@@ -67,6 +68,54 @@ namespace ServiceHost.Areas.User.Controllers
             }
 
             return View(ticket);
+        }
+
+        #endregion
+
+        #region Show Ticket Detail
+
+        [HttpGet("user-tickets/{ticketId}")]
+        public async Task<IActionResult> TicketDetails(long ticketId)
+        {
+            var ticket = await _contactService.GetTicketDetail(ticketId, User.GetUserId());
+            ViewBag.OwnerAvatarImage = await _contactService.GetOwnerTicketAvatar(ticketId);
+            ViewBag.AdminAvatarImage = await _contactService.GetAdminAvatar(ticketId);
+
+            if (ticket == null)
+            {
+                return RedirectToAction("NotFoundPage", "Home");
+            }
+
+            return View(ticket);
+        }
+
+        #endregion
+
+        #region Answer Ticket
+
+        [HttpPost("answer-ticket"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> AnswerTicket(AnswerTicketDto answer)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _contactService.OwnerAnswerTicket(answer, User.GetUserId());
+
+                switch (result)
+                {
+                    case AnswerTicketResult.NotForUser:
+                        TempData[ErrorMessage] = "عدم دسترسی";
+                        TempData[WarningMessage] = "درصورت تکرار این مورد، دسترسی شما به صورت کلی از سیستم قطع خواهد شد";
+                        return RedirectToAction("TicketsList", "Ticket");
+                    case AnswerTicketResult.NotFound:
+                        TempData[ErrorMessage] = "اطلاعات مورد نظر یافت نشد";
+                        return RedirectToAction("TicketsList", "Ticket");
+                    case AnswerTicketResult.Success:
+                        TempData[SuccessMessage] = "اطلاعات مورد نظر با موفقیت ثبت شد";
+                        break;
+                }
+            }
+
+            return RedirectToAction("TicketDetails", "Ticket", new { area = "User", ticketId = answer.Id });
         }
 
         #endregion

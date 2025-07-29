@@ -1,5 +1,6 @@
 ﻿using EShop.Domain.DTOs.Contact;
 using EShop.Domain.DTOs.Contact.Ticket;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EShop.Application.Services.Interface;
 
@@ -16,6 +17,10 @@ public interface IContactService : IAsyncDisposable
     Task<AddTicketResult> AddUserTicket(AddTicketDto ticket, long userId);
     Task<FilterTicketDto> TicketsList(FilterTicketDto ticket);
     Task<TicketDetailDto> GetTicketDetail(long ticketId, long userId);
+    Task<string?> GetOwnerTicketAvatar(long ticketId);
+    Task<string?> GetAdminAvatar(long ticketId);
+    Task<AnswerTicketResult> OwnerAnswerTicket(AnswerTicketDto answer, long userId);
+    Task<AnswerTicketResult> AdminAnswerTicket(AnswerTicketDto answer, long userId);
 
     #endregion
 }

@@ -409,18 +409,7 @@ public class UserService : IUserService
 
     #region Dispose
 
-    public async ValueTask DisposeAsync()
-    {
-        if (_userRepository != null)
-        {
-            await _userRepository.DisposeAsync();
-        }
-
-        if (_roleRepository != null)
-        {
-            await _roleRepository.DisposeAsync();
-        }
-    }
+    public async ValueTask DisposeAsync() { }
 
     #endregion
 }
