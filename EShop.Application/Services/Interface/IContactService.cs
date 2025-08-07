@@ -9,6 +9,7 @@ public interface IContactService : IAsyncDisposable
     #region Contact Us
 
     Task SendNewContactMessage(SendContactMessageDto contact, string userIp, long? userId);
+    Task<FilterContactMessagesDto> FilterContactMessages(FilterContactMessagesDto message);
 
     #endregion
 
@@ -17,8 +18,7 @@ public interface IContactService : IAsyncDisposable
     Task<AddTicketResult> AddUserTicket(AddTicketDto ticket, long userId);
     Task<FilterTicketDto> TicketsList(FilterTicketDto ticket);
     Task<TicketDetailDto> GetTicketDetail(long ticketId, long userId);
-    Task<string?> GetOwnerTicketAvatar(long ticketId);
-    Task<string?> GetAdminAvatar(long ticketId);
+    Task<(string? OwnerAvatar, string? AdminAvatar)> GetTicketAvatars(long ticketId);
     Task<AnswerTicketResult> OwnerAnswerTicket(AnswerTicketDto answer, long userId);
     Task<AnswerTicketResult> AdminAnswerTicket(AnswerTicketDto answer, long userId);
 

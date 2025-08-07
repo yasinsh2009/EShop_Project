@@ -1,9 +1,12 @@
-﻿using EShop.Application.Services.Interface;
+﻿using System.Security.Cryptography.X509Certificates;
+using EShop.Application.Services.Interface;
+using EShop.Application.Utilities;
 using EShop.Domain.DTOs.Contact;
 using EShop.Domain.DTOs.Contact.Ticket;
 using EShop.Domain.DTOs.Paging;
 using EShop.Domain.Entities.Contact;
 using EShop.Domain.Entities.Contact.Ticket;
+using EShop.Domain.Migrations;
 using EShop.Domain.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.Formats;
@@ -47,6 +50,36 @@ public class ContactService : IContactService
 
         await _contactRepository.AddEntity(newMessage);
         await _contactRepository.SaveChanges();
+    }
+
+    public async Task<FilterContactMessagesDto> FilterContactMessages(FilterContactMessagesDto message)
+    {
+        var query = _contactRepository
+            .GetQuery()
+            .Include(x => x.User)
+            .OrderByDescending(x => x.Id);
+
+        #region Filter
+
+        if (!string.IsNullOrWhiteSpace(message.Email))
+        {
+            query = query.Where(x => EF.Functions.Like(x.Email, $"%{message.Email}%")).OrderByDescending(x => x.CreateDate);
+        }
+
+        #endregion
+
+        #region Paging
+
+        var contactCount = await query.CountAsync();
+
+        var pager = Pager.Build(message.PageId, contactCount, message.TakeEntity,
+            message.HowManyShowPageAfterAndBefore);
+
+        var allEntities = await query.Paging(pager).ToListAsync();
+
+        #endregion
+
+        return message.SetPaging(pager).SetContactUs(allEntities);
     }
 
     #endregion
@@ -182,6 +215,7 @@ public class ContactService : IContactService
 
         var ticketMessage = await _ticketMessageRepository
             .GetQuery()
+            .Include(x => x.Sender)
             .Include(x => x.Ticket)
             .ThenInclude(x => x.Owner)
             .Where(x => x.TicketId == ticketId && !x.IsDelete)
@@ -196,35 +230,32 @@ public class ContactService : IContactService
         return new TicketDetailDto
         {
             Ticket = ticket,
-            TicketMessage = ticketMessage
+            TicketMessage = ticketMessage,
+            Owner = ticket.Owner
         };
     }
-    public async Task<string?> GetOwnerTicketAvatar(long ticketId)
+    public async Task<(string? OwnerAvatar, string? AdminAvatar)> GetTicketAvatars(long ticketId)
     {
         var ticket = await _ticketRepository
             .GetQuery()
             .Include(x => x.Owner)
-            .SingleOrDefaultAsync(x => x.Id == ticketId);
-        if (ticket != null)
-        {
-            return ticket.Owner.AvatarPath;
-        }
+            .Include(x => x.TicketMessages)
+            .ThenInclude(x => x.Sender)
+            .FirstOrDefaultAsync(t => t.Id == ticketId && !t.IsDelete);
 
-        return "Not Found!";
-    }
-    public async Task<string?> GetAdminAvatar(long ticketId)
-    {
-        var ticket = await _ticketMessageRepository
-            .GetQuery()
-            .Include(x => x.Sender)
-            .SingleOrDefaultAsync(x => x.Id == ticketId);
+        if (ticket == null)
+            return ("Not Found", "Not Found");
 
-        if (ticket != null)
-        {
-            return ticket.Sender.AvatarPath;
-        }
+        // آواتار Owner
+        var ownerAvatar = ticket.Owner.AvatarPath ?? "Not Found";
 
-        return "Not Found!";
+        // پیدا کردن اولین پیام ادمین (SenderId != OwnerId)
+        var adminMessage = ticket.TicketMessages
+            .FirstOrDefault(x => x.SenderId != ticket.OwnerId);
+
+        var adminAvatar = adminMessage?.Sender.AvatarPath ?? "Not Found";
+
+        return (ownerAvatar, adminAvatar);
     }
     public async Task<AnswerTicketResult> OwnerAnswerTicket(AnswerTicketDto answer, long userId)
     {

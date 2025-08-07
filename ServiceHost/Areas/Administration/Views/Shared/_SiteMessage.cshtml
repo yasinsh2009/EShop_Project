@@ -1,0 +1,32 @@
+﻿@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("موفقیت", "@TempData["SuccessMessage"]", "success");
+        });
+    </script>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("خطا", "@TempData["ErrorMessage"]", "error");
+        });
+    </script>
+}
+@if (TempData["WarningMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("هشدار", "@TempData["WarningMessage"]", "warning");
+        });
+    </script>
+}
+@if (TempData["InfoMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            ShowMessage("اطلاعیه", "@TempData["InfoMessage"]", "info");
+        });
+    </script>
+}

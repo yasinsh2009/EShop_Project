@@ -368,7 +368,7 @@ public class UserService : IUserService
 
         return ChangeUserPasswordResult.Success;
     }
-    public async Task<string[]> GetUserFullNameById(long userId)
+    public async Task<string> GetUserFullNameById(long userId)
     {
         var user = await _userRepository
             .GetQuery()
@@ -376,15 +376,10 @@ public class UserService : IUserService
 
         if (user != null)
         {
-            var userFullName = new string[]
-            {
-                user.FirstName,
-                user.LastName
-            };
-            return userFullName;
+            return (user.FirstName + " " + user.LastName);
         }
 
-        return null;
+        return "Not Found";
     }
     public async Task<string> GetUserMobileById(long userId)
     {

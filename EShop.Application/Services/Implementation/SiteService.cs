@@ -1,4 +1,5 @@
 ﻿using EShop.Application.Services.Interface;
+using EShop.Application.Utilities;
 using EShop.Domain.DTOs.Site;
 using EShop.Domain.Entities.Site;
 using EShop.Domain.Repository.Interface;
@@ -48,6 +49,62 @@ public class SiteService : ISiteService
 
         return siteSetting ?? new SiteSettingDto();
     }
+    public async Task<EditSiteSettingDto> GetSiteSettingForEdit(long settingId)
+    {
+        var setting = await _siteSettingRepository.GetEntityById(settingId);
+
+        if (setting != null)
+        {
+            return new EditSiteSettingDto
+            {
+                Id = setting.Id,
+                SiteName = setting.SiteName,
+                IsDefault = setting.IsDefault,
+                Address = setting.Address,
+                CopyRight = setting.CopyRight,
+                Email = setting.Email,
+                FooterText = setting.FooterText,
+                MapScript = setting.MapScript,
+                Mobile = setting.Mobile,
+                Phone = setting.Phone,
+                
+            };
+        }
+
+        return null;
+    }
+    public async Task<EditSiteSettingResult> EditSiteSetting(EditSiteSettingDto newSetting, string userName)
+    {
+        try
+        {
+            var mainSetting = await _siteSettingRepository.GetEntityById(newSetting.Id);
+
+            if (mainSetting != null)
+            {
+                mainSetting.SiteName = newSetting.SiteName;
+                mainSetting.Address = newSetting.Address;
+                mainSetting.CopyRight = newSetting.CopyRight;
+                mainSetting.Email = newSetting.Email;
+                mainSetting.FooterText = newSetting.FooterText;
+                mainSetting.MapScript = newSetting.MapScript;
+                mainSetting.Mobile = newSetting.Mobile;
+                mainSetting.Phone = newSetting.Phone;
+                mainSetting.IsDefault = newSetting.IsDefault;
+                mainSetting.LastUpdateDate = DateTime.Now.ToShamsiDateTime();
+
+                _siteSettingRepository.EditEntityByUser(mainSetting, userName);
+                await _siteSettingRepository.SaveChanges();
+
+                return EditSiteSettingResult.Success;
+            }
+
+            return EditSiteSettingResult.NotFound;
+        }
+        catch (Exception e)
+        {
+            return EditSiteSettingResult.Error;
+        }
+    }
 
     #endregion
 
@@ -62,7 +119,9 @@ public class SiteService : ISiteService
             {
                 Id = x.Id,
                 HeaderTitle = x.HeaderTitle,
-                Description = x.Description
+                Description = x.Description,
+                CreateDate = x.CreateDate.ToStringShamsiDate(),
+                LastUpdateDate = x.LastUpdateDate.ToStringShamsiDate()
             }).OrderByDescending(x => x.Id)
             .ToListAsync();
     }

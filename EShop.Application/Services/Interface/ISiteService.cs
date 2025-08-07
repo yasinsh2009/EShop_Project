@@ -8,6 +8,8 @@ public interface ISiteService : IAsyncDisposable
     #region SiteSetting
 
     Task<SiteSettingDto> GetDefaultSiteSetting();
+    Task<EditSiteSettingDto> GetSiteSettingForEdit(long settingId);
+    Task<EditSiteSettingResult> EditSiteSetting(EditSiteSettingDto newSetting, string userName);
 
     #endregion
 

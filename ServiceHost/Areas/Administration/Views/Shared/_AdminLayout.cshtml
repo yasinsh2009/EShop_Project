@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="fa" class="js">
+<head>
+    <base href="~/AdminTemplate/assets/" />
+    <title>@ViewData["Title"] | پنل مدیریت تکنوسنتر</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+
+    <partial name="_HeaderReferences" />
+
+</head>
+
+<body class="has-rtl nk-body ui-rounder has-sidebar" dir="rtl">
+    <div class="nk-app-root">
+        <!-- main start -->
+        <div class="nk-main">
+            <!-- sidebar start -->
+            @await Component.InvokeAsync("SidebarDashboard")
+            <!-- sidebar end -->
+            <!-- wrap start -->
+            <div class="nk-wrap">
+                <!-- main header start -->
+                @await Component.InvokeAsync("MainHeader")
+                <!-- main header end -->
+                <!-- content start -->
+                @RenderBody()
+                <!-- content end -->
+                <!-- footer start -->
+                @await Component.InvokeAsync("AdminFooter")
+                <!-- footer end -->
+            </div>
+            <!-- wrap end -->
+        </div>
+        <!-- main end -->
+    </div>
+    <!-- app-root end -->
+    <!-- JavaScript -->
+    <partial name="_FooterReferences" />
+</body>
+</html>

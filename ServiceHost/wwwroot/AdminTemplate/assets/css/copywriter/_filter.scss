@@ -1,0 +1,29 @@
+.filter {
+    &-button {
+        border-radius: 999px;
+        border: none;
+        color: $base-text;
+        background-color: $white;
+        font-size: 0.813rem;
+        line-height: 1.25rem;
+        padding: 0.375rem 1rem;
+        transition: 0.3s ease;
+        box-shadow: 0 0 25px -12px rgba($dark, 0.15);
+        &.active {
+            background: $accent-color;
+            border-color: $accent-color;
+            color: $white;
+        }
+        &-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+    }
+    &-item {
+        .filter-animation-off & {
+            transition: none !important;
+        }
+    }
+}

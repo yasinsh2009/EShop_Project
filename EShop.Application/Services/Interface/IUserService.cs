@@ -68,7 +68,7 @@ public interface IUserService : IAsyncDisposable
     #region Change User Password
 
     Task<ChangeUserPasswordResult> ChangeUserPassword(ChangeUserPasswordDto changePassword, long userId);
-    Task<string[]> GetUserFullNameById(long userId);
+    Task<string> GetUserFullNameById(long userId);
     Task<string> GetUserMobileById(long userId);
 
     #endregion

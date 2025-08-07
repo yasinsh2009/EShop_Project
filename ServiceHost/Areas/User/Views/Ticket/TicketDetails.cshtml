@@ -42,9 +42,6 @@
                                                 <i class="bi bi-arrow-left me-1"></i>
                                                 <span>به روز شده در تاریخ @Model.Ticket.LastUpdateDate.ToStringShamsiDate() ساعت @Model.Ticket.LastUpdateDate.ToString("HH:mm")</span>
                                             </div>
-                                            <div class="ticket-created-at mt-3">
-                                                <a href="" class="btn main-color-two-bg text-white">بستن تیکت</a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -60,43 +57,39 @@
                                                 <div class="comment @(message.SenderId == Model.Ticket.OwnerId ? "active" : "comment-body")">
                                                     <div class="comment-author-ava">
                                                         <img src="@(!string.IsNullOrEmpty(ownerAvatar) && message.SenderId == Model.Ticket.OwnerId ? PathExtension.UserAvatarOrigin + ownerAvatar : PathExtension.UserAvatarOrigin + adminAvatar)"
-                                                             alt="@(message.SenderId == Model.Ticket.OwnerId ? Model.Ticket.Owner.FirstName + " " + Model.Ticket.Owner.LastName : message.Sender.FirstName + " " + message.Sender.LastName)"
-                                                             title="@(message.SenderId == Model.Ticket.OwnerId ? Model.Ticket.Owner.FirstName + " " + Model.Ticket.Owner.LastName : message.Sender.FirstName + " " + message.Sender.LastName)">
-                                                    </div>
-                                                    <div class="comment-body">
-                                                        <p class="comment-text">
-                                                            @Html.Raw(message.Text)
-                                                        </p>
-                                                        <div class="comment-footer">
-                                                            <span class="comment-meta">
-                                                                @if (message.SenderId == Model.Ticket.OwnerId)
-                                                                {
-                                                                    @(message.Ticket.Owner.FirstName + " " + message.Ticket.Owner.LastName)
-                                                                }
-                                                                else
-                                                                {
-                                                                    @(message.Sender.FirstName + " " + message.Sender.LastName)
-                                                                }
-                                                            </span>
-                                                            <div class="comment-date float-end">
-                                                                <span class="comment-meta">@message.CreateDate.ToStringShamsiDate() - @message.CreateDate.ToString("HH:mm")</span>
-                                                            </div>
-                                                        </div>
+                                                     alt="@(message.Sender.FirstName + " " + message.Sender.LastName)"
+                                                     title="@(message.Sender.FirstName + " " + message.Sender.LastName)">
+                                            </div>
+                                            <div class="comment-body">
+                                                <p class="comment-text">
+                                                    @Html.Raw(message.Text)
+                                                </p>
+                                                <div class="comment-footer">
+                                                    <span class="comment-meta">
+                                                        @(message.Sender.FirstName + " " + message.Sender.LastName)
+                                                    </span>
+                                                    <div class="comment-date float-end">
+                                                        <span class="comment-meta">@message.CreateDate.ToStringShamsiDate() - @message.CreateDate.ToString("HH:mm")</span>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                                                                }
+                                            @if (Model.Ticket.TicketState != TicketState.Closed)
+                                            {
+                                                <!-- Reply Form-->
+                                                @if (Model.Ticket.TicketState != TicketState.Closed)
+                                                {
+                                                    <partial name="_AnswerTicketPartial" model="@(new AnswerTicketDto { Id = Model.Ticket.Id })" />
+                                                }
                                             }
-                                            @if (Model.Ticket.TicketState == TicketState.Closed)
+                                            else
                                             {
                                                 <div class="my-4">
                                                     <div class="alert alert-danger text-center">
-                                                        تیکت بسته شده است و امکان ارسال پاسخ جدید وجود ندازد.
+                                                        تیکت بسته شده است و امکان ارسال پاسخ جدید وجود ندارد.
                                                     </div>
                                                 </div>
-                                            }
-                                            <!-- Reply Form-->
-                                            @if (Model.Ticket.TicketState != TicketState.Closed)
-                                            {
-                                                <partial name="_AnswerTicketPartial" model="new AnswerTicketDto{Id = Model.Ticket.Id}"/>
                                             }
                                         }
                                         else

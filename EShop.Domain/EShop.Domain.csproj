@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Account\Role\" />
     <Folder Include="Entities\Account\Role\" />
     <Folder Include="Entities\Account\User\" />
   </ItemGroup>

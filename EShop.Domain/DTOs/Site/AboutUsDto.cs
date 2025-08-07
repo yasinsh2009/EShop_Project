@@ -18,5 +18,8 @@ public class AboutUsDto
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     public string Description { get; set; }
 
+    public string CreateDate { get; set; }
+
+    public string LastUpdateDate { get; set; }
     #endregion
 }

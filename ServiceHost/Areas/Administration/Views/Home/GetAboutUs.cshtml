@@ -1,0 +1,54 @@
+﻿@model List<EShop.Domain.DTOs.Site.AboutUsDto>
+
+@{
+    ViewData["Title"] = "درباره ما";
+}
+
+<div class="nk-block nk-block-lg">
+    <div class="nk-block-head">
+        <div class="nk-block-head-content">
+            <h4 class="title nk-block-title">ViewData["Title"]</h4>
+        </div>
+    </div>
+    <div class="card card-preview">
+        <div class="card-inner">
+            <div class="row g-gs">
+                @if (Model.Any())
+                {
+                    foreach (var about in Model)
+                    {
+                        <div class="col-sm-6">
+                            <div class="card text-white bg-primary">
+                                <div class="card-inner">
+                                    <div class="col-6">
+                                        <h5 class="card-title">@about.HeaderTitle</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle btn btn-icon btn-light" data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-end" style="">
+                                                <ul class="link-list-plain">
+                                                    <li>
+                                                        <a href="#"><em class="icon ni ni-edit-fill"></em><span>ویرایش</span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><em class="icon ni ni-eye-off-fill"></em><span>عدم نمایش</span></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">@about.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <partial name="NoItemFound"/>
+                }
+            </div>
+        </div>
+    </div>
+</div>

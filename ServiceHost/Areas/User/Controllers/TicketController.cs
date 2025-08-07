@@ -78,8 +78,9 @@ namespace ServiceHost.Areas.User.Controllers
         public async Task<IActionResult> TicketDetails(long ticketId)
         {
             var ticket = await _contactService.GetTicketDetail(ticketId, User.GetUserId());
-            ViewBag.OwnerAvatarImage = await _contactService.GetOwnerTicketAvatar(ticketId);
-            ViewBag.AdminAvatarImage = await _contactService.GetAdminAvatar(ticketId);
+            var avatars = await _contactService.GetTicketAvatars(ticketId);
+            ViewBag.OwnerAvatarImage = avatars.OwnerAvatar;
+            ViewBag.AdminAvatarImage = avatars.AdminAvatar;
 
             if (ticket == null)
             {
