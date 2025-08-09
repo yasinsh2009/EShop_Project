@@ -1,4 +1,5 @@
-﻿using EShop.Application.Services.Interface;
+﻿using System.Security.Policy;
+using EShop.Application.Services.Interface;
 using EShop.Domain.DTOs.Contact;
 using EShop.Domain.DTOs.Site;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,8 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Home
 
-        public IActionResult Index()
+        [HttpGet("admin")]
+        public async Task<IActionResult> Index()
         {
             return View();
         }
@@ -90,6 +92,64 @@ namespace ServiceHost.Areas.Administration.Controllers
             var about = await _siteService.GetAboutUs();
             return View(about);
         }
+
+        [HttpGet("create-about-us")]
+        public async Task<IActionResult> CreateAboutUs()
+        {
+            return View();
+        }
+
+        [HttpPost("create-about-us"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAboutUs(CreateAboutUsDto about)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _siteService.CreateAboutUs(about);
+
+                if (result == CreateAboutUsResult.Success)
+                {
+                    TempData[SuccessMessage] = "متن درباره ما جدید با موفقیت ایجاد شد.";
+                    return RedirectToAction("GetAboutUs", "Home", new { area = "Administration" });
+                }
+
+                TempData[ErrorMessage] = "در فرایند ایجاد متن درباره ما جدید خطایی رخ داد، لطفا بعدا تلاش کنید.";
+                return RedirectToAction("GetAboutUs", "Home", new { area = "Administration" });
+            }
+            return View(about);
+        }
+
+        [HttpGet("edit-about-us")]
+        public async Task<IActionResult> EditAboutUs(long id)
+        {
+            var about = await _siteService.GetAboutUsForEdit(id);
+            return View(about);
+        }
+
+        [HttpPost("edit-about-us"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAboutUs(EditAboutUsDto about)
+        {
+            if (ModelState.IsValid)
+            {
+                var userName = await _userService.GetUserFullNameById(User.GetUserId());
+                var result = await _siteService.EditAboutUs(about, userName);
+
+                switch (result)
+                {
+                    case EditAboutUsResult.Success:
+                        TempData[SuccessMessage] = "متن درباره ما موردنظر با موفقیت ویرایش شد.";
+                        return RedirectToAction("GetAboutUs", "Home", new { area = "Administration" });
+                    case EditAboutUsResult.NotFound:
+                        TempData[WarningMessage] = "متن درباره ما موردنظر یافت نشد.";
+                        break;
+                    case EditAboutUsResult.Error:
+                        TempData[ErrorMessage] = "در فرایند ویرایش متن درباره ما موردنظر خطایی رخ داد، لطفا بعدا تلاش کنید.";
+                        return RedirectToAction("GetAboutUs", "Home", new { area = "Administration" });
+                }
+            }
+            return View(about);
+        }
+
+
 
         #endregion
     }

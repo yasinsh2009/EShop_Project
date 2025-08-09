@@ -1,0 +1,123 @@
+﻿@model EShop.Domain.DTOs.Site.EditSiteSettingDto
+
+@{
+    ViewData["Title"] = "ویرایش نتظیمات وب سایت";
+}
+
+<div class="nk-content nk-content-fluid" data-select2-id="15">
+    <div class="container-xl wide-xl" data-select2-id="14">
+        <div class="nk-content-body" data-select2-id="13">
+            <div class="components-preview wide-xl mx-auto" data-select2-id="12">
+                <div class="nk-block-head nk-block-head-lg wide-sm">
+                    <div class="nk-block-head-content">
+                        <h2 class="nk-block-title fw-normal">@ViewData["Title"]</h2>
+                    </div>
+                </div>
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg" data-select2-id="11">
+                    <div class="card" data-select2-id="10">
+                        <div class="card-inner" data-select2-id="9">
+                            <form asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting" method="post" class="form-validate" novalidate="novalidate" data-select2-id="8">
+                                <input type="hidden" asp-for="Id"/>
+                                <div class="row g-gs" data-select2-id="7">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام وب سایت</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="SiteName" type="text" class="form-control invalid">
+                                                <span asp-validation-for="SiteName" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">تلفن ثابت</label>
+                                            <div class="form-control-wrap">
+                                                <div class="input-group">
+                                                    <input asp-for="Phone" type="number" class="form-control invalid">
+                                                </div>
+                                                <span asp-validation-for="Phone" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">تلفن همراه (اختیاری)</label>
+                                            <div class="form-control-wrap">
+                                                <div class="input-group">
+                                                    <input asp-for="Mobile" type="number" class="form-control invalid">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">آدرس الکترونیک</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right">
+                                                    <em class="icon ni ni-mail"></em>
+                                                </div>
+                                                <input asp-for="Email" type="email" class="form-control invalid">
+                                                <span asp-validation-for="Email" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">متن حق نشر</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="CopyRight" type="text" class="form-control invalid">
+                                                <span asp-validation-for="CopyRight" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <label class="form-label">نشانی آدرس (اختیاری)</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="Address" type="text" class="form-control invalid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="preview-block">
+                                            <span class="form-label">اصلی هست / نیست؟</span>
+                                            <div class="custom-control custom-checkbox checked">
+                                                <input asp-for="IsDefault" type="checkbox" class="custom-control-input" checked="checked" id="customCheck2">
+                                                <label class="custom-control-label" for="customCheck2">اصلی هست؟</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">متن فوتر</label>
+                                            <div class="form-control-wrap">
+                                                <textarea asp-for="FooterText" class="form-control form-control-sm invalid" placeholder="پیام خود را بنویسید"></textarea>
+                                                <span asp-validation-for="FooterText" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">اسکریپت نقشه (اختیاری)</label>
+                                            <div class="form-control-wrap">
+                                                <textarea asp-for="FooterText" class="form-control form-control-sm invalid" placeholder="پیام خود را بنویسید"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                                    

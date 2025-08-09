@@ -14,7 +14,7 @@
                             <div class="nk-block-head nk-block-head-lg">
                                 <div class="nk-block-between">
                                     <div class="nk-block-head-content">
-                                        <h4 class="nk-block-title">ViewData["Title"]</h4>
+                                        <h4 class="nk-block-title">@ViewData["Title"]</h4>
                                         <div class="nk-block-des">
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                     <div class="data-item">
                                         <div class="data-col">
                                             <span class="data-label">اصلی هست؟</span>
-                                            @if (Model.IsDefault == true)
+                                            @if (Model.IsDefault)
                                             {
                                                 <span class="data-value">بله!</span>
                                             }
@@ -120,6 +120,15 @@
                                         <div class="data-col">
                                             <span class="data-label">متن کپی رایت</span>
                                             <span class="data-value">@Model.CopyRight</span>
+                                        </div>
+                                        <div class="data-col data-col-end">
+                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                        </div>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-col">
+                                            <span class="data-label">تاریخ ایجاد</span>
+                                            <span class="data-value">@Model.</span>
                                         </div>
                                         <div class="data-col data-col-end">
                                             <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>

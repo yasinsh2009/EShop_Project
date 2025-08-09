@@ -16,6 +16,9 @@ public interface ISiteService : IAsyncDisposable
     #region AboutUs
 
     Task<List<AboutUsDto>> GetAboutUs();
+    Task<CreateAboutUsResult> CreateAboutUs(CreateAboutUsDto about);
+    Task<EditAboutUsDto> GetAboutUsForEdit(long aboutId);
+    Task<EditAboutUsResult> EditAboutUs(EditAboutUsDto about, string userName);
 
     #region Features
 

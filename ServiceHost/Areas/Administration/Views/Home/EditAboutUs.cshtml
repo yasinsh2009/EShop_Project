@@ -1,0 +1,53 @@
+﻿@model EShop.Domain.DTOs.Site.EditAboutUsDto
+
+@{
+    ViewData["Title"] = "ویرایش متن درباره ی ما موردنظر";
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <div class="nk-block-head nk-block-head-lg wide-sm">
+                    <div class="nk-block-head-content">
+                        <h2 class="nk-block-title fw-normal">@ViewData["Title"]</h2>
+                    </div>
+                </div>
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg">
+                    <div class="card">
+                        <div class="card-inner">
+                            <form asp-area="Administration" asp-controller="Home" asp-action="EditAboutUs" method="post" class="form-validate" novalidate="novalidate">
+                                <div class="row g-gs">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="fv-full-name">عنوان تیتر</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="HeaderTitle" type="text" class="form-control invalid">
+                                                <span asp-validation-for="HeaderTitle" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="fv-message">پیام</label>
+                                            <div class="form-control-wrap">
+                                                <textarea asp-for="Description" ckeditor="1" class="form-control form-control-sm invalid" placeholder="پیام خود را بنویسید"></textarea>
+                                                <span asp-validation-for="Description" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

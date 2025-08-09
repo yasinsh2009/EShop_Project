@@ -125,6 +125,67 @@ public class SiteService : ISiteService
             }).OrderByDescending(x => x.Id)
             .ToListAsync();
     }
+    public async Task<CreateAboutUsResult> CreateAboutUs(CreateAboutUsDto about)
+    {
+        try
+        {
+            var newAboutUs = new AboutUs
+            {
+                HeaderTitle = about.HeaderTitle,
+                Description = about.Description,
+            };
+
+            await _aboutUsRepository.AddEntity(newAboutUs);
+            await _aboutUsRepository.SaveChanges();
+
+            return CreateAboutUsResult.Success;
+        }
+        catch (Exception e)
+        {
+            return CreateAboutUsResult.Error;
+        }
+    }
+    public async Task<EditAboutUsDto> GetAboutUsForEdit(long aboutId)
+    {
+        var aboutUs = await _aboutUsRepository.GetEntityById(aboutId);
+
+        if (aboutUs == null)
+        {
+            return null;
+        }
+
+        return new EditAboutUsDto
+        {
+            Id = aboutUs.Id,
+            HeaderTitle = aboutUs.HeaderTitle,
+            Description = aboutUs.Description
+        };
+    }
+    public async Task<EditAboutUsResult> EditAboutUs(EditAboutUsDto about, string userName)
+    {
+        try
+        {
+            var aboutUs = await _aboutUsRepository.GetEntityById(about.Id);
+
+            if (about != null)
+            {
+                aboutUs.HeaderTitle = about.HeaderTitle;
+                aboutUs.Description = about.Description;
+
+                _aboutUsRepository.EditEntityByUser(aboutUs, userName);
+                await _aboutUsRepository.SaveChanges();
+
+                return EditAboutUsResult.Success;
+            }
+
+            return EditAboutUsResult.NotFound;
+        }
+        catch (Exception e)
+        {
+            return EditAboutUsResult.Error;
+        }
+    }
+
 
     #region Features
 
