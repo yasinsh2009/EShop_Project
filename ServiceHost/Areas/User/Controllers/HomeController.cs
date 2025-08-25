@@ -7,7 +7,7 @@ namespace ServiceHost.Areas.User.Controllers
         #region User Dashboard
 
         [HttpGet("user-dashboard")]
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> UserDashboard()
         {
             return View();
         }

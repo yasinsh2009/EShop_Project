@@ -1,0 +1,155 @@
+﻿@using EShop.Application.Utilities
+@model EShop.Domain.DTOs.Account.Role.FilterRoleDto
+
+@{
+    ViewData["Title"] = "لیست نقش ها";
+}
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">@ViewData["Title"]</h3>
+                    </div>
+                    <!-- .nk-block-head-content -->
+                    <div class="nk-block-head-content">
+                        <div class="toggle-wrap nk-block-tools-toggle">
+                            <div class="toggle-expand-content">
+                                <ul class="nk-block-tools g-3">
+                                    <li class="nk-block-tools-opt">
+                                        <a asp-area="Administration"
+                                           asp-controller="Account"
+                                           asp-action="CreateRole"
+                                           class=" btn btn-icon btn-primary"><em class="icon ni ni-plus"></em></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- .toggle-wrap -->
+                    </div>
+                    <!-- .nk-block-head-content -->
+                </div>
+                <!-- .nk-block-between -->
+            </div>
+
+            <!-- .nk-block-head -->
+            <div class="nk-block nk-block-lg">
+                <div class="card">
+                    <div class="card-inner">
+                        <form asp-area="Administration"
+                              asp-controller="Account"
+                              asp-action="FilterRoles"
+                              method="get"
+                              id="filter-form">
+                            <input type="hidden" asp-for="PageId" />
+                            <div class="row g-gs">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">عنوان نقش</label>
+                                        <div class="form-control-wrap">
+                                            <input asp-for="RoleName" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-lg btn-primary">اعمال فیلتر</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- .nk-block -->
+            <!-- .nk-block-head -->
+            @if (Model.Roles != null && Model.Roles.Any())
+            {
+                <div class="nk-block">
+                    <div class="card card-stretch">
+                        <div class="card-inner-group">
+                            <!-- .card-inner -->
+                            <div class="card-inner p-0">
+                                <div class="nk-tb-list nk-tb-ulist">
+
+                                    <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-col"><span class="sub-text">آیدی</span></div>
+                                        <div class="nk-tb-col"><span class="sub-text">عنوان نقش</span></div>
+                                        <div class="nk-tb-col"><span class="sub-text">تاریخ ایجاد</span></div>
+                                        <div class="nk-tb-col"><span class="sub-text">آخرین به روزرسانی</span></div>
+                                        <div class="nk-tb-col"><span class="sub-text">اقدام</span></div>
+                                    </div>
+
+                                    @foreach (var role in Model.Roles)
+                                    {
+                                        <div class="nk-tb-item">
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span>@role.Id</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span>@role.RoleName</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span>@role.CreateDate.ToStringShamsiDate()</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span>@role.LastUpdateDate.ToStringShamsiDate() | @(!string.IsNullOrWhiteSpace(role.UserName) ? role.UserName : "هیچکس")</span>
+                                            </div>
+                                            <div class="nk-tb-col nk-tb-col-tools">
+                                                <ul class="nk-tb-actions gx-1">
+                                                    <li>
+                                                        <div class="drodown">
+                                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <ul class="link-list-opt no-bdr">
+                                                                    <li>
+                                                                        <a asp-area="Administration"
+                                                                           asp-controller="Account"
+                                                                           asp-action="EditRole"
+                                                                           asp-route-roleId="@role.Id"><em class="icon ni ni-edit-alt"></em><span>به روزرسانی اطلاعات</span></a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                    <!-- .nk-tb-item -->
+                                </div>
+                                <!-- .nk-tb-list -->
+                            </div>
+                            <!-- .card-inner -->
+                            <partial name="_AdminPagingPartial" model="Model.GetCurrentPaging()" />
+                            <!-- .card-inner -->
+                        </div>
+                        <!-- .card-inner-group -->
+                    </div>
+                    <!-- .card -->
+                </div>
+            }
+            else
+            {
+                <div class="nk-block">
+                    <partial name="NoItemFound" />
+                </div>
+            }
+            <!-- .nk-block -->
+
+        </div>
+    </div>
+</div>

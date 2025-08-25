@@ -1,7 +1,9 @@
 ﻿using EShop.Application.Extensions;
 using EShop.Application.Services.Interface;
 using EShop.Application.Utilities;
+using EShop.Domain.DTOs.Account.Role;
 using EShop.Domain.DTOs.Account.User;
+using EShop.Domain.DTOs.Paging;
 using EShop.Domain.Entities.Account.Role;
 using EShop.Domain.Entities.Account.User;
 using EShop.Domain.Repository.Interface;
@@ -80,7 +82,7 @@ public class UserService : IUserService
                     RoleId = 2
                 };
 
-                //await _smsService.SendVerificationSms(register.Mobile, newUser.MobileActiveCode);
+                await _smsService.SendVerificationSms(register.Mobile, newUser.MobileActiveCode);
 
                 await _userRepository.AddEntity(newUser);
                 await _userRepository.SaveChanges();
@@ -119,7 +121,7 @@ public class UserService : IUserService
         {
             var user = await _userRepository
                 .GetQuery()
-                .SingleOrDefaultAsync(x => x.Mobile == login.Mobile);
+                .SingleOrDefaultAsync(x => x.Mobile == login.Mobile && !x.IsBlocked && !x.IsDelete);
 
             if (await IsUserExistByMobile(login.Mobile))
             {
@@ -150,6 +152,14 @@ public class UserService : IUserService
         var user = await _userRepository
             .GetQuery()
             .SingleOrDefaultAsync(x => x.Mobile == mobile);
+
+        return user;
+    }
+    public async Task<User> GetUserById(long id)
+    {
+        var user = await _userRepository
+            .GetQuery()
+            .SingleOrDefaultAsync(x => x.Id == id);
 
         return user;
     }
@@ -216,42 +226,6 @@ public class UserService : IUserService
         {
             return ForgotPasswordResult.Error;
         }
-    }
-
-    #endregion
-
-    #region User Avatar
-
-    public async Task<string?> GetUserAvatar(long userId)
-    {
-        var user = await _userRepository
-            .GetQuery()
-            .SingleOrDefaultAsync(x => x.Id == userId);
-
-        if (user != null)
-        {
-            return user.AvatarPath;
-        }
-
-        return null;
-    }
-
-    #endregion
-
-    #region User Role
-
-    public async Task<string> GetUserRole(long userId)
-    {
-        var user = await _userRepository
-            .GetQuery()
-            .SingleOrDefaultAsync(x => x.Id == userId);
-
-        if (user != null)
-        {
-            return await _roleService.GetRoleNameByRoleId(user.RoleId);
-        }
-
-        return null;
     }
 
     #endregion
@@ -397,6 +371,231 @@ public class UserService : IUserService
     }
 
     #endregion
+
+    #region User (CRUD)
+
+    public async Task<FilterUserDto> FilterUsers(FilterUserDto user)
+    {
+        var query = _userRepository
+            .GetQuery()
+            .Include(x => x.Role)
+            .AsQueryable();
+
+        #region Filter
+
+        if (user.RoleId > 0)
+        {
+            query = query.Where(x => x.RoleId == user.RoleId);
+        }
+        if (!string.IsNullOrEmpty(user.FirstName))
+        {
+            query = query.Where(x => EF.Functions.Like(x.FirstName, $"%{user.FirstName}%"));
+        }
+        if (!string.IsNullOrEmpty(user.LastName))
+        {
+            query = query.Where(x => EF.Functions.Like(x.LastName, $"%{user.LastName}%"));
+        }
+        if (!string.IsNullOrEmpty(user.Mobile))
+        {
+            query = query.Where(x => EF.Functions.Like(x.Mobile, $"%{user.Mobile}%"));
+        }
+        if (!string.IsNullOrEmpty(user.Email))
+        {
+            query = query.Where(x => EF.Functions.Like(x.Email, $"%{user.Email}%"));
+        }
+
+        #endregion
+
+        #region Paging
+
+        var userCount = await query.CountAsync();
+
+        var pager = Pager.Build(user.PageId, userCount, user.TakeEntity,
+            user.HowManyShowPageAfterAndBefore);
+
+        var allEntities = await query.Paging(pager).OrderByDescending(x => x.Id).ToListAsync();
+
+        #endregion
+
+        return user.SetPaging(pager).SetUsers(allEntities);
+    }
+    public async Task<EditUserDto> GetUserForEdit(long userId)
+    {
+        var existingUser = await _userRepository
+            .GetQuery()
+            .Include(x => x.Role)
+            .SingleOrDefaultAsync(x => x.Id == userId);
+
+        if (existingUser != null)
+        {
+            return new EditUserDto
+            {
+                Id = existingUser.Id,
+                RoleId = existingUser.Role.Id,
+                FirstName = existingUser.FirstName,
+                LastName = existingUser.LastName,
+                Mobile = existingUser.Mobile,
+                Email = existingUser.Email,
+                IsMobileActivated = existingUser.IsMobileActive,
+                IsBlocked = existingUser.IsBlocked
+            };
+        }
+
+        return null;
+    }
+    public async Task<EditUserResult> EditUser(EditUserDto user, string editorName)
+    {
+        try
+        {
+            var existingUser = await _userRepository
+                .GetQuery()
+                .Include(x => x.Role)
+                .SingleOrDefaultAsync(x => x.Id == user.Id);
+
+            if (existingUser != null)
+            {
+                existingUser.RoleId = user.RoleId;
+                existingUser.FirstName = user.FirstName;
+                existingUser.LastName = user.LastName;
+                existingUser.Mobile = user.Mobile;
+                existingUser.Email = user.Email;
+                existingUser.IsMobileActive = user.IsMobileActivated;
+                existingUser.LastUpdateDate = DateTime.Now;
+
+
+                _userRepository.EditEntityByUser(existingUser, editorName);
+                await _userRepository.SaveChanges();
+
+                return EditUserResult.Success;
+            }
+
+            return EditUserResult.UserNotFound;
+        }
+        catch (Exception e)
+        {
+            return EditUserResult.Error;
+        }
+    }
+
+    #endregion
+
+    #endregion
+
+    #region User Role
+
+    public async Task<string> GetUserRole(long userId)
+    {
+        var user = await _userRepository
+            .GetQuery()
+            .SingleOrDefaultAsync(x => x.Id == userId);
+
+        if (user != null)
+        {
+            return await _roleService.GetRoleNameByRoleId(user.RoleId);
+        }
+
+        return null;
+    }
+    public async Task<FilterRoleDto> FilterRoles(FilterRoleDto role)
+    {
+        var query = _roleRepository
+            .GetQuery()
+            .Include(x => x.Users);
+
+        #region Filter
+
+        if (Equals(!string.IsNullOrEmpty(role.RoleName)))
+        {
+            query.Where(x => EF.Functions.Like(x.RoleName, $"%{role.RoleName}%"));
+        }
+
+        #endregion
+
+        #region Paging
+
+        var roleCount = await query.CountAsync();
+
+        var pager = Pager.Build(role.PageId, roleCount, role.TakeEntity,
+            role.HowManyShowPageAfterAndBefore);
+
+        var allEntities = await query.Paging(pager).ToListAsync();
+
+        #endregion
+
+        return role.SetPaging(pager).SetRoles(allEntities);
+    }
+    public async Task<CreateRoleResult> CreateRole(CreateRoleDto role)
+    {
+        try
+        {
+            var newRole = new Role
+            {
+                RoleName = role.RoleName
+            };
+
+            await _roleRepository.AddEntity(newRole);
+            await _roleRepository.SaveChanges();
+
+            return CreateRoleResult.Success;
+        }
+        catch (Exception e)
+        {
+            return CreateRoleResult.Error;
+        }
+    }
+    public async Task<EditRoleDto> GetRoleForEdit(long roleId)
+    {
+        var existingRole = await _roleRepository
+            .GetQuery()
+            .SingleOrDefaultAsync(x => x.Id == roleId);
+
+        if (existingRole != null)
+        {
+            return new EditRoleDto
+            {
+                Id = existingRole.Id,
+                RoleName = existingRole.RoleName
+            };
+        }
+
+        return null;
+    }
+    public async Task<EditRoleResult> EditRole(EditRoleDto role, string editorName)
+    {
+        try
+        {
+            var existingRole = await _roleRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == role.Id);
+
+            if (existingRole != null)
+            {
+                existingRole.RoleName = role.RoleName;
+                existingRole.LastUpdateDate = DateTime.Now;
+
+                _roleRepository.EditEntityByUser(existingRole, editorName);
+                await _roleRepository.SaveChanges();
+
+                return EditRoleResult.Success;
+            }
+
+            return EditRoleResult.NotFound;
+        }
+        catch (Exception e)
+        {
+            return EditRoleResult.Error;
+        }
+    }
+    public async Task<List<Role>> GetRoles()
+    {
+        return await _roleRepository
+            .GetQuery()
+            .Select(x => new Role
+            {
+                Id = x.Id,
+                RoleName = x.RoleName
+            }).ToListAsync();
+    }
 
     #endregion
 

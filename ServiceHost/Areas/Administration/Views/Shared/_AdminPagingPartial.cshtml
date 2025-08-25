@@ -1,0 +1,32 @@
+﻿@model EShop.Domain.DTOs.Paging.BasePaging
+
+<div class="card-inner">
+    <div class="nk-block-between-md g-3">
+        <div class="g">
+            <ul class="pagination justify-content-center justify-content-md-start">
+                @if (Model.StartPage < Model.PageId)
+                {
+                    <li class="page-item">
+                        <a style="cursor: pointer;" class="page-link" onclick="FillPageId(@(Model.PageId - 1))">قبلی</a>
+                    </li>
+                }
+                @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                {
+                    <li style="cursor: pointer;" class="page-item @(Model.PageId == i ? "active" : "")">
+                        <a class="page-link" onclick="FillPageId(@i)">@i</a>
+                    </li>
+                }
+                @if (Model.EndPage > Model.PageId)
+                {
+                    <li class="page-item">
+                        <a style="cursor: pointer;" class="page-link" onclick="FillPageId(@(Model.PageId + 1))">بعدی</a>
+                    </li>
+                }
+                
+            </ul>
+            <!-- .pagination -->
+        </div>
+        <!-- .pagination-goto -->
+    </div>
+    <!-- .nk-block-between -->
+</div>

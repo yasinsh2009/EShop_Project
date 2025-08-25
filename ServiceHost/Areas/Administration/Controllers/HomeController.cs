@@ -1,5 +1,4 @@
-﻿using System.Security.Policy;
-using EShop.Application.Services.Interface;
+﻿using EShop.Application.Services.Interface;
 using EShop.Domain.DTOs.Contact;
 using EShop.Domain.DTOs.Site;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +25,8 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Home
 
-        [HttpGet("admin")]
-        public async Task<IActionResult> Index()
+        [HttpGet("Home")]
+        public async Task<IActionResult> AdminPanel()
         {
             return View();
         }
@@ -86,7 +85,7 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region About Us
 
-        [HttpGet("about-us")]
+        [HttpGet("AboutUs")]
         public async Task<IActionResult> GetAboutUs()
         {
             var about = await _siteService.GetAboutUs();

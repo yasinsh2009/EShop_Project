@@ -24,7 +24,8 @@ namespace ServiceHost.Areas.User.Controllers
         [HttpGet("user-profile")]
         public async Task<IActionResult> GetUserProfile()
         {
-            ViewBag.AvatarImage = await _userService.GetUserAvatar(User.GetUserId()) ?? string.Empty;
+            var userInfo = await _userService.GetUserById(User.GetUserId());
+            ViewBag.AvatarImage = userInfo.AvatarPath ?? string.Empty;
             var userProfile = await _userService.GetUserProfile(User.GetUserId());
             return View(userProfile);
         }
@@ -40,10 +41,11 @@ namespace ServiceHost.Areas.User.Controllers
 
             if (user == null)
             {
-                return RedirectToAction("Dashboard", "Home");
+                return RedirectToAction("UserDashboard", "Home");
             }
 
-            ViewBag.AvatarImage = await _userService.GetUserAvatar(User.GetUserId()) ?? string.Empty;
+            var userInfo = await _userService.GetUserById(User.GetUserId());
+            ViewBag.AvatarImage = userInfo.AvatarPath ?? string.Empty;
 
             return View(user);
         }

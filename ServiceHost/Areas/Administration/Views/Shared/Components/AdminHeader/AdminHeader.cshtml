@@ -1,0 +1,72 @@
+﻿@using EShop.Application.Utilities
+@{
+    var avatar = ViewBag.Avatar;
+    var email = ViewBag.Email;
+}
+
+<div class="nk-header is-light nk-header-fixed is-light">
+    <div class="container-xl wide-xl">
+        <div class="nk-header-wrap">
+            <div class="nk-menu-trigger d-xl-none ms-n1 me-3">
+                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+            </div>
+            <div class="nk-header-brand d-xl-none">
+                <a href="html/index.html" class="logo-link">
+                    <img class="logo-light logo-img" src="~/AdminTemplate/assets/images/logo.png" srcset="~/AdminTemplate/assets/images/logo2x.png 2x" alt="لوگو" />
+                    <img class="logo-dark logo-img" src="~/AdminTemplate/assets/images/logo-dark.png" srcset="~/AdminTemplate/assets/images/logo-dark2x.png 2x" alt="لوگوی تاریک" />
+                </a>
+            </div>
+            <!-- .nk-header-brand -->
+            <!-- .nk-header-menu -->
+            <div class="nk-header-tools">
+                <ul class="nk-quick-nav">
+                    <!-- .dropdown -->
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <div class="user-toggle">
+                                <div class="user-avatar sm">
+                                    <img src="@(!string.IsNullOrEmpty(avatar) ? PathExtension.UserAvatarOrigin + avatar : PathExtension.DefaultAvatar)"
+                                         alt="@User.Identity.Name" title="@User.Identity.Name">
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-end">
+                            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                <div class="user-card">
+                                    <div class="user-avatar">
+                                        <img src="@(!string.IsNullOrEmpty(avatar) ? PathExtension.UserAvatarOrigin + avatar : PathExtension.DefaultAvatar)"
+                                             alt="@User.Identity.Name" title="@User.Identity.Name">
+                                    </div>
+                                    <div class="user-info">
+                                        <span class="lead-text">@User.Identity.Name</span>
+                                        <span class="sub-text">@email</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-inner">
+                                <ul class="link-list">
+                                    <li>
+                                        <a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>مشاهده پروفایل</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>حالت تاریک</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dropdown-inner">
+                                <ul class="link-list">
+                                    <li>
+                                        <a asp-area="Administration" asp-controller="Account" asp-action="Logout"><em class="icon ni ni-signout"></em><span>خروج</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- .nk-header-tools -->
+        </div>
+        <!-- .nk-header-wrap -->
+    </div>
+    <!-- .container-fluid -->
+</div>

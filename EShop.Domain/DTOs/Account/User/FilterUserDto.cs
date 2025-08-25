@@ -1,32 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EShop.Domain.DTOs.Paging;
-using EShop.Domain.Entities.Account.Role;
 
 namespace EShop.Domain.DTOs.Account.User
 {
     public class FilterUserDto : BasePaging
     {
-        public long RoleId { get; set; }
-        public string RoleName { get; set; }
-        public string Email { get; set; }
-        public string EmailActiveCode { get; set; }
-        public bool IsEmailActive { get; set; }
-        public string Mobile { get; set; }
-        public string MobileActiveCode { get; set; }
-        public bool IsMobileActive { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Avatar { get; set; }
-        public bool IsBlocked { get; set; }
-        public Entities.Account.Role.Role Role { get; set; }
-        public List<Entities.Account.Role.Role> Roles { get; set; }
-        public List<Entities.Account.User.User> Users { get; set; }
-        public FilterUserRole UserRole { get; set; }
+        public long? RoleId { get; set; }
+        public string? RoleName { get; set; }
+        public string? Email { get; set; }
+        public string? EmailActiveCode { get; set; }
+        public bool? IsEmailActive { get; set; }
+        public string? Mobile { get; set; }
+        public string? MobileActiveCode { get; set; }
+        public bool? IsMobileActive { get; set; }
+        public string? Password { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Avatar { get; set; }
+        public bool? IsBlocked { get; set; }
+
+        public Entities.Account.Role.Role? Role { get; set; }
+        public List<Entities.Account.Role.Role>? Roles { get; set; }
+        public List<Entities.Account.User.User>? Users { get; set; }
+
+        public FilterUserRole? UserRole { get; set; }
 
         public FilterUserDto SetUsers(List<Entities.Account.User.User> users)
         {
-            this.Users = users;
+            Users = users;
             return this;
         }
 
@@ -37,7 +38,7 @@ namespace EShop.Domain.DTOs.Account.User
             this.StartPage = paging.StartPage;
             this.EndPage = paging.EndPage;
             this.HowManyShowPageAfterAndBefore = paging.HowManyShowPageAfterAndBefore;
-            this.TakeEntity = paging.TakeEntity;
+            this.TakeEntity = 6;
             this.SkipEntity = paging.SkipEntity;
             this.PageCount = paging.PageCount;
 

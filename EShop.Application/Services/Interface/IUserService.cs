@@ -1,4 +1,7 @@
-﻿using EShop.Domain.DTOs.Account.User;
+﻿using EShop.Domain.DTOs.Account.Role;
+using EShop.Domain.DTOs.Account.User;
+using EShop.Domain.DTOs.Site;
+using EShop.Domain.Entities.Account.Role;
 using EShop.Domain.Entities.Account.User;
 using Microsoft.AspNetCore.Http;
 
@@ -6,7 +9,7 @@ namespace EShop.Application.Services.Interface;
 
 public interface IUserService : IAsyncDisposable
 {
-    #region Account
+    #region Account (User)
 
     #region User Validation
 
@@ -25,6 +28,7 @@ public interface IUserService : IAsyncDisposable
 
     Task<UserLoginResult> UserLogin(UserLoginDto login);
     Task<User> GetUserByMobile(string mobile);
+    Task<User> GetUserById(long id);
 
     #endregion
 
@@ -37,12 +41,6 @@ public interface IUserService : IAsyncDisposable
     #region Restore User Password
 
     Task<ForgotPasswordResult> RestoreUserPassword(ForgotPasswordDto forgot);
-
-    #endregion
-
-    #region User Avatar
-
-    Task<string?> GetUserAvatar(long userId);
 
     #endregion
 
@@ -72,6 +70,26 @@ public interface IUserService : IAsyncDisposable
     Task<string> GetUserMobileById(long userId);
 
     #endregion
+
+    #region User (CRUD)
+
+    Task<FilterUserDto> FilterUsers(FilterUserDto user);
+    Task<EditUserDto> GetUserForEdit(long userId);
+    Task<EditUserResult> EditUser(EditUserDto user, string editorName);
+
+    #endregion
+
+
+
+    #endregion
+
+    #region Role
+
+    Task<FilterRoleDto> FilterRoles(FilterRoleDto role);
+    Task<CreateRoleResult> CreateRole(CreateRoleDto role);
+    Task<EditRoleDto> GetRoleForEdit(long roleId);
+    Task<EditRoleResult> EditRole(EditRoleDto role, string editorName);
+    Task<List<Role>> GetRoles();
 
     #endregion
 }

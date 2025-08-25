@@ -1,0 +1,95 @@
+﻿@using EShop.Application.Utilities
+@model EShop.Domain.DTOs.Account.User.EditUserDto
+
+@{
+    ViewData["Title"] = $"ویرایش اطلاعات کاربری {Model.FirstName + " " + Model.LastName}";
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <div class="nk-block-head nk-block-head-lg wide-sm">
+                    <div class="nk-block-head-content">
+                        <h2 class="nk-block-title fw-normal">@ViewData["Title"]</h2>
+                    </div>
+                </div>
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg">
+                    <div class="card">
+                        <div class="card-inner">
+                            <form asp-area="Administration" asp-controller="Account" asp-action="EditUser" method="post" class="form-validate" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="Id" />
+                                <div class="row g-gs">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="FirstName" type="text" class="form-control">
+                                                <span asp-validation-for="FirstName" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام خانوادگی</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="LastName" type="text" class="form-control">
+                                                <span asp-validation-for="LastName" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">تلفن همراه</label>
+                                            <div class="form-control-wrap">
+                                                <div class="input-group">
+                                                    <input asp-for="Mobile" type="number" class="form-control invalid">
+                                                    <span asp-validation-for="Mobile" class="invalid"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">آدرس الکترونیک</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-icon form-icon-right">
+                                                    <em class="icon ni ni-mail"></em>
+                                                </div>
+                                                <input asp-for="Email" type="email" class="form-control invalid">
+                                                <span asp-validation-for="Email" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>نقش کاربر</label>
+                                            <select class="form-control" asp-for="RoleId" asp-items='new SelectList(ViewBag.roles, "Id", "RoleName")'>
+                                                <option value="0">عنوان نقش مورد نظر را انتخاب نمایید...</option>
+                                            </select>
+                                            <span asp-validation-for="RoleId" class="invalid"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="preview-block">
+                                            <div class="custom-control custom-checkbox checked">
+                                                <input asp-for="IsMobileActivated" type="checkbox" class="custom-control-input" checked="checked">
+                                                <label class="custom-control-label">فعال هست؟</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

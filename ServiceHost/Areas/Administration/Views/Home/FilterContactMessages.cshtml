@@ -1,4 +1,5 @@
 ﻿@using EShop.Application.Utilities
+@using Microsoft.IdentityModel.Tokens
 @model EShop.Domain.DTOs.Contact.FilterContactMessagesDto
 
 @{
@@ -8,42 +9,90 @@
 <div class="nk-content nk-content-fluid">
     <div class="container-xl wide-xl">
         <div class="nk-content-body">
-            <div class="components-preview wide-xl mx-auto">
-                <div class="nk-block nk-block-lg">
-                    <div class="nk-block-head">
-                        <div class="nk-block-head-content">
-                            <h4 class="title nk-block-title">@ViewData["Title"]</h4>
-                        </div>
-                    </div>
-                    <div class="card card-preview">
-                        <div class="card-inner">
-                            <div class="row g-gs">
-                                @if (Model.ContactUs.Any())
-                                {
-                                    @foreach (var message in Model.ContactUs)
-                                    {
-                                        <div class="col-lg-4">
-                                            <div class="card">
-                                                <div class="card-header border-bottom">پیام ارسال شده از طرف @message.Fullname</div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">@message.MessageSubject</h5>
-                                                    <p class="card-text">@message.Email</p>
-                                                    <a href="#" class="btn btn-primary">نمایش کامل</a>
-                                                </div>
-                                                <div class="card-footer border-top text-muted">ایجاد شده در تاریخ @message.CreateDate.ToStringShamsiDate()</div>
-                                            </div>
-                                        </div>
-                                        <partial name="_PagingPartial" model="Model.GetCurrentPaging()"/>
-                                    }
-                                }
-                                else
-                                {
-                                    <partial name="NoItemFound"/>
-                                }
-                            </div>
+
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">@ViewData["Title"]</h3>
+                        <div class="nk-block-des text-soft">
+                            <p>شما در مجموع @Model.ContactUs.Count پیغام دریافتی دارید.</p>
                         </div>
                     </div>
                 </div>
+                <!-- .nk-block-between -->
+            </div>
+
+           
+
+            <div class="nk-block nk-block-lg">
+                <div class="card">
+                    <div class="card-inner">
+                        <form asp-area="Administration" asp-controller="Home" asp-action="FilterContactMessages" method="get" id="filter-form">
+                            <input type="hidden" asp-for="PageId" />
+                            <div class="row g-gs">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">نام کامل</label>
+                                        <div class="form-control-wrap">
+                                            <input asp-for="Fullname" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="fv-email">پست الکترونیک</label>
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-right">
+                                                <em class="icon ni ni-mail"></em>
+                                            </div>
+                                            <input asp-for="Email" type="email" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-lg btn-primary">اعمال فیلتر</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nk-block nk-block-lg">
+                @if (!Model.ContactUs.IsNullOrEmpty() && Model.ContactUs.Any())
+                {
+                    <div class="card card-preview">
+                        <div class="card-inner">
+                            <div class="row g-gs">
+                                @foreach (var message in Model.ContactUs)
+                                {
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <div class="card-header border-bottom">پیام ارسال شده از طرف @message.Fullname</div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">@message.MessageSubject</h5>
+                                                <p class="card-text">@message.Email</p>
+                                                <a href="#" class="btn btn-primary">نمایش کامل</a>
+                                            </div>
+                                            <div class="card-footer border-top text-muted">ایجاد شده در تاریخ @message.CreateDate.ToStringShamsiDate()</div>
+                                        </div>
+                                    </div>
+                                }
+                                <partial name="_AdminPagingPartial" model="Model.GetCurrentPaging()" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <partial name="NoItemFound" />
+                }
             </div>
         </div>
     </div>

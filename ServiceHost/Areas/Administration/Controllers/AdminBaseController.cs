@@ -5,7 +5,7 @@ namespace ServiceHost.Areas.Administration.Controllers
 {
     [Authorize("AdminArea")]
     [Area("Administration")]
-    [Route("administration")]
+    [Route("Admin")]
     public class AdminBaseController : Controller
     {
         protected string SuccessMessage = "SuccessMessage";

@@ -38,5 +38,8 @@ public class SiteSettingDto
     [Display(Name = "اصلی هست / نیست")]
     public bool IsDefault { get; set; }
 
+    public string CreateDate { get; set; }
+    public string LastUpdateDate { get; set; }
+
     #endregion
 }

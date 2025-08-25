@@ -12,17 +12,19 @@
 
 </head>
 
+
+
 <body class="has-rtl nk-body ui-rounder has-sidebar" dir="rtl">
     <div class="nk-app-root">
         <!-- main start -->
         <div class="nk-main">
             <!-- sidebar start -->
-            @await Component.InvokeAsync("SidebarDashboard")
+            @await Component.InvokeAsync("AdminSidebarDashboard")
             <!-- sidebar end -->
             <!-- wrap start -->
             <div class="nk-wrap">
                 <!-- main header start -->
-                @await Component.InvokeAsync("MainHeader")
+                @await Component.InvokeAsync("AdminHeader")
                 <!-- main header end -->
                 <!-- content start -->
                 @RenderBody()
@@ -38,5 +40,6 @@
     <!-- app-root end -->
     <!-- JavaScript -->
     <partial name="_FooterReferences" />
+    @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>

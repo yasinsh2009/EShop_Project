@@ -31,107 +31,154 @@
                                     </div>
                                     <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
                                         <div class="data-col">
+
                                             <span class="data-label">نام وب سایت</span>
-                                            <span class="data-value">@Model.SiteName</span>
+                                            <span class="data-label">@Model.SiteName</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item" data-bs-toggle="modal" data-bs-target="#profile-edit">
                                         <div class="data-col">
+
                                             <span class="data-label">پست الکترونیک</span>
+
+
                                             <span class="data-value">@Model.Email</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">تلفن همراه</span>
+
+
                                             <span class="data-value">@Model.Mobile</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">تلفن ثابت</span>
+
+
                                             <span class="data-value">@Model.Phone</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">متن فوتر</span>
+
+
                                             <span class="data-value">@Model.FooterText</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">اسکریپت نقشه</span>
+
+
                                             <span class="data-value">@Model.MapScript</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">آدرس</span>
+
+
                                             <span class="data-value">@Model.Address</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">اصلی هست؟</span>
+
                                             @if (Model.IsDefault)
                                             {
+
                                                 <span class="data-value">بله!</span>
+
                                             }
                                             else
                                             {
+
                                                 <span class="data-value">خیر</span>
+
                                             }
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <!-- data-item -->
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">متن کپی رایت</span>
+
+
                                             <span class="data-value">@Model.CopyRight</span>
+
                                         </div>
                                         <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                            <a asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></a>
                                         </div>
                                     </div>
                                     <div class="data-item">
                                         <div class="data-col">
+
                                             <span class="data-label">تاریخ ایجاد</span>
-                                            <span class="data-value">@Model.</span>
+
+
+                                            <span class="data-value">@Model.CreateDate</span>
+
                                         </div>
-                                        <div class="data-col data-col-end">
-                                            <span class="data-more"><em class="icon ni ni-forward-ios"></em></span>
+                                    </div>
+                                    <div class="data-item">
+                                        <div class="data-col">
+
+                                            <span class="data-label">تاریخ آخرین به روزرسانی</span>
+
+
+                                            <span class="data-value">@Model.LastUpdateDate</span>
+
                                         </div>
                                     </div>
                                     <!-- data-item -->

@@ -21,5 +21,7 @@ public class AboutUsDto
     public string CreateDate { get; set; }
 
     public string LastUpdateDate { get; set; }
+
+    public bool IsDelete { get; set; }
     #endregion
 }

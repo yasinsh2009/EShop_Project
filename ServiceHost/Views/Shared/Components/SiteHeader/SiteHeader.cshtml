@@ -1,4 +1,8 @@
-﻿<header class="header">
+﻿@using EShop.Application.Services.Interface
+@using EShop.Application.Utilities
+@inject IAuthHelper AuthHelper;
+
+<header class="header">
     <div class="container-fluid">
         <div class="row gy-3 position-relative align-items-center">
             <!-- responsive menu -->
@@ -342,7 +346,7 @@
                     <div class="d-flex align-items-center">
                         @if (User.Identity is { IsAuthenticated: true })
                         {
-                            <a class="btn btn-info" asp-area="User" asp-controller="Home" asp-action="Dashboard">
+                            <a class="btn btn-info" asp-area="User" asp-controller="Home" asp-action="UserDashboard">
                                 <i class="bi bi-person"></i>
                                 <span class="fw-bold ms-1">@User.Identity.Name</span>
                             </a>

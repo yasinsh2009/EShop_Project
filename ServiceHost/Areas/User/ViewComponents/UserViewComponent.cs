@@ -15,8 +15,9 @@ public class UserSidebarDashboardViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        ViewBag.AvatarImage = await _userService.GetUserAvatar(User.GetUserId()) ?? string.Empty;
-        ViewBag.UserRoleName = await _userService.GetUserRole(User.GetUserId());
+
+        var userInfo = await _userService.GetUserById(User.GetUserId());
+        ViewBag.AvatarImage = userInfo.AvatarPath ?? string.Empty;
 
         return View("UserSidebarDashboard");
     }

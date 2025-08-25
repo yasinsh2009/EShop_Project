@@ -44,7 +44,9 @@ public class SiteService : ISiteService
                 CopyRight = x.CopyRight,
                 Address = x.Address,
                 MapScript = x.MapScript,
-                IsDefault = x.IsDefault
+                IsDefault = x.IsDefault,
+                CreateDate = x.CreateDate.ToStringShamsiDate(),
+                LastUpdateDate = x.LastUpdateDate.ToStringShamsiDate()
             }).FirstOrDefaultAsync(x => x.IsDefault);
 
         return siteSetting ?? new SiteSettingDto();
@@ -171,6 +173,7 @@ public class SiteService : ISiteService
             {
                 aboutUs.HeaderTitle = about.HeaderTitle;
                 aboutUs.Description = about.Description;
+                aboutUs.LastUpdateDate = DateTime.Now;
 
                 _aboutUsRepository.EditEntityByUser(aboutUs, userName);
                 await _aboutUsRepository.SaveChanges();

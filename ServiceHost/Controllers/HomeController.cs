@@ -1,5 +1,4 @@
-﻿using EShop.Application.Services.Implementation;
-using EShop.Application.Services.Interface;
+﻿using EShop.Application.Services.Interface;
 using EShop.Domain.DTOs.Contact;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Mvc;

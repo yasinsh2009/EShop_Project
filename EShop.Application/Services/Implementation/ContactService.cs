@@ -51,7 +51,6 @@ public class ContactService : IContactService
         await _contactRepository.AddEntity(newMessage);
         await _contactRepository.SaveChanges();
     }
-
     public async Task<FilterContactMessagesDto> FilterContactMessages(FilterContactMessagesDto message)
     {
         var query = _contactRepository
@@ -61,6 +60,10 @@ public class ContactService : IContactService
 
         #region Filter
 
+        if (!string.IsNullOrWhiteSpace(message.Fullname))
+        {
+            query = query.Where(x => EF.Functions.Like(x.Email, $"%{message.Fullname}%")).OrderByDescending(x => x.CreateDate);
+        }
         if (!string.IsNullOrWhiteSpace(message.Email))
         {
             query = query.Where(x => EF.Functions.Like(x.Email, $"%{message.Email}%")).OrderByDescending(x => x.CreateDate);

@@ -1,0 +1,246 @@
+﻿@using EShop.Application.Utilities
+@model EShop.Domain.DTOs.Account.User.FilterUserDto
+
+@{
+    ViewData["Title"] = "لیست کاربران";
+}
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">@ViewData["Title"]</h3>
+                        <div class="nk-block-des text-soft">
+                            <p>شما در مجموع @Model.Users.Count کاربر دارید.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- .nk-block-between -->
+            </div>
+
+            <!-- .nk-block-head -->
+            <div class="nk-block nk-block-lg">
+                <div class="card">
+                    <div class="card-inner">
+                        <form asp-area="Administration" asp-controller="Account" asp-action="FilterUsers" method="get" id="filter-form">
+                            <input type="hidden" asp-for="PageId" />
+                            <div class="row g-gs">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">نام</label>
+                                        <div class="form-control-wrap">
+                                            <input asp-for="FirstName" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">نام خانوادگی</label>
+                                        <div class="form-control-wrap">
+                                            <input asp-for="LastName" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="fv-email">پست الکترونیک</label>
+                                        <div class="form-control-wrap">
+                                            <div class="form-icon form-icon-right">
+                                                <em class="icon ni ni-mail"></em>
+                                            </div>
+                                            <input asp-for="Email" type="email" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">تلفن</label>
+                                        <div class="form-control-wrap">
+                                            <div class="input-group">
+                                                <input asp-for="Mobile" type="number" class="form-control">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">98+</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="fv-topics">نقش</label>
+                                        <div class="form-control-wrap">
+                                            <select asp-for="RoleId" asp-items='new SelectList(ViewBag.Roles, "Id", "RoleName")' class="form-select" aria-hidden="true">
+                                                <option value="0">عنوان نقش موردنظر را انتخاب نمایید...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-lg btn-primary">اعمال فیلتر</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- .nk-block -->
+            <!-- .nk-block-head -->
+            @if (Model.Users.Any())
+            {
+                <div class="nk-block">
+                    <div class="card card-stretch">
+                        <div class="card-inner-group">
+                            <!-- .card-inner -->
+                            <div class="card-inner p-0">
+                                <div class="nk-tb-list nk-tb-ulist">
+
+                                    <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-col"><span class="sub-text">آیدی</span></div>
+                                        <div class="nk-tb-col"><span class="sub-text">کاربر</span></div>
+                                        <div class="nk-tb-col tb-col-md"><span class="sub-text">نقش</span></div>
+                                        <div class="nk-tb-col tb-col-md"><span class="sub-text">تلفن</span></div>
+                                        <div class="nk-tb-col tb-col-lg"><span class="sub-text">تایید شده</span></div>
+                                        <div class="nk-tb-col tb-col-lg"><span class="sub-text">آخرین به روزرسانی</span></div>
+                                        <div class="nk-tb-col tb-col-md"><span class="sub-text">وضعیت</span></div>
+                                        <div class="nk-tb-col tb-col-md"><span class="sub-text">اقدام</span></div>
+                                    </div>
+
+                                    @foreach (var user in Model.Users)
+                                    {
+                                        <div class="nk-tb-item">
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span>@user.Id</span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <div class="user-card">
+                                                    <div class="user-avatar">
+                                                        <img src="@(!string.IsNullOrEmpty(user.AvatarPath) ? PathExtension.UserAvatarOrigin + user.AvatarPath : PathExtension.DefaultAvatar)" alt="@(user.FirstName + " " + user.LastName)" title="@(user.FirstName + " " + user.LastName)">
+                                                    </div>
+                                                    <div class="user-info">
+                                                        <span class="tb-lead">@(user.FirstName + " " + user.LastName)<span class="dot dot-warning d-md-none ms-1"></span></span>
+                                                        <span>@user.Email</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span>@user.Role.RoleName</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span>@user.Mobile</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-lg">
+                                                <ul class="list-status">
+                                                    <li>
+                                                        @if (user.IsEmailActive == true)
+                                                        {
+                                                            <em class="icon text-success ni ni-check-circle"></em>
+                                                        }
+                                                        else
+                                                        {
+                                                            <em class="icon text-warning ni ni-alert-circle"></em>
+                                                        }
+                                                        <span>ایمیل</span>
+                                                    </li>
+                                                    <li>
+                                                        @if (user.IsMobileActive)
+                                                        {
+                                                            <em class="icon text-success ni ni-check-circle"></em>
+                                                        }
+                                                        else
+                                                        {
+                                                            <em class="icon text-warning ni ni-alert-circle"></em>
+                                                        }
+                                                        <span>شماره تلفن</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-lg">
+                                                <span>@user.LastUpdateDate.ToStringShamsiDate() | @(!string.IsNullOrWhiteSpace(user.UserName) ? user.UserName : "هیچکس")</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                @if (user.IsBlocked)
+                                                {
+                                                    <span class="tb-status text-danger">تعلیق</span>
+                                                }
+                                                else if (user.IsMobileActive)
+                                                {
+                                                    <span class="tb-status text-success">فعال</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="tb-status text-warning">در انتظار</span>
+                                                }
+                                            </div>
+                                            <div class="nk-tb-col nk-tb-col-tools">
+                                                <ul class="nk-tb-actions gx-1">
+                                                    <li>
+                                                        <div class="drodown">
+                                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <ul class="link-list-opt no-bdr">
+                                                                    <li>
+                                                                        <a asp-area="Administration" asp-controller="Account" asp-action="EditUser" asp-route-userId="@user.Id"><em class="icon ni ni-edit-alt"></em><span>به روزرسانی اطلاعات</span></a>
+                                                                    </li>
+                                                                    @if (!user.IsDelete)
+                                                                    {
+                                                                        <li>
+                                                                            <a href="#"><em class="icon ni ni-na"></em><span>انسداد کاربر</span></a>
+                                                                        </li>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li>
+                                                                            <a href="#"><em class="icon ni ni-unlock-fill"></em><span>رفع انسداد کاربر</span></a>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                    <!-- .nk-tb-item -->
+                                </div>
+                                <!-- .nk-tb-list -->
+                            </div>
+                            <!-- .card-inner -->
+                            <partial name="_AdminPagingPartial" model="Model.GetCurrentPaging()" />
+                            <!-- .card-inner -->
+                        </div>
+                        <!-- .card-inner-group -->
+                    </div>
+                    <!-- .card -->
+                </div>
+            }
+            else
+            {
+                <div class="nk-block">
+                    <partial name="NoItemFound" />
+                </div>
+            }
+            <!-- .nk-block -->
+
+        </div>
+    </div>
+</div>

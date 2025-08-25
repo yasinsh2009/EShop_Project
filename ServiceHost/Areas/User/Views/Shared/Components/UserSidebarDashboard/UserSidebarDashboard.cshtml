@@ -1,9 +1,10 @@
-﻿@using EShop.Application.Utilities
+﻿@using EShop.Application.Services.Interface
+@using EShop.Application.Utilities
+@inject IAuthHelper AuthHelper
 
 @{
     ViewData["Title"] = $"پنل کاربری {User.Identity.Name}";
     var avatar = ViewBag.AvatarImage;
-    var userRoleName = ViewBag.UserRoleName;
 }
 
 
@@ -27,7 +28,7 @@
                         <div class="ms-3">
                             <h6 class="mt-2">@User.Identity.Name</h6>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="text-muted small mt-1">@userRoleName</p>
+                                <p class="text-muted small mt-1">@* @avatar *@</p>
                             </div>
                         </div>
                     </div>
@@ -52,7 +53,7 @@
             <div class="ms-3">
                 <h6 class="mt-2">@User.Identity.Name</h6>
                 <div class="d-flex align-items-center justify-content-between">
-                    <p class="text-muted small mt-1">@userRoleName</p>
+                    <p class="text-muted small mt-1">@avatar</p>
                 </div>
             </div>
         </div>

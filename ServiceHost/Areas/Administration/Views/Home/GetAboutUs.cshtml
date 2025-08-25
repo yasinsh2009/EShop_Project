@@ -4,15 +4,33 @@
     ViewData["Title"] = "درباره ما";
 }
 
-<div class="nk-block nk-block-lg">
-    <div class="nk-block-head">
-        <div class="nk-block-head-content">
-            <h4 class="title nk-block-title">@ViewData["Title"]</h4>
-        </div>
-    </div>
-    <div class="card card-preview">
-        <div class="card-inner">
-            <div class="row g-gs">
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">پیام های دریافتی</h3>
+                    </div>
+                    <!-- .nk-block-head-content -->
+                    <div class="nk-block-head-content">
+                        <div class="toggle-wrap nk-block-tools-toggle">
+                            <div class="toggle-expand-content">
+                                <ul class="nk-block-tools g-3">
+                                    <li class="nk-block-tools-opt">
+                                        <a asp-area="Administration" asp-controller="Home" asp-action="CreateAboutUs" class=" btn btn-icon btn-primary"><em class="icon ni ni-plus"></em></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- .toggle-wrap -->
+                    </div>
+                    <!-- .nk-block-head-content -->
+                </div>
+                <!-- .nk-block-between -->
+            </div>
+            
+            <div class="nk-block nk-block-lg">
                 @if (Model.Any())
                 {
                     foreach (var about in Model)
@@ -20,20 +38,27 @@
                         <div class="col-sm-6">
                             <div class="card text-white bg-primary">
                                 <div class="card-inner">
-                                    <div class="col-6">
+                                    <div class="d-flex justify-between align-items-center mb-2">
                                         <h5 class="card-title">@about.HeaderTitle</h5>
-                                    </div>
-                                    <div class="col-6">
                                         <div class="dropdown">
                                             <a class="dropdown-toggle btn btn-icon btn-light" data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-end" style="">
                                                 <ul class="link-list-plain">
                                                     <li>
-                                                        <a href="#"><em class="icon ni ni-edit-fill"></em><span>ویرایش</span></a>
+                                                        <a asp-area="Administration" asp-controller="Home" asp-action="EditAboutUs" asp-route-id="@about.Id"><em class="icon ni ni-edit-fill"></em><span>ویرایش</span></a>
                                                     </li>
-                                                    <li>
-                                                        <a href="#"><em class="icon ni ni-eye-off-fill"></em><span>عدم نمایش</span></a>
-                                                    </li>
+                                                    @if (!about.IsDelete)
+                                                    {
+                                                        <li>
+                                                            <a href="#"><em class="icon ni ni-eye-off-fill"></em><span>عدم نمایش</span></a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a href="#"><em class="icon ni ni-eye-fill"></em><span>نمایش</span></a>
+                                                        </li>
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
@@ -46,7 +71,7 @@
                 }
                 else
                 {
-                    <partial name="NoItemFound"/>
+                    <partial name="NoItemFound" />
                 }
             </div>
         </div>

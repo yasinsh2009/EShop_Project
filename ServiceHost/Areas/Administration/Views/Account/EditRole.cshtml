@@ -1,7 +1,7 @@
-﻿@model EShop.Domain.DTOs.Site.EditAboutUsDto
+﻿@model EShop.Domain.DTOs.Account.Role.EditRoleDto
 
 @{
-    ViewData["Title"] = "ویرایش متن درباره ی ما موردنظر";
+    ViewData["Title"] = $"ویرایش نقش {Model.RoleName}";
 }
 
 <div class="nk-content nk-content-fluid">
@@ -17,24 +17,15 @@
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
-                            <form asp-area="Administration" asp-controller="Home" asp-action="EditAboutUs" method="post" class="form-validate" novalidate="novalidate">
-                                <input type="hidden" asp-for="Id"/>
+                            <form asp-area="Administration" asp-controller="Account" asp-action="EditRole" method="post" class="form-validate" novalidate="novalidate">
+                                <input type="hidden" asp-for="Id" />
                                 <div class="row g-gs">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="form-label" for="fv-full-name">عنوان تیتر</label>
+                                            <label class="form-label" for="fv-full-name">عنوان نقش</label>
                                             <div class="form-control-wrap">
-                                                <input asp-for="HeaderTitle" type="text" class="form-control invalid">
-                                                <span asp-validation-for="HeaderTitle" class="invalid"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label" for="fv-message">پیام</label>
-                                            <div class="form-control-wrap">
-                                                <textarea asp-for="Description" ckeditor="1" class="form-control form-control-sm invalid" placeholder="پیام خود را بنویسید"></textarea>
-                                                <span asp-validation-for="Description" class="invalid"></span>
+                                                <input asp-for="RoleName" type="text" class="form-control invalid">
+                                                <span asp-validation-for="RoleName" class="invalid"></span>
                                             </div>
                                         </div>
                                     </div>
