@@ -1,7 +1,9 @@
-﻿@model EShop.Domain.DTOs.Site.Silder.CreateSliderDto
+﻿@@using EShop.Domain.DTOs.Site.Banner
+@using EShop.Domain.Entities.Site
+@model EShop.Domain.DTOs.Site.Banner.EditSiteBannerDto
 
 @{
-    ViewData["Title"] = "ایجاد اسلاید جدید";
+    ViewData["Title"] = $"ویرایش بنر {Model.Id}";
 }
 
 
@@ -20,26 +22,16 @@
                     </div>
                     <div class="card">
                         <div class="card-inner">
-                            <form asp-area="Administration" asp-controller="SiteImages" asp-action="CreateSlide" method="post" enctype="multipart/form-data" id="filter-form">
+                            <form asp-area="Administration" asp-controller="SiteImages" asp-action="EditSiteBanner" method="post" enctype="multipart/form-data" id="filter-form">
                                 <div class="row g-gs">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="form-label">تصویر اسلاید</label>
+                                            <label class="form-label">تصویر بنر</label>
                                             <div class="form-control-wrap">
                                                 <div class="form-file">
-                                                    <input name="slideImage" id="ImageName" type="file" class="form-file-input">
-                                                    <label class="form-file-label" for="slideImage">انتخاب تصویر اسلاید</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">تصویر موبایل اسلاید</label>
-                                            <div class="form-control-wrap">
-                                                <div class="form-file">
-                                                    <input name="slideMobileImage" id="slideMobileImage" type="file" class="form-file-input">
-                                                    <label class="form-file-label" for="slideMobileImage">انتخاب تصویر موبایل اسلاید</label>
+                                                    <input name="bannerImage" id="bannerImage" type="file" class="form-file-input">
+                                                    <label class="form-file-label" for="bannerImage">انتخاب تصویر بنر</label>
+                                                    @*  <span asp-validation-for="" class="invalid"></span> *@
                                                 </div>
                                             </div>
                                         </div>
@@ -53,13 +45,31 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label"></label>
                                             <div class="form-control-wrap">
                                                 <input asp-for="Link" type="text" class="form-control">
                                                 <span asp-validation-for="Link" class="invalid"></span>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label"></label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="ColSize" type="text" class="form-control">
+                                                <span asp-validation-for="ColSize" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>موقعیت بنر</label>
+                                            <select class="form-control" asp-for="BannersLocations" asp-items="@Html.GetEnumSelectList<SiteBanner.BannersLocation>()">
+                                                <option value="0">موقعیت بنر مورد نظر را انتخاب نمایید...</option>
+                                            </select>
+                                            <span asp-validation-for="BannersLocations" class="invalid"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -69,7 +79,7 @@
                                                 <li>
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input invalid" name="IsActive" id="IsActive">
-                                                        <label class="custom-control-label" for="IsActive">فعال / غیرفعال</label>
+                                                        <label class="custom-control-label" for="">فعال / غیرفعال</label>
                                                     </div>
                                                 </li>
                                             </ul>

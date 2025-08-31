@@ -1,6 +1,6 @@
-﻿using EShop.Application.Services.Implementation;
-using EShop.Application.Services.Interface;
-using EShop.Domain.DTOs.Site.Slider;
+﻿using EShop.Application.Services.Interface;
+using EShop.Domain.DTOs.Site.Banner;
+using EShop.Domain.DTOs.Site.Silder;
 using Microsoft.AspNetCore.Mvc;
 using ServiceHost.PresentationExtensions;
 
@@ -118,6 +118,107 @@ namespace ServiceHost.Areas.Administration.Controllers
             }
             return RedirectToAction("Slides", "SiteImages", new { area = "Administration" });
         }
+
+        #endregion
+
+        #region Site Banners
+
+        [HttpGet("SiteBanners")]
+        public async Task<IActionResult> SiteBanners()
+        {
+            var siteBanners = await _siteImagesService.GetAllBanners();
+            return View(siteBanners);
+        }
+
+        [HttpGet("CreateSiteBanner")]
+        public IActionResult CreateSiteBanner()
+        {
+            return View();
+        }
+
+        [HttpPost("CreateSiteBanner"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSiteBanner(CreateSiteBannerDto banner, IFormFile? bannerImage)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _siteImagesService.CreateSiteBanner(banner, bannerImage);
+
+                if (result == CreateSiteBannerResult.Success)
+                {
+                    TempData[SuccessMessage] = "بنر جدید با موفقیت ایجاد شد";
+                    return RedirectToAction("SiteBanners", "SiteImages", new { area = "Administration" });
+                }
+                else
+                {
+                    TempData[ErrorMessage] = "عملیات با خطا مواجه شد، لطفا مجددا تلاش کنید";
+                }
+            }
+            return View();
+        }
+
+        [HttpGet("EditSiteBanner/{bannerId}")]
+        public async Task<IActionResult> EditSiteBanner(long bannerId)
+        {
+            var siteBanner = await _siteImagesService.GetSiteBannerForEdit(bannerId);
+            if (siteBanner == null) return NotFound();
+            return View(siteBanner);
+        }
+
+        [HttpPost("EditSiteBanner/{bannerId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditSiteBanner(EditSiteBannerDto banner, IFormFile? bannerImage)
+        {
+            if (ModelState.IsValid)
+            {
+                var editorName = await _userService.GetUserFullNameById(User.GetUserId());
+                var result = await _siteImagesService.EditSiteBanner(banner, bannerImage, editorName);
+
+                switch (result)
+                {
+                    case EditSiteBannerResult.Success:
+                        TempData[SuccessMessage] = "بنر موردنظر با موفقیت ویرایش شد.";
+                        return RedirectToAction("Slides", "SiteImages", new { area = "Administration" });
+                    case EditSiteBannerResult.Error:
+                        TempData[ErrorMessage] = "عملیات با خطا مواجه شد، لطفا مجددا تلاش کنید";
+                        break;
+                    case EditSiteBannerResult.NotFound:
+                        TempData[WarningMessage] = "متاسفانه بنری با این مشخصات یافت نشد.";
+                        break;
+                }
+            }
+
+            return View(banner);
+        }
+
+        [HttpGet("ActivateSitBanner/{bannerId}")]
+        public async Task<IActionResult> ActivateSitBanner(long bannerId)
+        {
+            var result = await _siteImagesService.ActivateSiteBanner(bannerId);
+            if (result)
+            {
+                TempData[SuccessMessage] = "بنر موردنظر با موفقیت فعال شد.";
+            }
+            else
+            {
+                TempData[ErrorMessage] = "عملیات با خطا مواجه شد، لطفا مجددا تلاش کنید";
+            }
+            return RedirectToAction("SiteBanners", "SiteImages", new { area = "Administration" });
+        }
+
+        [HttpGet("DeActivateSiteBanner/{bannerId}")]
+        public async Task<IActionResult> DeActivateSiteBanner(long bannerId)
+        {
+            var result = await _siteImagesService.DeActivateSiteBanner(bannerId);
+            if (result)
+            {
+                TempData[SuccessMessage] = "بنر موردنظر با موفقیت غیرفعال شد.";
+            }
+            else
+            {
+                TempData[ErrorMessage] = "عملیات با خطا مواجه شد، لطفا مجددا تلاش کنید";
+            }
+            return RedirectToAction("SiteBanners", "SiteImages", new { area = "Administration" });
+        }
+
         #endregion
     }
 }

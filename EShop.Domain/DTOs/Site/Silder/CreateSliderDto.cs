@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EShop.Domain.DTOs.Site.Slider
+namespace EShop.Domain.DTOs.Site.Silder
 {
     public class CreateSliderDto
     {

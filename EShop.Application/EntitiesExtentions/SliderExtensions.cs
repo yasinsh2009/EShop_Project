@@ -1,7 +1,7 @@
 ﻿using EShop.Application.Utilities;
 using EShop.Domain.Entities.Site;
 
-namespace EShop.Application.EntitiesExtensions
+namespace EShop.Application.EntitiesExtentions
 {
     public static class SliderExtensions
     {

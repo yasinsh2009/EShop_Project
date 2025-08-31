@@ -44,4 +44,16 @@ public static class PathExtension
     public static string MobileSliderThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Images/MobileSlider/Thumb/");
 
     #endregion
+
+    #region Site Banner
+
+    public static string SiteBannerOriginTemp = "/Theme/assets/image/";
+
+    public static string SiteBannerOrigin = "/Content/Images/SiteBanner/Origin/";
+    public static string SiteBannerOriginServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Images/SiteBanner/Origin/");
+
+    public static string SiteBannerThumb = "/Content/Images/SiteBanner/Thumb/";
+    public static string SiteBannerThumbServer = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Images/SiteBanner/Thumb/");
+
+    #endregion
 }

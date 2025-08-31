@@ -42,11 +42,23 @@ public class DatabaseContext : DbContext
 
     #endregion
 
+    #region Site Images
+
     #region Slider
 
     public DbSet<Slider> Sliders { get; set; }
 
     #endregion
+
+    #region Site Banners
+
+    public DbSet<SiteBanner> SiteBanners { get; set; }
+
+    #endregion
+
+    #endregion
+
+
 
     #endregion
 

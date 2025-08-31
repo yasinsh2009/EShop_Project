@@ -1,4 +1,4 @@
-﻿namespace EShop.Domain.DTOs.Site.Slider
+﻿namespace EShop.Domain.DTOs.Site.Silder
 {
     public class EditSliderDto : CreateSliderDto
     {

@@ -6,6 +6,7 @@ public class SiteSettingDto
 {
     #region Properties
 
+    public long Id { get; set; }
     [Display(Name = "نام سایت")]
     [MaxLength(100, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
     public string SiteName { get; set; }
