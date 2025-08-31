@@ -1,0 +1,93 @@
+﻿@model EShop.Domain.DTOs.Site.Slider.CreateSliderDto
+
+@{
+    ViewData["Title"] = "ایجاد اسلاید جدید";
+}
+
+
+
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg">
+                    <div class="nk-block-head">
+                        <div class="nk-block-head-content">
+                            <h4 class="title nk-block-title">@ViewData["Title"]</h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner">
+                            <form asp-area="Administration" asp-controller="SiteImages" asp-action="CreateSlide" method="post" enctype="multipart/form-data" id="filter-form">
+                                <div class="row g-gs">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">تصویر اسلاید</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-file">
+                                                    <input name="slideImage" id="ImageName" type="file" class="form-file-input">
+                                                    <label class="form-file-label" for="slideImage">انتخاب تصویر اسلاید</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">تصویر موبایل اسلاید</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-file">
+                                                    <input name="slideMobileImage" id="slideMobileImage" type="file" class="form-file-input">
+                                                    <label class="form-file-label" for="slideMobileImage">انتخاب تصویر موبایل اسلاید</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">پیام</label>
+                                            <div class="form-control-wrap">
+                                                <textarea asp-for="Description" class="form-control form-control-sm" placeholder="پیام خود را بنویسید"></textarea>
+                                                <span asp-validation-for="Description" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label"></label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="Link" type="text" class="form-control">
+                                                <span asp-validation-for="Link" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">تنظیمات</label>
+                                            <ul class="custom-control-group g-3 align-center">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input invalid" name="IsActive" id="IsActive">
+                                                        <label class="custom-control-label" for="IsActive">فعال / غیرفعال</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- .nk-block -->
+            </div>
+            <!-- .components-preview -->
+        </div>
+    </div>
+</div>

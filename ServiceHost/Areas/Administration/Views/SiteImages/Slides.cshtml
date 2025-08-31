@@ -1,0 +1,112 @@
+﻿@using EShop.Application.Utilities
+@model List<EShop.Domain.Entities.Site.Slider>
+
+@{
+    ViewData["Title"] = "لیست اسلاید ها";
+}
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">@ViewData["Title"]</h3>
+                    </div>
+                    <!-- .nk-block-head-content -->
+                    <div class="nk-block-head-content">
+                        <div class="toggle-wrap nk-block-tools-toggle">
+                            <div class="toggle-expand-content">
+                                <ul class="nk-block-tools g-3">
+                                    <li class="nk-block-tools-opt">
+                                        <a asp-area="Administration"
+                                           asp-controller="SiteImages"
+                                           asp-action="CreateSlide"
+                                           class=" btn btn-icon btn-primary"><em class="icon ni ni-plus"></em></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- .toggle-wrap -->
+                    </div>
+                    <!-- .nk-block-head-content -->
+                </div>
+                <!-- .nk-block-between -->
+            </div>
+
+            <!-- .nk-block-head -->
+            @if (Model != null && Model.Any())
+            {
+                <div class="nk-block nk-block-lg">
+                    <div class="card card-preview">
+                        <div class="card-inner">
+                            <div class="row">
+                                @foreach (var slide in Model)
+                                {
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <img src="@(!string.IsNullOrWhiteSpace(slide.ImageName) ? PathExtension.SliderOrigin + slide.ImageName : PathExtension.NoImage)" class="card-img-top" alt="@slide.Description" title="@slide.Description">
+                                            <div class="card-inner">
+                                                <div>
+                                                    <span class="nk-menu-text">
+                                                        اسلاید @slide.Id
+                                                        @if (slide.IsActive)
+                                                        {
+                                                            <span class="badge bg-success">فعال</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge bg-danger">غیرفعال</span>
+                                                        }
+                                                    </span>
+                                                </div>
+                                                <p class="card-text">@slide.Description</p>
+                                                <div class="dropdown">
+                                                    <a href="#" class="btn btn-round btn-primary" data-bs-toggle="dropdown" aria-expanded="false"><span>اقدام</span><em class="icon ni ni-chevron-down"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-sm mt-1" style="">
+                                                        <ul class="link-list-plain">
+                                                            <li><a asp-area="Administration" asp-controller="SiteImages" asp-action="EditSlide" asp-route-slideId="@slide.Id">ویرایش</a></li>
+                                                            <li>
+                                                                @if (!slide.IsActive)
+                                                                {
+                                                                    <a asp-area="Administration" asp-controller="SiteImages" asp-action="ActivateSlide" asp-route-slideId="@slide.Id">فعال کردن</a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a asp-area="Administration" asp-controller="SiteImages" asp-action="DeActivateSlide" asp-route-slideId="@slide.Id">غیرفعال کردن</a>
+                                                                }
+                                                            </li>
+                                                            <li><a asp-area="Administration" asp-controller="SiteImages" asp-action="ShowSlideDetails" asp-route-slideId="@slide.Id">مشاهده جزئیات</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .card-preview -->
+                    <!-- .code-block -->
+                </div>
+            }
+            else
+            {
+                <div class="nk-block">
+                    <partial name="NoItemFound" />
+                </div>
+            }
+            <!-- .nk-block -->
+        </div>
+    </div>
+</div>
+
+
+

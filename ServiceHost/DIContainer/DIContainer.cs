@@ -27,6 +27,7 @@ public static class DIContainer
         services.AddTransient<IContactService, ContactService>();
         services.AddTransient<IRoleService, RoleService>();
         services.AddTransient<IAuthHelper, AuthHelper>();
+        services.AddTransient<ISiteImagesService, SiteImagesService>();
 
         #endregion
 

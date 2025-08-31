@@ -18,6 +18,8 @@ public class DatabaseContext : DbContext
 
     #endregion
 
+    #region Site
+
     #region Company Information
 
     public DbSet<SiteSetting> SiteSettings { get; set; }
@@ -35,6 +37,14 @@ public class DatabaseContext : DbContext
 
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketMessage> TicketMessages { get; set; }
+
+    #endregion
+
+    #endregion
+
+    #region Slider
+
+    public DbSet<Slider> Sliders { get; set; }
 
     #endregion
 

@@ -86,4 +86,25 @@ namespace ServiceHost.ViewComponents
     }
 
     #endregion
+
+    #region Slider
+
+    public class HomeSliderViewComponent : ViewComponent
+    {
+        private readonly ISiteImagesService _siteImagesService;
+
+        public HomeSliderViewComponent(ISiteImagesService siteImagesService)
+        {
+            _siteImagesService = siteImagesService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var slides = await _siteImagesService.GetAllActiveSlides();
+            return View("HomeSlider", slides);
+        }
+    }
+
+
+    #endregion
 }
