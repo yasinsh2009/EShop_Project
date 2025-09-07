@@ -1,0 +1,198 @@
+﻿@model EShop.Domain.DTOs.Product.FilterProductDto
+@using EShop.Application.Utilities;
+@using EShop.Domain.DTOs.Product;
+
+@{
+    ViewData["Title"] = "لیست محصولات";
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">@ViewData["Title"]</h3>
+                    </div>
+                    <!-- .nk-block-head-content -->
+                    <div class="nk-block-head-content">
+                        <div class="toggle-wrap nk-block-tools-toggle">
+                            <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                            <div class="toggle-expand-content" data-content="pageMenu">
+                                <ul class="nk-block-tools g-3">
+                                    <li class="nk-block-tools-opt">
+                                        <a asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" class="toggle btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                                        <a asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>افزودن محصول</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .nk-block-head-content -->
+                </div>
+                <!-- .nk-block-between -->
+            </div>
+            @if (Model.Products.Any())
+            {
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg">
+                    <div class="card">
+                        <div class="card-inner">
+                            <form asp-area="Administration" asp-controller="Product" asp-action="FilterProducts" method="get" id="filter-form">
+                                <input type="hidden" asp-for="PageId" />
+                                <div class="row g-gs">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام محصول</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="ProductTitle" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="fv-phone">جنسیت</label>
+                                        <div class="form-control-wrap">
+                                            <ul class="custom-control-group">
+                                               @foreach (var state in Html.GetEnumSelectList<FilterProductState>())
+                                                    {
+                                                         <li>
+                                                            <div class="custom-control custom-radio custom-control-pro no-control checked">
+                                                                <input type="radio" value="@state.Value" name="@nameof(Model.ProductState)" class="custom-control-input"
+                                                                @(Convert.ToInt32(state.Value) == Convert.ToInt32(Model.ProductState) ? "checked" : "")>
+                                                                <label class="custom-control-label" for="@nameof(Model.ProductState)">@state.Text</label>
+                                                            </div>
+                                                         </li>
+                                                    }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*     <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="fv-topics">موضوعات</label>
+                                                                <div class="form-control-wrap">
+                                                                    <select class="form-select js-select2 select2-hidden-accessible" id="fv-topics" name="fv-topics" data-placeholder="یک گزینه را انتخاب کنید" required="" data-select2-id="fv-topics" tabindex="-1" aria-hidden="true">
+                                                                        <option label="empty" value="" data-select2-id="2"></option>
+                                                                        <option value="fv-gq">سوالات عمومی</option>
+                                                                        <option value="fv-tq">سوال فنی</option>
+                                                                        <option value="fv-ab">حساب و صورتحساب</option>
+                                                                    </select><span class="select2 select2-container select2-container--default" dir="rtl" data-select2-id="1" style="width: 528.4px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-fv-topics-container"><span class="select2-selection__rendered" id="select2-fv-topics-container" role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">یک گزینه را انتخاب کنید</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                                                </div>
+                                                            </div>
+                                                        </div> *@
+
+                                     <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">اعمال فیلتر</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- .nk-block-head -->
+
+                <!-- .nk-block-head -->
+                <div class="nk-block">
+                <div class="card">
+                    <div class="card-inner-group">
+                        <div class="card-inner p-0">
+                            <div class="nk-tb-list">
+                                <div class="nk-tb-item nk-tb-head">
+                                    <div class="nk-tb-col tb-col-sm"><span>نام</span></div>
+                                    <div class="nk-tb-col"><span>شناسه محصول</span></div>
+                                    <div class="nk-tb-col"><span>قیمت</span></div>
+                                    <div class="nk-tb-col tb-col-md"><span>دسته بندی</span></div>
+                                    <div class="nk-tb-col"><span>وضعیت</span></div>
+                                    <div class="nk-tb-col"><span>اقدام</span></div>
+                                    <!-- .nk-tb-item -->
+                                    @foreach (var product in Model.Products)
+                                    {
+                                        <div class="nk-tb-item">
+                                            <div class="nk-tb-col tb-col-sm">
+                                                <span class="tb-product">
+                                                    <img src="@(!string.IsNullOrWhiteSpace(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)"
+                                                         alt="@product.ShortDescription"
+                                                         title="@product.ShortDescription"
+                                                         class="thumb" />
+                                                    <span class="title">@product.Title</span>
+                                                </span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-sub">@product.Code</span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-lead">@product.Price.ToString("##,###") تومان</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span class="tb-sub">---</span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-sub">@(product.IsActive ? "فعال" : "غیرفعال")</span>
+                                            </div>
+                                            <div class="nk-tb-col nk-tb-col-tools">
+                                                <ul class="nk-tb-actions gx-1 my-n1">
+                                                    <li class="me-n1">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-end" style="">
+                                                                <ul class="link-list-opt no-bdr">
+                                                                    <li>
+                                                                        <a asp-area="Administration"
+                                                                        asp-controller="Product"
+                                                                        asp-action="EditProduct"
+                                                                        asp-route-productId="@product.Id"><em class="icon ni ni-edit"></em><span>ویرایش محصول</span></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a asp-area="Administration"
+                                                                        asp-controller="Product"
+                                                                        asp-action="ShowProductDetails"
+                                                                        asp-route-productId="@product.Id"><em class="icon ni ni-eye"></em><span>مشاهده محصول</span></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        @if (product.IsActive)
+                                                                        {
+                                                                            <a asp-area="Administration"
+                                                                            asp-controller="Product"
+                                                                            asp-action="DeActivateProduct"
+                                                                            asp-route-productId="@product.Id"><em class="icon ni ni-trash"></em><span>غیرفعال کردن محصول</span></a>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <a asp-area="Administration"
+                                                                            asp-controller="Product"
+                                                                            asp-action="ActivateProduct"
+                                                                            asp-route-productId="@product.Id"><em class="icon ni ni-trash"></em><span>فعال کردن محصول</span></a>
+                                                                        }
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <!-- .nk-tb-list -->
+                            </div>
+                            <partial name="_AdminPagingPartial" model="Model.GetCurrentPaging()" />
+                        </div>
+                    </div>
+                </div
+                </div>
+            }
+            else
+            {
+                <div class="nk-block">
+                    <partial name="NoItemFound" />
+                </div>
+            }
+        </div>
+    </div>

@@ -2,6 +2,7 @@
 using EShop.Domain.Entities.Account.User;
 using EShop.Domain.Entities.Contact;
 using EShop.Domain.Entities.Contact.Ticket;
+using EShop.Domain.Entities.Product;
 using EShop.Domain.Entities.Site;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,8 +18,6 @@ public class DatabaseContext : DbContext
     public DbSet<Role> Roles { get; set; }
 
     #endregion
-
-    #region Site
 
     #region Company Information
 
@@ -58,7 +57,9 @@ public class DatabaseContext : DbContext
 
     #endregion
 
+    #region Product
 
+    public DbSet<Product> Products { get; set; }
 
     #endregion
 
