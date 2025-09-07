@@ -1,4 +1,6 @@
-﻿@{
+﻿@using EShop.Domain.Entities.Site;
+
+@{
     ViewData["Title"] = "خانه";
 }
 
@@ -208,7 +210,6 @@
 
 <!--============ end section story ==============-->
 <!--============ start section main slider ==============-->
-
 @await Component.InvokeAsync("HomeSlider")
 
 <!--============ end section main slider ==============-->
@@ -686,40 +687,7 @@
 
 <!--============ end special offer ==============-->
 <!--============ start banner section ==============-->
-
-<section class="banner pb-md-3 pb-0">
-    <div class="container-fluid">
-
-        <!-- Adding a heading for SEO purposes, but hiding it visually -->
-        <h2 class="section-title visually-hidden">بنر های تبلیغاتی</h2> <!-- Hidden from view but present for SEO -->
-        <div class="row">
-            <div class="col-md-6">
-                <a href="">
-                    <div class="banner-image-parent">
-                        <div class="banner-image-main">
-                            <img class="rounded-4 h-auto" src="~/MainTemplate/assets/image/banner/banner-1.png" alt="">
-                        </div>
-                        <div class="banner-image-blur">
-                            <img src="~/MainTemplate/assets/image/banner/banner-1.png" alt="">
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6">
-                <a href="">
-                    <div class="banner-image-parent">
-                        <div class="banner-image-main">
-                            <img class="rounded-4 h-auto" src="~/MainTemplate/assets/image/banner/banner-2.png" alt="">
-                        </div>
-                        <div class="banner-image-blur">
-                            <img src="~/MainTemplate/assets/image/banner/banner-2.png" alt="">
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+@await Component.InvokeAsync("SiteBanner", new { placement = SiteBannerPlacement.FirstPlace })
 
 <!--============ end banner section ==============-->
 <!--============ start offer section ==============-->
@@ -1517,51 +1485,7 @@
 
 <!--============ end product slider ==============-->
 <!--============ start banner section ==============-->
-
-<section class="banner">
-    <div class="container-fluid">
-        <!-- Adding a heading for SEO purposes, but hiding it visually -->
-        <h2 class="section-title visually-hidden">بنر های تبلیغاتی</h2> <!-- Hidden from view but present for SEO -->
-        <div class="row">
-            <div class="col-md-4">
-                <a href="">
-                    <div class="banner-image-parent">
-                        <div class="banner-image-main">
-                            <img class="rounded-4 h-auto" src="~/MainTemplate/assets/image/banner/banner-3.jpg" alt="">
-                        </div>
-                        <div class="banner-image-blur">
-                            <img src="~/MainTemplate/assets/image/banner/banner-3.jpg" alt="">
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="">
-                    <div class="banner-image-parent">
-                        <div class="banner-image-main">
-                            <img class="rounded-4 h-auto" src="~/MainTemplate/assets/image/banner/banner-4.jpg" alt="">
-                        </div>
-                        <div class="banner-image-blur">
-                            <img src="~/MainTemplate/assets/image/banner/banner-4.jpg" alt="">
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="">
-                    <div class="banner-image-parent">
-                        <div class="banner-image-main">
-                            <img class="rounded-4 h-auto" src="~/MainTemplate/assets/image/banner/banner-5.jpg" alt="">
-                        </div>
-                        <div class="banner-image-blur">
-                            <img src="~/MainTemplate/assets/image/banner/banner-5.jpg" alt="">
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+@await Component.InvokeAsync("SiteBanner", new { placement = SiteBannerPlacement.SecondPlace })
 
 <!--============ end banner section ==============-->
 <!--============ start product slider ==============-->

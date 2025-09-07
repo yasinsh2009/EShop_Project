@@ -206,11 +206,11 @@ namespace EShop.Application.Services.Implementation
 
         #region Site Banners
 
-        public async Task<List<SiteBanner>> GetSiteBannersByLocation(List<SiteBanner.BannersLocation> locations)
+        public async Task<List<SiteBanner>> GetSiteBannersByPlacement(SiteBannerPlacement placement)
         {
             return await _siteBannerRepository
                 .GetQuery()
-                .Where(x => locations.Contains(x.BannersLocations) && !x.IsDelete)
+                .Where(x => x.Placement == placement && !x.IsDelete)
                 .ToListAsync();
         }
         public async Task<List<SiteBanner>> GetAllBanners()
@@ -237,10 +237,10 @@ namespace EShop.Application.Services.Implementation
                 var newSiteBanner = new SiteBanner
                 {
                     ImageName = BannerImage,
-                    BannersLocations = banner.BannersLocations,
+                    Placement = banner.Placement,
                     Link = banner.Link,
                     Description = banner.Description,
-                    ColSize = banner.ColSize
+                    GridColumnSize = banner.GridColumnSize
                 };
 
                 await _siteBannerRepository.AddEntity(newSiteBanner);
@@ -264,10 +264,10 @@ namespace EShop.Application.Services.Implementation
                 return new EditSiteBannerDto
                 {
                     Id = existingSiteBanner.Id,
-                    BannersLocations = existingSiteBanner.BannersLocations,
+                    Placement = existingSiteBanner.Placement,
                     Description = existingSiteBanner.Description,
                     Link = existingSiteBanner.Link,
-                    ColSize = existingSiteBanner.ColSize
+                    GridColumnSize = existingSiteBanner.GridColumnSize
                 };
             }
 
@@ -294,10 +294,10 @@ namespace EShop.Application.Services.Implementation
                         }
                     }
 
-                    existingSiteBanner.BannersLocations = banner.BannersLocations;
+                    existingSiteBanner.Placement = banner.Placement;
                     existingSiteBanner.Description = banner.Description;
                     existingSiteBanner.Link = banner.Link;
-                    existingSiteBanner.ColSize = banner.ColSize;
+                    existingSiteBanner.GridColumnSize = banner.GridColumnSize;
                     existingSiteBanner.LastUpdateDate = DateTime.Now;
 
                     _siteBannerRepository.EditEntityByUser(existingSiteBanner, editorName);

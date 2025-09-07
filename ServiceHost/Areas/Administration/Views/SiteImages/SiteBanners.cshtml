@@ -51,12 +51,12 @@
                                 {
                                     <div class="col-lg-4">
                                         <div class="card">
-                                            <img src="@(!string.IsNullOrWhiteSpace(banner.ImageName) ? PathExtension.SliderOrigin + banner.ImageName : PathExtension.NoImage)" class="card-img-top" alt="@banner.Description" title="@banner.Description">
+                                            <img src="@(!string.IsNullOrWhiteSpace(banner.ImageName) ? PathExtension.SiteBannerOrigin + banner.ImageName : PathExtension.NoImage)" class="card-img-top" alt="@banner.Description" title="@banner.Description">
                                             <div class="card-inner">
                                                 <div>
                                                     <span class="nk-menu-text">
                                                         بنر @banner.Id
-                                                        @if (banner.IsDelete)
+                                                        @if (!banner.IsDelete)
                                                         {
                                                             <span class="badge bg-success">فعال</span>
                                                         }

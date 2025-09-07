@@ -23,6 +23,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <form asp-area="Administration" asp-controller="SiteImages" asp-action="EditSiteBanner" method="post" enctype="multipart/form-data" id="filter-form">
+                                <input type="hidden" asp-for="Id" />
                                 <div class="row g-gs">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -56,20 +57,20 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label"></label>
-                                            <div class="form-control-wrap">
-                                                <input asp-for="ColSize" type="text" class="form-control">
-                                                <span asp-validation-for="ColSize" class="invalid"></span>
-                                            </div>
+                                            <label>اندازه بنر</label>
+                                            <select class="form-control" asp-for="GridColumnSize" asp-items="@Html.GetEnumSelectList<SiteBannerGridColumnSize>()">
+                                                <option value="0">اندازه بنر مورد نظر را انتخاب نمایید...</option>
+                                            </select>
+                                            <span asp-validation-for="GridColumnSize" class="invalid"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>موقعیت بنر</label>
-                                            <select class="form-control" asp-for="BannersLocations" asp-items="@Html.GetEnumSelectList<SiteBanner.BannersLocation>()">
+                                            <select class="form-control" asp-for="Placement" asp-items="@Html.GetEnumSelectList<SiteBannerPlacement>()">
                                                 <option value="0">موقعیت بنر مورد نظر را انتخاب نمایید...</option>
                                             </select>
-                                            <span asp-validation-for="BannersLocations" class="invalid"></span>
+                                            <span asp-validation-for="Placement" class="invalid"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-12">

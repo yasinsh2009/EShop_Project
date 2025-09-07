@@ -49,7 +49,7 @@
                             <div class="row">
                                 @foreach (var slide in Model)
                                 {
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <div class="card">
                                             <img src="@(!string.IsNullOrWhiteSpace(slide.ImageName) ? PathExtension.SliderOrigin + slide.ImageName : PathExtension.NoImage)" class="card-img-top" alt="@slide.Description" title="@slide.Description">
                                             <div class="card-inner">

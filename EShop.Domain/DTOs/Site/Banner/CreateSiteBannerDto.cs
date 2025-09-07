@@ -16,28 +16,16 @@ namespace EShop.Domain.DTOs.Site.Banner
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Description { get; set; }
 
-        [Display(Name = "سایز بنر")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(25, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-        public string ColSize { get; set; }
+        public SiteBannerGridColumnSize GridColumnSize { get; set; }
 
-        public SiteBanner.BannersLocation BannersLocations { get; set; }
+        public SiteBannerPlacement Placement { get; set; }
 
         [Display(Name = "فعال / غیرفعال")]
-        public bool IsDelete { get; set; }
+        public bool IsActive { get; set; }
 
         #endregion
-
-        public enum BannersLocation
-        {
-            Home1,
-            Home2,
-            Home3,
-            Home4,
-        }
-
-        
     }
+
     public enum CreateSiteBannerResult
     {
         Success,

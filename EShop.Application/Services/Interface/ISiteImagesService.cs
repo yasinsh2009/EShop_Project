@@ -21,7 +21,7 @@ namespace EShop.Application.Services.Interface
 
         #region Site Banners
 
-        Task<List<SiteBanner>> GetSiteBannersByLocation(List<SiteBanner.BannersLocation> locations);
+        Task<List<SiteBanner>> GetSiteBannersByPlacement(SiteBannerPlacement placement);
         Task<List<SiteBanner>> GetAllBanners();
         Task<CreateSiteBannerResult> CreateSiteBanner(CreateSiteBannerDto banner, IFormFile bannerImage);
         Task<EditSiteBannerDto> GetSiteBannerForEdit(long id);

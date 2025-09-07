@@ -23,12 +23,18 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Slider
 
+        #region Slides List
+
         [HttpGet("Slides")]
         public async Task<IActionResult> Slides()
         {
             var slides = await _siteImagesService.GetAllSlides();
             return View(slides);
         }
+
+        #endregion
+
+        #region Create Slide
 
         [HttpGet("CreateSlide")]
         public IActionResult CreateSlide()
@@ -55,6 +61,10 @@ namespace ServiceHost.Areas.Administration.Controllers
             }
             return View();
         }
+
+        #endregion
+
+        #region Edit Slide
 
         [HttpGet("EditSlide/{slideId}")]
         public async Task<IActionResult> EditSlide(long slideId)
@@ -89,6 +99,12 @@ namespace ServiceHost.Areas.Administration.Controllers
             return View(slide);
         }
 
+
+
+        #endregion
+
+        #region Activate / DeActivate Slide
+
         [HttpGet("ActivateSlide/{slideId}")]
         public async Task<IActionResult> ActivateSlide(long slideId)
         {
@@ -121,7 +137,11 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #endregion
 
+        #endregion
+
         #region Site Banners
+
+        #region Site Banners List
 
         [HttpGet("SiteBanners")]
         public async Task<IActionResult> SiteBanners()
@@ -129,6 +149,10 @@ namespace ServiceHost.Areas.Administration.Controllers
             var siteBanners = await _siteImagesService.GetAllBanners();
             return View(siteBanners);
         }
+
+        #endregion
+
+        #region Create Site Banner
 
         [HttpGet("CreateSiteBanner")]
         public IActionResult CreateSiteBanner()
@@ -156,6 +180,10 @@ namespace ServiceHost.Areas.Administration.Controllers
             return View();
         }
 
+        #endregion
+
+        #region Edit Site Banner
+
         [HttpGet("EditSiteBanner/{bannerId}")]
         public async Task<IActionResult> EditSiteBanner(long bannerId)
         {
@@ -176,7 +204,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                 {
                     case EditSiteBannerResult.Success:
                         TempData[SuccessMessage] = "بنر موردنظر با موفقیت ویرایش شد.";
-                        return RedirectToAction("Slides", "SiteImages", new { area = "Administration" });
+                        return RedirectToAction("SiteBanners", "SiteImages", new { area = "Administration" });
                     case EditSiteBannerResult.Error:
                         TempData[ErrorMessage] = "عملیات با خطا مواجه شد، لطفا مجددا تلاش کنید";
                         break;
@@ -188,6 +216,10 @@ namespace ServiceHost.Areas.Administration.Controllers
 
             return View(banner);
         }
+
+        #endregion
+
+        #region Activate / DeActivate Site Banner
 
         [HttpGet("ActivateSitBanner/{bannerId}")]
         public async Task<IActionResult> ActivateSitBanner(long bannerId)
@@ -218,6 +250,8 @@ namespace ServiceHost.Areas.Administration.Controllers
             }
             return RedirectToAction("SiteBanners", "SiteImages", new { area = "Administration" });
         }
+
+        #endregion
 
         #endregion
     }

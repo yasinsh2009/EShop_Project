@@ -1,4 +1,5 @@
 ﻿using EShop.Application.Services.Interface;
+using EShop.Domain.Entities.Site;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ServiceHost.ViewComponents
@@ -105,6 +106,26 @@ namespace ServiceHost.ViewComponents
         }
     }
 
+
+    #endregion
+
+    #region Site Banner
+
+    public class SiteBannerViewComponent : ViewComponent
+    {
+        private readonly ISiteImagesService _siteImagesService;
+
+        public SiteBannerViewComponent(ISiteImagesService siteImagesService)
+        {
+            _siteImagesService = siteImagesService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(SiteBannerPlacement placement)
+        {
+            var banners = await _siteImagesService.GetSiteBannersByPlacement(placement);
+            return View("SiteBanner", banners);
+        }
+    }
 
     #endregion
 }
