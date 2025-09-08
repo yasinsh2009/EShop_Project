@@ -6,11 +6,6 @@ using EShop.Domain.DTOs.Product;
 using EShop.Domain.Entities.Product;
 using EShop.Domain.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Application.Services.Implementation
 {
@@ -26,6 +21,8 @@ namespace EShop.Application.Services.Implementation
         }
 
         #endregion
+
+        #region Product
 
         #region Filter Products
 
@@ -126,18 +123,18 @@ namespace EShop.Application.Services.Implementation
                     }
                 }
 
-                    var newProduct = new Product
-                    {
-                        Title = product.Title,
-                        Code = new Random().Next(100000, 999999).ToString(),
-                        ShortDescription = product.ShortDescription,
-                        Description = product.Description,
-                        IsActive = product.IsActive,
-                        Image = productImageName,
-                        Price = product.Price,
-                        SellCount = 0,
-                        ViewCount = 0,
-                    };
+                var newProduct = new Product
+                {
+                    Title = product.Title,
+                    Code = new Random().Next(100000, 999999).ToString(),
+                    ShortDescription = product.ShortDescription,
+                    Description = product.Description,
+                    IsActive = product.IsActive,
+                    Image = productImageName,
+                    Price = product.Price,
+                    SellCount = 0,
+                    ViewCount = 0
+                };
 
                 await _productRepository.AddEntity(newProduct);
                 await _productRepository.SaveChanges();
@@ -149,6 +146,52 @@ namespace EShop.Application.Services.Implementation
                 return CreateProductResult.Error;
             }
         }
+
+        #endregion
+
+        #region Activate / DeActivate Product
+
+        public async Task<bool> ActivateProduct(long id)
+        {
+            var product= await _productRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (product != null)
+            {
+                product.IsActive = true;
+                product.IsDelete = false;
+
+                _productRepository.EditEntity(product);
+                await _productRepository.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeActivateProduct(long id)
+        {
+            var product = await _productRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (product != null)
+            {
+                product.IsActive = false;
+                product.IsDelete = true;
+
+                _productRepository.EditEntity(product);
+                await _productRepository.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
 
         #endregion
 

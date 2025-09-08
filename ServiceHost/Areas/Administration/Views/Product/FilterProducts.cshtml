@@ -17,12 +17,10 @@
                     <!-- .nk-block-head-content -->
                     <div class="nk-block-head-content">
                         <div class="toggle-wrap nk-block-tools-toggle">
-                            <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                            <div class="toggle-expand-content" data-content="pageMenu">
+                            <div class="toggle-expand-content">
                                 <ul class="nk-block-tools g-3">
                                     <li class="nk-block-tools-opt">
-                                        <a asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" class="toggle btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
-                                        <a asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>افزودن محصول</span></a>
+                                        <a asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>افزودن محصول</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -51,27 +49,27 @@
                                         </div>
                                     </div>
 
-                                   <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label" for="fv-phone">جنسیت</label>
-                                        <div class="form-control-wrap">
-                                            <ul class="custom-control-group">
-                                               @foreach (var state in Html.GetEnumSelectList<FilterProductState>())
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">وضعیت</label>
+                                            <div class="form-control-wrap">
+                                                <ul class="custom-control-group">
+                                                    @foreach (var state in Html.GetEnumSelectList<FilterProductState>())
                                                     {
-                                                         <li>
+                                                        <li>
                                                             <div class="custom-control custom-radio custom-control-pro no-control checked">
                                                                 <input type="radio" value="@state.Value" name="@nameof(Model.ProductState)" class="custom-control-input"
-                                                                @(Convert.ToInt32(state.Value) == Convert.ToInt32(Model.ProductState) ? "checked" : "")>
+                                                                       @(Convert.ToInt32(state.Value) == Convert.ToInt32(Model.ProductState) ? "checked" : "")>
                                                                 <label class="custom-control-label" for="@nameof(Model.ProductState)">@state.Text</label>
                                                             </div>
-                                                         </li>
+                                                        </li>
                                                     }
-                                            </ul>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                @*     <div class="col-md-6">
+                                    @*     <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label" for="fv-topics">موضوعات</label>
                                                                 <div class="form-control-wrap">
@@ -85,7 +83,7 @@
                                                             </div>
                                                         </div> *@
 
-                                     <div class="col-md-12">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-lg btn-primary">اعمال فیلتر</button>
                                         </div>
@@ -97,20 +95,20 @@
                     </div>
                 </div>
                 <!-- .nk-block-head -->
-
                 <!-- .nk-block-head -->
                 <div class="nk-block">
-                <div class="card">
-                    <div class="card-inner-group">
-                        <div class="card-inner p-0">
-                            <div class="nk-tb-list">
-                                <div class="nk-tb-item nk-tb-head">
-                                    <div class="nk-tb-col tb-col-sm"><span>نام</span></div>
-                                    <div class="nk-tb-col"><span>شناسه محصول</span></div>
-                                    <div class="nk-tb-col"><span>قیمت</span></div>
-                                    <div class="nk-tb-col tb-col-md"><span>دسته بندی</span></div>
-                                    <div class="nk-tb-col"><span>وضعیت</span></div>
-                                    <div class="nk-tb-col"><span>اقدام</span></div>
+                    <div class="card">
+                        <div class="card-inner-group">
+                            <div class="card-inner p-0">
+                                <div class="nk-tb-list">
+                                    <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-col tb-col-sm"><span>نام</span></div>
+                                        <div class="nk-tb-col"><span>شناسه محصول</span></div>
+                                        <div class="nk-tb-col"><span>قیمت</span></div>
+                                        <div class="nk-tb-col"><span>دسته بندی</span></div>
+                                        <div class="nk-tb-col"><span>وضعیت</span></div>
+                                        <div class="nk-tb-col"><span>اقدام</span></div>
+                                    </div>
                                     <!-- .nk-tb-item -->
                                     @foreach (var product in Model.Products)
                                     {
@@ -130,11 +128,18 @@
                                             <div class="nk-tb-col">
                                                 <span class="tb-lead">@product.Price.ToString("##,###") تومان</span>
                                             </div>
-                                            <div class="nk-tb-col tb-col-md">
+                                            <div class="nk-tb-col">
                                                 <span class="tb-sub">---</span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">@(product.IsActive ? "فعال" : "غیرفعال")</span>
+                                                @if (product.IsActive)
+                                                {
+                                                    <span class="tb-sub text-success">فعال</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="tb-sub text-danger">غیرفعال</span>
+                                                }
                                             </div>
                                             <div class="nk-tb-col nk-tb-col-tools">
                                                 <ul class="nk-tb-actions gx-1 my-n1">
@@ -145,31 +150,25 @@
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <li>
                                                                         <a asp-area="Administration"
-                                                                        asp-controller="Product"
-                                                                        asp-action="EditProduct"
-                                                                        asp-route-productId="@product.Id"><em class="icon ni ni-edit"></em><span>ویرایش محصول</span></a>
+                                                                           asp-controller="Product"
+                                                                           asp-action="EditProduct"
+                                                                           asp-route-productId="@product.Id"><em class="icon ni ni-edit"></em><span>ویرایش محصول</span></a>
                                                                     </li>
                                                                     <li>
                                                                         <a asp-area="Administration"
-                                                                        asp-controller="Product"
-                                                                        asp-action="ShowProductDetails"
-                                                                        asp-route-productId="@product.Id"><em class="icon ni ni-eye"></em><span>مشاهده محصول</span></a>
+                                                                           asp-controller="Product"
+                                                                           asp-action="ShowProductDetails"
+                                                                           asp-route-productId="@product.Id"><em class="icon ni ni-eye"></em><span>مشاهده محصول</span></a>
                                                                     </li>
                                                                     <li>
-                                                                        @if (product.IsActive)
-                                                                        {
-                                                                            <a asp-area="Administration"
-                                                                            asp-controller="Product"
-                                                                            asp-action="DeActivateProduct"
-                                                                            asp-route-productId="@product.Id"><em class="icon ni ni-trash"></em><span>غیرفعال کردن محصول</span></a>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <a asp-area="Administration"
-                                                                            asp-controller="Product"
-                                                                            asp-action="ActivateProduct"
-                                                                            asp-route-productId="@product.Id"><em class="icon ni ni-trash"></em><span>فعال کردن محصول</span></a>
-                                                                        }
+
+                                                                        <a asp-area="Administration"
+                                                                           asp-controller="Product"
+                                                                           asp-action="@(product.IsActive ? "DeActivateProduct" : "ActivateProduct")"
+                                                                           asp-route-productId="@product.Id">
+                                                                            <em class="icon ni ni-trash"></em><span>@(product.IsActive ? "غیرفعال کردن محصول" : "فعال کردن محصول")</span>
+                                                                        </a>
+
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -185,7 +184,6 @@
                             <partial name="_AdminPagingPartial" model="Model.GetCurrentPaging()" />
                         </div>
                     </div>
-                </div
                 </div>
             }
             else
@@ -196,3 +194,7 @@
             }
         </div>
     </div>
+</div>
+
+
+

@@ -11,5 +11,7 @@ namespace EShop.Application.Services.Interface
     {
         Task<FilterProductDto> FilterProducts(FilterProductDto product);
         Task<CreateProductResult> CreateProduct(CreateProductDto product);
+        Task<bool> ActivateProduct(long id);
+        Task<bool> DeActivateProduct(long id);
     }
 }

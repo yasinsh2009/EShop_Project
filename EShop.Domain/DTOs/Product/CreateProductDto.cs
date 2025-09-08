@@ -5,17 +5,17 @@ namespace EShop.Domain.DTOs.Product
 {
     public class CreateProductDto
     {
-        public long? BrandId { get; set; }
-        
+        //public long? BrandId { get; set; }
+
         [Display(Name = "نام محصول")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
         public string Title { get; set; }
 
-        [Display(Name = "نام برند")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-        public string? BrandName { get; set; }
+        //[Display(Name = "نام برند")]
+        //[Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        //[MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
+        //public string? BrandName { get; set; }
 
         [Display(Name = "قیمت محصول")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -33,7 +33,6 @@ namespace EShop.Domain.DTOs.Product
         public bool IsActive { get; set; }
 
         [Display(Name = "تصویر محصول")]
-        [MaxLength(300, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
         public IFormFile? Image { get; set; }
 
         //public List<CreateProductColorDto> ProductColors { get; set; }

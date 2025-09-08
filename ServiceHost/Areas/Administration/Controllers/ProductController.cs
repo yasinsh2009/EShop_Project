@@ -34,7 +34,7 @@ namespace ServiceHost.Areas.Administration.Controllers
         #region Create Product
 
         [HttpGet("CreateProduct")]
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
             return View();
         }
@@ -51,7 +51,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                 {
                     case CreateProductResult.Success:
                         TempData[SuccessMessage] = "محصول جدید با موفقیت ایجاد شد.";
-                        RedirectToAction("FilterProducts", "ProductController", new { area = "Administration" });
+                        RedirectToAction("FilterProducts", "Product", new { area = "Administration" });
                         break;
                     case CreateProductResult.Error:
                         TempData[ErrorMessage] = "فرایند ایجاد محصول با خطا مواجه شد، لطفا بعدا امتحان کنید.";
@@ -62,6 +62,40 @@ namespace ServiceHost.Areas.Administration.Controllers
                 }
             }
             return View(newProduct);
+        }
+
+        #endregion
+
+        #region Activate / DeActivate Product
+
+        [HttpGet("ActivateProduct/{productId}")]
+        public async Task<IActionResult> ActivateProduct(long productId)
+        {
+            var result = await _productService.ActivateProduct(productId);
+            if (result)
+            {
+                TempData[SuccessMessage] = "محصول موردنظر با موفقیت فعال شد.";
+            }
+            else
+            {
+                TempData[ErrorMessage] = "عملیات با خطا مواجه شد، لطفا مجددا تلاش کنید";
+            }
+            return RedirectToAction("FilterProducts", "Product", new { area = "Administration" });
+        }
+
+        [HttpGet("DeActivateProduct/{productId}")]
+        public async Task<IActionResult> DeActivateProduct(long productId)
+        {
+            var result = await _productService.DeActivateProduct(productId);
+            if (result)
+            {
+                TempData[SuccessMessage] = "محصول موردنظر با موفقیت غیرفعال شد.";
+            }
+            else
+            {
+                TempData[ErrorMessage] = "عملیات با خطا مواجه شد، لطفا مجددا تلاش کنید";
+            }
+            return RedirectToAction("FilterProducts", "Product", new { area = "Administration" });
         }
 
         #endregion
