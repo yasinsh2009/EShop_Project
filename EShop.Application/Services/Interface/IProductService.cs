@@ -1,4 +1,6 @@
 ﻿using EShop.Domain.DTOs.Product;
+using EShop.Domain.DTOs.Product.ProductCategory;
+using EShop.Domain.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,25 @@ namespace EShop.Application.Services.Interface
 {
     public interface IProductService : IAsyncDisposable
     {
+        #region Product
+
         Task<FilterProductDto> FilterProducts(FilterProductDto product);
         Task<CreateProductResult> CreateProduct(CreateProductDto product);
         Task<bool> ActivateProduct(long id);
         Task<bool> DeActivateProduct(long id);
+
+        #endregion
+
+        #region Product Category
+
+        Task<FilterProductCategoryDto> FilterProductCategory(FilterProductCategoryDto productCategory, long? parentId);
+        Task<List<ProductCategory>> GetAllActiveProductCategories();
+        Task<CreateProductCategoryResult> CreateProductCategory(CreateProductCategoryDto productCategory);
+        Task<EditProductCategoryDto> GetProductCategoryForEdit(long id);
+        Task<EditProductCategoryResult> EditProductCategory(EditProductCategoryDto productCategory, string editorName);
+        Task<bool> ActivateProductCategory(long id);
+        Task<bool> DeActivateProductCategory(long id);
+
+        #endregion
     }
 }

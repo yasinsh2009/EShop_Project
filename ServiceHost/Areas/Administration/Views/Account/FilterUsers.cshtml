@@ -173,7 +173,7 @@
                                                 </ul>
                                             </div>
                                             <div class="nk-tb-col tb-col-lg">
-                                                <span>@user.LastUpdateDate.ToStringShamsiDate() | @(!string.IsNullOrWhiteSpace(user.UserName) ? user.UserName : "هیچکس")</span>
+                                                <span>@user.LastUpdateDate.ToStringShamsiDate() | @(!string.IsNullOrWhiteSpace(user.editorName) ? user.editorName : "هیچکس")</span>
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
                                                 @if (user.IsBlocked)

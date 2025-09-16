@@ -3,6 +3,7 @@ using EShop.Application.Services.Interface;
 using EShop.Application.Utilities;
 using EShop.Domain.DTOs.Paging;
 using EShop.Domain.DTOs.Product;
+using EShop.Domain.DTOs.Product.ProductCategory;
 using EShop.Domain.Entities.Product;
 using EShop.Domain.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +15,17 @@ namespace EShop.Application.Services.Implementation
         #region Ctor
 
         private readonly IGenericRepository<Product> _productRepository;
+        private readonly IGenericRepository<ProductCategory> _productCategoryRepository;
 
-        public ProductService(IGenericRepository<Product> productRepository)
+        public ProductService(IGenericRepository<Product> productRepository, IGenericRepository<ProductCategory> productCategoryRepository)
         {
             _productRepository = productRepository;
+            _productCategoryRepository = productCategoryRepository;
         }
 
         #endregion
 
         #region Product
-
-        #region Filter Products
 
         public async Task<FilterProductDto> FilterProducts(FilterProductDto product)
         {
@@ -99,11 +100,6 @@ namespace EShop.Application.Services.Implementation
 
             return product.SetPaging(pager).SetProduct(allEntities);
         }
-
-        #endregion
-
-        #region Create Product
-
         public async Task<CreateProductResult> CreateProduct(CreateProductDto product)
         {
             try
@@ -146,14 +142,9 @@ namespace EShop.Application.Services.Implementation
                 return CreateProductResult.Error;
             }
         }
-
-        #endregion
-
-        #region Activate / DeActivate Product
-
         public async Task<bool> ActivateProduct(long id)
         {
-            var product= await _productRepository
+            var product = await _productRepository
                 .GetQuery()
                 .SingleOrDefaultAsync(x => x.Id == id);
 
@@ -170,7 +161,6 @@ namespace EShop.Application.Services.Implementation
 
             return false;
         }
-
         public async Task<bool> DeActivateProduct(long id)
         {
             var product = await _productRepository
@@ -192,6 +182,186 @@ namespace EShop.Application.Services.Implementation
         }
 
         #endregion
+
+        #region Product Category
+
+        public async Task<FilterProductCategoryDto> FilterProductCategory(FilterProductCategoryDto productCategory, long? parentId)
+        {
+            var query = _productCategoryRepository
+                .GetQuery()
+                .Include(x => x.ProductSelectedCategories)
+                .Where(x => x.ParentId == parentId || x.ParentId == null);
+
+            #region Filter
+
+            if (!string.IsNullOrWhiteSpace(productCategory.Title))
+            {
+                query = query.Where(x => EF.Functions.Like(x.Title, $"%{productCategory.Title}%")).OrderByDescending(x => x.CreateDate);
+            }
+
+            #endregion
+
+            #region Paging
+
+            var productCategoryCount = await query.CountAsync();
+
+            var pager = Pager.Build(productCategory.PageId, productCategoryCount, productCategory.TakeEntity,
+                productCategory.HowManyShowPageAfterAndBefore);
+
+            var allEntities = await query.Paging(pager).ToListAsync();
+
+            #endregion
+
+            return productCategory.SetPaging(pager).SetProductCategory(allEntities);
+        }
+        public async Task<List<ProductCategory>> GetAllActiveProductCategories()
+        {
+            return await _productCategoryRepository
+                .GetQuery()
+                .Where(x => x.IsActive && !x.IsDelete)
+                .ToListAsync();
+        }
+        public async Task<CreateProductCategoryResult> CreateProductCategory(CreateProductCategoryDto productCategory)
+        {
+            try
+            {
+                string imageName = null;
+                if (productCategory.Image is not null)
+                {
+                    if (productCategory.Image.IsImage())
+                    {
+                        imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(productCategory.Image.FileName);
+                        productCategory.Image.AddImageToServer(imageName, PathExtension.ProductCategoryOriginServer,
+                            100, 100, PathExtension.ProductCategoryThumbServer);
+                    }
+                    else
+                    {
+                        return CreateProductCategoryResult.ImageErrorType;
+                    }
+                }
+
+                var newProductCategory = new ProductCategory
+                {
+                    Title = productCategory.Title,
+                    UrlName = productCategory.UrlName,
+                    Image = imageName,
+                    Icon = productCategory.Icon,
+                    ParentId = productCategory.ParentId ?? null,
+                    IsActive = productCategory.IsActive
+                };
+
+                await _productCategoryRepository.AddEntity(newProductCategory);
+                await _productCategoryRepository.SaveChanges();
+
+                return CreateProductCategoryResult.Success;
+            }
+            catch (Exception)
+            {
+                return CreateProductCategoryResult.Error;
+            }
+        }
+        public async Task<EditProductCategoryDto> GetProductCategoryForEdit(long id)
+        {
+            var existingProductCategory = await _productCategoryRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (existingProductCategory is not null)
+            {
+                return new EditProductCategoryDto
+                {
+                    Id = existingProductCategory.Id,
+                    Title = existingProductCategory.Title,
+                    UrlName = existingProductCategory.UrlName,
+                    ExistingImage = existingProductCategory.Image,
+                    IsActive = existingProductCategory.IsActive,
+                    Icon = existingProductCategory.Icon,
+                    ParentId= existingProductCategory.ParentId ?? null
+                };
+            }
+
+            return null;
+        }
+        public async Task<EditProductCategoryResult> EditProductCategory(EditProductCategoryDto productCategory, string editorName)
+        {
+            try
+            {
+                var existingProductCategory = await _productCategoryRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == productCategory.Id);
+
+                if (existingProductCategory != null)
+                {
+                    if (productCategory.Image is not null)
+                    {
+                        if (productCategory.Image.IsImage())
+                        {
+                            var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(productCategory.Image.FileName);
+                            productCategory.Image.AddImageToServer(imageName, PathExtension.ProductCategoryOriginServer,
+                                100, 100, PathExtension.ProductCategoryThumbServer);
+
+                            existingProductCategory.Image = imageName;
+                        }
+                        else
+                        {
+                            return EditProductCategoryResult.ImageErrorType;
+                        }
+                    }   
+
+                    existingProductCategory.Title = productCategory.Title;
+                    existingProductCategory.UrlName = productCategory.UrlName.Replace(" ", "-");
+                    existingProductCategory.Icon = productCategory.Icon;
+                    existingProductCategory.ParentId = productCategory.Id;
+
+                    _productCategoryRepository.EditEntityByUser(existingProductCategory, editorName);
+                    await _productCategoryRepository.SaveChanges();
+                }
+
+                return EditProductCategoryResult.NotFound;
+            }
+            catch (Exception)
+            {
+                return EditProductCategoryResult.Error;
+            }
+        }
+        public async Task<bool> ActivateProductCategory(long id)
+        {
+            var productCategory = await _productCategoryRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (productCategory != null)
+            {
+                productCategory.IsActive = true;
+                productCategory.IsDelete = false;
+
+                _productCategoryRepository.EditEntity(productCategory);
+                await _productCategoryRepository.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
+        public async Task<bool> DeActivateProductCategory(long id)
+        {
+            var productCategory = await _productCategoryRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (productCategory != null)
+            {
+                productCategory.IsActive = false;
+                productCategory.IsDelete = true;
+
+                _productCategoryRepository.EditEntity(productCategory);
+                await _productCategoryRepository.SaveChanges();
+
+                return true;
+            }
+
+            return false;
+        }
 
         #endregion
 
