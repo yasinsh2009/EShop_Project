@@ -1,9 +1,8 @@
-﻿@model EShop.Domain.DTOs.Product.FilterProductDto
-@using EShop.Application.Utilities;
-@using EShop.Domain.DTOs.Product;
+﻿@using EShop.Application.Utilities
+@model EShop.Domain.DTOs.Product.ProductCategory.FilterProductCategoryDto
 
 @{
-    ViewData["Title"] = "لیست محصولات";
+    ViewData["Title"] = "لیست زیر دسته بندی محصولات";
 }
 
 <div class="nk-content nk-content-fluid">
@@ -14,42 +13,29 @@
                     <div class="nk-block-head-content">
                         <h3 class="nk-block-title page-title">@ViewData["Title"]</h3>
                     </div>
-                    <!-- .nk-block-head-content -->
-                    <div class="nk-block-head-content">
-                        <div class="toggle-wrap nk-block-tools-toggle">
-                            <div class="toggle-expand-content">
-                                <ul class="nk-block-tools g-3">
-                                    <li class="nk-block-tools-opt">
-                                        <a asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>افزودن محصول</span></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- .nk-block-head-content -->
                 </div>
                 <!-- .nk-block-between -->
             </div>
-            @if (Model.Products.Any())
+            @if (Model.ProductCategories.Any())
             {
                 <!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
                     <div class="card">
                         <div class="card-inner">
-                            <form asp-area="Administration" asp-controller="Product" asp-action="FilterProducts" method="get" id="filter-form">
+                            <form asp-area="Administration" asp-controller="Product" asp-action="FilterProductSubCategories" method="get" id="filter-form">
                                 <input type="hidden" asp-for="PageId" />
                                 <div class="row g-gs">
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="form-label">نام محصول</label>
+                                            <label class="form-label">نام زیر دسته بندی محصول</label>
                                             <div class="form-control-wrap">
-                                                <input asp-for="ProductTitle" type="text" class="form-control">
+                                                <input asp-for="Title" type="text" class="form-control">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    @* <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">وضعیت</label>
                                             <div class="form-control-wrap">
@@ -67,7 +53,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> *@
 
                                     @*     <div class="col-md-6">
                                                             <div class="form-group">
@@ -103,36 +89,36 @@
                                 <div class="nk-tb-list">
                                     <div class="nk-tb-item nk-tb-head">
                                         <div class="nk-tb-col tb-col-sm"><span>نام</span></div>
-                                        <div class="nk-tb-col"><span>شناسه محصول</span></div>
-                                        <div class="nk-tb-col"><span>قیمت</span></div>
-                                        <div class="nk-tb-col"><span>دسته بندی</span></div>
+                                        <div class="nk-tb-col"><span></span>‌‌ایجاد شده در</div>
+                                        <div class="nk-tb-col"><span></span>‌آخرین به روزرسانی در</div>
                                         <div class="nk-tb-col"><span>وضعیت</span></div>
                                         <div class="nk-tb-col"><span>اقدام</span></div>
                                     </div>
                                     <!-- .nk-tb-item -->
-                                    @foreach (var product in Model.Products)
+                                    @foreach (var productCategory in Model.ProductCategories)
                                     {
                                         <div class="nk-tb-item">
                                             <div class="nk-tb-col tb-col-sm">
                                                 <span class="tb-product">
-                                                    <img src="@(!string.IsNullOrWhiteSpace(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)"
-                                                         alt="@product.ShortDescription"
-                                                         title="@product.ShortDescription"
-                                                         class="thumb" />
-                                                    <span class="title">@product.Title</span>
+                                                    @if (productCategory.Icon is not null)
+                                                    {
+                                                        <em class="@productCategory.Icon"></em>
+                                                    }
+                                                    else
+                                                    {
+                                                        <em class="icon ni ni-na"></em>
+                                                    }
+                                                    <span class="title">@productCategory.Title</span>
                                                 </span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">@product.Code</span>
+                                                <span class="tb-sub">@productCategory.CreateDate.ToStringShamsiDate()</span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-lead">@product.Price.ToString("##,###") تومان</span>
+                                                <span class="tb-sub">@productCategory.LastUpdateDate.ToStringShamsiDate()</span>
                                             </div>
                                             <div class="nk-tb-col">
-                                                <span class="tb-sub">---</span>
-                                            </div>
-                                            <div class="nk-tb-col">
-                                                @if (product.IsActive)
+                                                @if (productCategory.IsActive)
                                                 {
                                                     <span class="tb-sub text-success">فعال</span>
                                                 }
@@ -151,22 +137,35 @@
                                                                     <li>
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
-                                                                           asp-action="EditProduct"
-                                                                           asp-route-productId="@product.Id"><em class="icon ni ni-edit"></em><span>ویرایش دسته بندی محصول</span></a>
+                                                                           asp-action="EditProductSubCategory"
+                                                                           asp-route-productId="@productCategory.Id"><em class="icon ni ni-edit"></em><span>ویرایش - دسته بندی محصول</span></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a asp-area="Administration"
+                                                                           asp-controller="Product"
+                                                                           asp-action="EditProductCategory"
+                                                                           asp-route-productId="@productCategory.Id"><em class="icon ni ni-plus"></em><span>ایجاد زیر دسته بندی برای @productCategory.Title</span></a>
                                                                     </li>
                                                                     <li>
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
                                                                            asp-action="ShowProductDetails"
-                                                                           asp-route-productId="@product.Id"><em class="icon ni ni-eye"></em><span>مشاهده دسته بندی محصول</span></a>
+                                                                           asp-route-productId="@productCategory.Id"><em class="icon ni ni-eye"></em><span>مشاهده جزئيات</span></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a asp-area="Administration"
+                                                                           asp-controller="Product"
+                                                                           asp-action="FilterProductSubCategories"
+                                                                           asp-route-parentId="@productCategory.Id"
+                                                                           asp-route-categoryName="@productCategory.Title"><em class="icon ni ni-eye"></em><span>مشاهده زیر دسته بندی ها</span></a>
                                                                     </li>
                                                                     <li>
 
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
-                                                                           asp-action="@(product.IsActive ? "DeActivateProductCategory" : "ActivateProductCategory")"
-                                                                           asp-route-productId="@product.Id">
-                                                                            <em class="icon ni ni-trash"></em><span>@(product.IsActive ? "غیرفعال کردن دسته بندی محصول" : "فعال کردن دسته بندی محصول")</span>
+                                                                           asp-action="@(productCategory.IsActive ? "DeActivateProductCategory" : "ActivateProductCategory")"
+                                                                           asp-route-productId="@productCategory.Id">
+                                                                            <em class="icon ni ni-trash"></em><span>@(productCategory.IsActive ? "غیرفعال کردن" : "فعال کردن")</span>
                                                                         </a>
 
                                                                     </li>
@@ -195,6 +194,7 @@
         </div>
     </div>
 </div>
+
 
 
 

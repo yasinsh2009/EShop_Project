@@ -55,7 +55,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         _dbSet.Update(entity);
     }
 
-    public void EditEntityByUser(TEntity entity, string editorName)
+    public void EditEntityByEditor(TEntity entity, string editorName)
     {
         entity.LastUpdateDate = DateTime.Now;
         entity.editorName = editorName;

@@ -94,7 +94,7 @@ public class SiteService : ISiteService
                 mainSetting.IsDefault = newSetting.IsDefault;
                 mainSetting.LastUpdateDate = DateTime.Now.ToShamsiDateTime();
 
-                _siteSettingRepository.EditEntityByUser(mainSetting, userName);
+                _siteSettingRepository.EditEntityByEditor(mainSetting, userName);
                 await _siteSettingRepository.SaveChanges();
 
                 return EditSiteSettingResult.Success;
@@ -175,7 +175,7 @@ public class SiteService : ISiteService
                 aboutUs.Description = about.Description;
                 aboutUs.LastUpdateDate = DateTime.Now;
 
-                _aboutUsRepository.EditEntityByUser(aboutUs, userName);
+                _aboutUsRepository.EditEntityByEditor(aboutUs, userName);
                 await _aboutUsRepository.SaveChanges();
 
                 return EditAboutUsResult.Success;

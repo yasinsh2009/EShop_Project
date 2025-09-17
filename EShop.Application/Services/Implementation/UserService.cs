@@ -463,7 +463,7 @@ public class UserService : IUserService
                 existingUser.LastUpdateDate = DateTime.Now;
 
 
-                _userRepository.EditEntityByUser(existingUser, editorName);
+                _userRepository.EditEntityByEditor(existingUser, editorName);
                 await _userRepository.SaveChanges();
 
                 return EditUserResult.Success;
@@ -573,7 +573,7 @@ public class UserService : IUserService
                 existingRole.RoleName = role.RoleName;
                 existingRole.LastUpdateDate = DateTime.Now;
 
-                _roleRepository.EditEntityByUser(existingRole, editorName);
+                _roleRepository.EditEntityByEditor(existingRole, editorName);
                 await _roleRepository.SaveChanges();
 
                 return EditRoleResult.Success;

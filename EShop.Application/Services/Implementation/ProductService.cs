@@ -243,7 +243,7 @@ namespace EShop.Application.Services.Implementation
                 var newProductCategory = new ProductCategory
                 {
                     Title = productCategory.Title,
-                    UrlName = productCategory.UrlName,
+                    UrlName = productCategory.Title.Replace(" ", "-"),
                     Image = imageName,
                     Icon = productCategory.Icon,
                     ParentId = productCategory.ParentId ?? null,
@@ -272,7 +272,6 @@ namespace EShop.Application.Services.Implementation
                 {
                     Id = existingProductCategory.Id,
                     Title = existingProductCategory.Title,
-                    UrlName = existingProductCategory.UrlName,
                     ExistingImage = existingProductCategory.Image,
                     IsActive = existingProductCategory.IsActive,
                     Icon = existingProductCategory.Icon,
@@ -309,11 +308,11 @@ namespace EShop.Application.Services.Implementation
                     }   
 
                     existingProductCategory.Title = productCategory.Title;
-                    existingProductCategory.UrlName = productCategory.UrlName.Replace(" ", "-");
+                    existingProductCategory.UrlName = productCategory.Title.Replace(" ", "-");
                     existingProductCategory.Icon = productCategory.Icon;
                     existingProductCategory.ParentId = productCategory.Id;
 
-                    _productCategoryRepository.EditEntityByUser(existingProductCategory, editorName);
+                    _productCategoryRepository.EditEntityByEditor(existingProductCategory, editorName);
                     await _productCategoryRepository.SaveChanges();
                 }
 

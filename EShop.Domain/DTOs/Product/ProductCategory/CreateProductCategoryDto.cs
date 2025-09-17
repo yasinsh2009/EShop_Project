@@ -26,11 +26,6 @@ namespace EShop.Domain.DTOs.Product.ProductCategory
         [Display(Name = "تصویر دسته بندی")]
         public string? ExistingImage { get; set; }
 
-        [Display(Name = "عنوان در لینک URL")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
-        public string UrlName { get; set; }
-
         [Display(Name = "آیکون")]
         [MaxLength(250, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
         public string? Icon { get; set; }
@@ -38,7 +33,7 @@ namespace EShop.Domain.DTOs.Product.ProductCategory
         [Display(Name = "فعال / غیرفعال")]
         public bool IsActive { get; set; }
 
-        public string ParentName { get; set; }
+        public string? ParentName { get; set; }
 
         #endregion
     }

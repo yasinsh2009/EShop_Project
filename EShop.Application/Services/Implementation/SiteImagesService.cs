@@ -147,7 +147,7 @@ namespace EShop.Application.Services.Implementation
                 
                 
 
-                _sliderRepository.EditEntityByUser(Slide, editorName);
+                _sliderRepository.EditEntityByEditor(Slide, editorName);
                 await _sliderRepository.SaveChanges();
 
                 return EditSliderResult.Success;
@@ -300,7 +300,7 @@ namespace EShop.Application.Services.Implementation
                     existingSiteBanner.GridColumnSize = banner.GridColumnSize;
                     existingSiteBanner.LastUpdateDate = DateTime.Now;
 
-                    _siteBannerRepository.EditEntityByUser(existingSiteBanner, editorName);
+                    _siteBannerRepository.EditEntityByEditor(existingSiteBanner, editorName);
                     await _siteBannerRepository.SaveChanges();
 
                     return EditSiteBannerResult.Success;

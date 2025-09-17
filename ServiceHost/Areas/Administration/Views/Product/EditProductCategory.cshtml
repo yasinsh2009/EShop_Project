@@ -1,0 +1,79 @@
+﻿@model EShop.Domain.DTOs.Product.ProductCategory.EditProductCategoryDto
+
+@{
+    ViewData["Title"] = "ویرایش دسته بندی محصول";
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg">
+                    <div class="nk-block-head">
+                        <div class="nk-block-head-content">
+                            <h4 class="title nk-block-title">@ViewData["Title"]</h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner">
+                            <form asp-area="Administration" asp-controller="Product" asp-action="EditProductCategory" method="post" enctype="multipart/form-data" id="filter-form">
+                                <input type="hidden" asp-for="Id"/>
+                                <div class="row g-gs">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام دسته بندی محصول</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="Title" type="text" class="form-control">
+                                                <span asp-validation-for="Title" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">‌آیکون دسته بندی محصول</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="Icon" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">تصویر دسته بندی محصول</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-file">
+                                                    <input asp-for="Image" name="Image" id="Image" type="file" class="form-file-input">
+                                                    <label class="form-file-label" for="Image">انتخاب تصویر دسته بندی محصول</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">تنظیمات</label>
+                                            <ul class="custom-control-group g-3 align-center">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input asp-for="IsActive" type="checkbox" class="custom-control-input invalid" name="IsActive" id="IsActive">
+                                                        <label class="custom-control-label" for="IsActive">فعال / غیرفعال</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- .nk-block -->
+            </div>
+            <!-- .components-preview -->
+        </div>
+    </div>
+</div>

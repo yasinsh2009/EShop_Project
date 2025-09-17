@@ -46,7 +46,7 @@ namespace EShop.Domain.DTOs.Product.ProductCategory
 
         public FilterProductCategoryDto SetProductCategory(List<Entities.Product.ProductCategory> productCategories)
         {
-            this.ProductCategories = productCategories;
+            ProductCategories = productCategories;
             return this;
         }
 

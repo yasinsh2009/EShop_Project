@@ -9,7 +9,7 @@ public interface IGenericRepository<TEntity> : IAsyncDisposable where TEntity : 
     Task AddRangeEntity(List<TEntity> entities);
     Task<TEntity> GetEntityById(long entityId);
     void EditEntity(TEntity entity);
-    void EditEntityByUser(TEntity entity, string username);
+    void EditEntityByEditor(TEntity entity, string username);
     void DeleteEntity(TEntity entity);
     Task DeleteEntityById(long entityId);
     void DeletePermanentEntity(TEntity entity);
