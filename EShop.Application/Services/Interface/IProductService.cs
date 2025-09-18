@@ -1,11 +1,6 @@
 ﻿using EShop.Domain.DTOs.Product;
 using EShop.Domain.DTOs.Product.ProductCategory;
 using EShop.Domain.Entities.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Application.Services.Interface
 {
@@ -22,7 +17,7 @@ namespace EShop.Application.Services.Interface
 
         #region Product Category
 
-        Task<FilterProductCategoryDto> FilterProductCategory(FilterProductCategoryDto productCategory, long? parentId);
+        Task<FilterProductCategoriesDto> FilterProductCategories(FilterProductCategoriesDto productCategory, long? parentId);
         Task<List<ProductCategory>> GetAllActiveProductCategories();
         Task<CreateProductCategoryResult> CreateProductCategory(CreateProductCategoryDto productCategory);
         Task<EditProductCategoryDto> GetProductCategoryForEdit(long id);

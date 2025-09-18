@@ -20,9 +20,17 @@ namespace ServiceHost.ViewComponents
 
     public class MegaMenuViewComponent : ViewComponent
     {
+        private readonly IProductService _productService;
+
+        public MegaMenuViewComponent(IProductService productService)
+        {
+            _productService = productService;
+        }
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("MegaMenu");
+            var categories = await _productService.GetAllActiveProductCategories();
+            return View("MegaMenu", categories);
         }
     }
 

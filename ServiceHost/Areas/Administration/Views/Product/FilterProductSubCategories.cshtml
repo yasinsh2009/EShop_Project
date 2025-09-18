@@ -1,8 +1,8 @@
 ﻿@using EShop.Application.Utilities
-@model EShop.Domain.DTOs.Product.ProductCategory.FilterProductCategoryDto
+@model EShop.Domain.DTOs.Product.ProductCategory.FilterProductCategoriesDto
 
 @{
-    ViewData["Title"] = "لیست زیر دسته بندی محصولات";
+    ViewData["Title"] = $"لیست زیر دسته بندی های {ViewBag.ProductCategoryTitle}";
 }
 
 <div class="nk-content nk-content-fluid">
@@ -138,7 +138,7 @@
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
                                                                            asp-action="EditProductSubCategory"
-                                                                           asp-route-productId="@productCategory.Id"><em class="icon ni ni-edit"></em><span>ویرایش - دسته بندی محصول</span></a>
+                                                                           asp-route-id="@productCategory.Id"><em class="icon ni ni-edit"></em><span>ویرایش دسته بندی محصول</span></a>
                                                                     </li>
                                                                     <li>
                                                                         <a asp-area="Administration"
@@ -164,7 +164,7 @@
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
                                                                            asp-action="@(productCategory.IsActive ? "DeActivateProductCategory" : "ActivateProductCategory")"
-                                                                           asp-route-productId="@productCategory.Id">
+                                                                           asp-route-id="@productCategory.Id">
                                                                             <em class="icon ni ni-trash"></em><span>@(productCategory.IsActive ? "غیرفعال کردن" : "فعال کردن")</span>
                                                                         </a>
 

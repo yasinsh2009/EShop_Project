@@ -71,10 +71,10 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Activate / DeActivate Product
 
-        [HttpGet("ActivateProduct/{productId}")]
-        public async Task<IActionResult> ActivateProduct(long productId)
+        [HttpGet("ActivateProduct/{id}")]
+        public async Task<IActionResult> ActivateProduct(long id)
         {
-            var result = await _productService.ActivateProduct(productId);
+            var result = await _productService.ActivateProduct(id);
             if (result)
             {
                 TempData[SuccessMessage] = "محصول موردنظر با موفقیت فعال شد.";
@@ -86,10 +86,10 @@ namespace ServiceHost.Areas.Administration.Controllers
             return RedirectToAction("FilterProducts", "Product", new { area = "Administration" });
         }
 
-        [HttpGet("DeActivateProduct/{productId}")]
-        public async Task<IActionResult> DeActivateProduct(long productId)
+        [HttpGet("DeActivateProduct/{id}")]
+        public async Task<IActionResult> DeActivateProduct(long id)
         {
-            var result = await _productService.DeActivateProduct(productId);
+            var result = await _productService.DeActivateProduct(id);
             if (result)
             {
                 TempData[SuccessMessage] = "محصول موردنظر با موفقیت غیرفعال شد.";
@@ -110,9 +110,9 @@ namespace ServiceHost.Areas.Administration.Controllers
         #region Filter Product Categories
 
         [HttpGet("FilterProductCategories")]
-        public async Task<IActionResult> FilterProductCategories(FilterProductCategoryDto productCategory)
+        public async Task<IActionResult> FilterProductCategories(FilterProductCategoriesDto productCategory)
         {
-            var productCategories = await _productService.FilterProductCategory(productCategory, null);
+            var productCategories = await _productService.FilterProductCategories(productCategory, null);
             return View(productCategories);
         }
 
@@ -121,7 +121,7 @@ namespace ServiceHost.Areas.Administration.Controllers
         #region Create Product Category
 
         [HttpGet("CreateProductCategory")]
-        public async Task<IActionResult> CreateProductCategory()
+        public IActionResult CreateProductCategory()
         {
             return View();
         }
@@ -155,14 +155,14 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Edit Product Category
 
-        [HttpGet("EditProductCategory/{productCategoryId}")]
-        public async Task<IActionResult> EditProductCategory(long productCategoryId)
+        [HttpGet("EditProductCategory/{id}")]
+        public async Task<IActionResult> EditProductCategory(long id)
         {
-            var productCategory = await _productService.GetProductCategoryForEdit(productCategoryId);
+            var productCategory = await _productService.GetProductCategoryForEdit(id);
             return View(productCategory);
         }
 
-        [HttpPost("EditProductCategory/{productCategoryId}"), ValidateAntiForgeryToken]
+        [HttpPost("EditProductCategory/{id}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProductCategory(EditProductCategoryDto productCategory)
         {
             if (ModelState.IsValid)
@@ -193,10 +193,10 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Activate / DeActivate Product Category / SubCategory
 
-        [HttpGet("ActivateProductCategory/{productCategoryId}")]
-        public async Task<IActionResult> ActivateProductCategory(long productCategoryId)
+        [HttpGet("ActivateProductCategory/{id}")]
+        public async Task<IActionResult> ActivateProductCategory(long id)
         {
-            var result = await _productService.ActivateProductCategory(productCategoryId);
+            var result = await _productService.ActivateProductCategory(id);
             if (result)
             {
                 TempData[SuccessMessage] = "دسته بندی محصول موردنظر با موفقیت فعال شد.";
@@ -208,10 +208,10 @@ namespace ServiceHost.Areas.Administration.Controllers
             return RedirectToAction("FilterProductCategories", "Product", new { area = "Administration" });
         }
 
-        [HttpGet("DeActivateProductCategory/{productCategoryId}")]
-        public async Task<IActionResult> DeActivateProductCategory(long productCategoryId)
+        [HttpGet("DeActivateProductCategory/{id}")]
+        public async Task<IActionResult> DeActivateProductCategory(long id)
         {
-            var result = await _productService.DeActivateProductCategory(productCategoryId);
+            var result = await _productService.DeActivateProductCategory(id);
             if (result)
             {
                 TempData[SuccessMessage] = "دسته بندی محصول موردنظر با موفقیت غیرفعال شد.";
@@ -231,10 +231,10 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Filter Product SubCategory
 
-        [HttpGet("FilterProductSubCategories/{parentId}/{categoryName}")]
-        public async Task<IActionResult> FilterProductSubCategories(FilterProductCategoryDto productSubCategory, long? parentId)
+        [HttpGet("FilterProductSubCategories/{parentId}")]
+        public async Task<IActionResult> FilterProductSubCategories(FilterProductCategoriesDto productSubCategory, long parentId)
         {
-            var productSubCategories = await _productService.FilterProductCategory(productSubCategory, parentId);
+            var productSubCategories = await _productService.FilterProductCategories(productSubCategory, parentId);
             return View(productSubCategories);
         }
 
@@ -242,8 +242,8 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Create Product SubCategory
 
-        [HttpGet("CreateProductSubCategory")]
-        public async Task<IActionResult> CreateProductSubCategory()
+        [HttpGet("CreateProductSubCategory/{parentId}/{categoryName}")]
+        public async Task<IActionResult> CreateProductSubCategory(long parentId)
         {
             return View();
         }
@@ -260,8 +260,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                 {
                     case CreateProductCategoryResult.Success:
                         TempData[SuccessMessage] = "دسته بندی جدید محصول با موفقیت ایجاد شد.";
-                        RedirectToAction("FilterProductCategories", "Product", new { area = "Administration" });
-                        break;
+                        return RedirectToAction("FilterProductCategories", "Product", new { area = "Administration" });
                     case CreateProductCategoryResult.Error:
                         TempData[ErrorMessage] = "فرایند ایجاد دسته بندی جدید محصول با خطا مواجه شد، لطفا بعدا امتحان کنید.";
                         break;
@@ -277,14 +276,14 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Edit Product SubCategory
 
-        [HttpGet("EditProductSubCategory/{productSubCategoryId}")]
-        public async Task<IActionResult> EditProductSubCategory(long productSubCategoryId)
+        [HttpGet("EditProductSubCategory/{id}")]
+        public async Task<IActionResult> EditProductSubCategory(long id)
         {
-            var productSubCategory = await _productService.GetProductCategoryForEdit(productSubCategoryId);
+            var productSubCategory = await _productService.GetProductCategoryForEdit(id);
             return View(productSubCategory);
         }
 
-        [HttpPost("EditProductSubCategory/{productSubCategoryId}"), ValidateAntiForgeryToken]
+        [HttpPost("EditProductSubCategory/{id}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProductSubCategory(EditProductCategoryDto productSubCategory)
         {
             if (ModelState.IsValid)

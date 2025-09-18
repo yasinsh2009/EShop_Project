@@ -185,12 +185,14 @@ namespace EShop.Application.Services.Implementation
 
         #region Product Category
 
-        public async Task<FilterProductCategoryDto> FilterProductCategory(FilterProductCategoryDto productCategory, long? parentId)
+        public async Task<FilterProductCategoriesDto> FilterProductCategories(FilterProductCategoriesDto productCategory, long? parentId)
         {
             var query = _productCategoryRepository
-                .GetQuery()
-                .Include(x => x.ProductSelectedCategories)
-                .Where(x => x.ParentId == parentId || x.ParentId == null);
+            .GetQuery()
+            .Include(x => x.ProductSelectedCategories)
+            .AsQueryable();
+
+            query = parentId is not null ? query.Where(x => x.ParentId == parentId) : query.Where(x => x.ParentId == null);
 
             #region Filter
 
@@ -275,7 +277,7 @@ namespace EShop.Application.Services.Implementation
                     ExistingImage = existingProductCategory.Image,
                     IsActive = existingProductCategory.IsActive,
                     Icon = existingProductCategory.Icon,
-                    ParentId= existingProductCategory.ParentId ?? null
+                    ParentId = existingProductCategory.ParentId ?? null
                 };
             }
 
@@ -305,7 +307,7 @@ namespace EShop.Application.Services.Implementation
                         {
                             return EditProductCategoryResult.ImageErrorType;
                         }
-                    }   
+                    }
 
                     existingProductCategory.Title = productCategory.Title;
                     existingProductCategory.UrlName = productCategory.Title.Replace(" ", "-");

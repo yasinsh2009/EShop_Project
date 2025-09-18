@@ -18,6 +18,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <form asp-area="Administration" asp-controller="Product" asp-action="EditProductSubCategory" method="post" enctype="multipart/form-data" id="filter-form">
+                                <input type="hidden" asp-for="Id" />
                                 <div class="row g-gs">
                                     <div class="col-md-6">
                                         <div class="form-group">

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EShop.Domain.DTOs.Product.ProductCategory
 {
-    public class FilterProductCategoryDto : BasePaging
+    public class FilterProductCategoriesDto : BasePaging
     {
         #region properties
 
@@ -44,13 +44,13 @@ namespace EShop.Domain.DTOs.Product.ProductCategory
 
         #region Methods
 
-        public FilterProductCategoryDto SetProductCategory(List<Entities.Product.ProductCategory> productCategories)
+        public FilterProductCategoriesDto SetProductCategory(List<Entities.Product.ProductCategory> productCategories)
         {
             ProductCategories = productCategories;
             return this;
         }
 
-        public FilterProductCategoryDto SetPaging(BasePaging paging)
+        public FilterProductCategoriesDto SetPaging(BasePaging paging)
         {
             this.PageId = paging.PageId;
             this.AllEntitiesCount = paging.AllEntitiesCount;
