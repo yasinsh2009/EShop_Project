@@ -150,12 +150,13 @@
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
                                                                            asp-action="CreateProductSubCategory"
-                                                                           asp-route-parentId="@productCategory.Id"><em class="icon ni ni-plus"></em><span>ایجاد زیر دسته بندی برای @productCategory.Title</span></a>
+                                                                           asp-route-parentId="@productCategory.Id"
+                                                                           asp-route-categoryName="@productCategory.UrlName"><em class="icon ni ni-plus"></em><span>ایجاد زیر دسته بندی برای @productCategory.Title</span></a>
                                                                     </li>
                                                                     <li>
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
-                                                                           asp-action="ShowProductSubCategoryDetails"
+                                                                           asp-action="ShowProductCategoryDetails"
                                                                            asp-route-productId="@productCategory.Id"><em class="icon ni ni-eye"></em><span>مشاهده جزئيات</span></a>
                                                                     </li>
                                                                     <li>

@@ -185,14 +185,13 @@ namespace EShop.Application.Services.Implementation
 
         #region Product Category
 
-        public async Task<FilterProductCategoriesDto> FilterProductCategories(FilterProductCategoriesDto productCategory, long? parentId)
+        public async Task<FilterProductCategoriesDto> FilterProductCategories(FilterProductCategoriesDto productCategory)
         {
             var query = _productCategoryRepository
             .GetQuery()
+            .Where(x => x.ParentId == productCategory.ParentId)
             .Include(x => x.ProductSelectedCategories)
             .AsQueryable();
-
-            query = parentId is not null ? query.Where(x => x.ParentId == parentId) : query.Where(x => x.ParentId == null);
 
             #region Filter
 
@@ -291,7 +290,7 @@ namespace EShop.Application.Services.Implementation
                 .GetQuery()
                 .SingleOrDefaultAsync(x => x.Id == productCategory.Id);
 
-                if (existingProductCategory != null)
+                if (existingProductCategory is not null)
                 {
                     if (productCategory.Image is not null)
                     {
@@ -313,12 +312,15 @@ namespace EShop.Application.Services.Implementation
                     existingProductCategory.UrlName = productCategory.Title.Replace(" ", "-");
                     existingProductCategory.Icon = productCategory.Icon;
                     existingProductCategory.ParentId = productCategory.Id;
+                    existingProductCategory.IsActive = productCategory.IsActive;
 
                     _productCategoryRepository.EditEntityByEditor(existingProductCategory, editorName);
                     await _productCategoryRepository.SaveChanges();
-                }
 
-                return EditProductCategoryResult.NotFound;
+                    return EditProductCategoryResult.Success;
+                }
+                
+                    return EditProductCategoryResult.NotFound;
             }
             catch (Exception)
             {

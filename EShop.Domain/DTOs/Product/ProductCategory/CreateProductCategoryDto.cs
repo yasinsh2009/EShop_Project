@@ -12,7 +12,6 @@ namespace EShop.Domain.DTOs.Product.ProductCategory
     {
         #region properties
 
-        public long Id { get; set; }
         public long? ParentId { get; set; }
 
         [Display(Name = "عنوان دسته بندی")]

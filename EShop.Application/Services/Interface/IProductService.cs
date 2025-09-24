@@ -17,7 +17,7 @@ namespace EShop.Application.Services.Interface
 
         #region Product Category
 
-        Task<FilterProductCategoriesDto> FilterProductCategories(FilterProductCategoriesDto productCategory, long? parentId);
+        Task<FilterProductCategoriesDto> FilterProductCategories(FilterProductCategoriesDto productCategory);
         Task<List<ProductCategory>> GetAllActiveProductCategories();
         Task<CreateProductCategoryResult> CreateProductCategory(CreateProductCategoryDto productCategory);
         Task<EditProductCategoryDto> GetProductCategoryForEdit(long id);

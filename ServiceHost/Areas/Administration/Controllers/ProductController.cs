@@ -112,7 +112,7 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpGet("FilterProductCategories")]
         public async Task<IActionResult> FilterProductCategories(FilterProductCategoriesDto productCategory)
         {
-            var productCategories = await _productService.FilterProductCategories(productCategory, null);
+            var productCategories = await _productService.FilterProductCategories(productCategory);
             return View(productCategories);
         }
 
@@ -231,10 +231,10 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Filter Product SubCategory
 
-        [HttpGet("FilterProductSubCategories/{parentId}")]
-        public async Task<IActionResult> FilterProductSubCategories(FilterProductCategoriesDto productSubCategory, long parentId)
+        [HttpGet("FilterProductSubCategories/{parentId}/{categoryName}")]
+        public async Task<IActionResult> FilterProductSubCategories(string parentId, string categoryName, FilterProductCategoriesDto productSubCategory)
         {
-            var productSubCategories = await _productService.FilterProductCategories(productSubCategory, parentId);
+            var productSubCategories = await _productService.FilterProductCategories(productSubCategory);
             return View(productSubCategories);
         }
 
@@ -243,13 +243,13 @@ namespace ServiceHost.Areas.Administration.Controllers
         #region Create Product SubCategory
 
         [HttpGet("CreateProductSubCategory/{parentId}/{categoryName}")]
-        public async Task<IActionResult> CreateProductSubCategory(long parentId)
+        public IActionResult CreateProductSubCategory(long parentId, string categoryName)
         {
             return View();
         }
 
 
-        [HttpPost("CreateProductSubCategory"), ValidateAntiForgeryToken]
+        [HttpPost("CreateProductSubCategory/{parentId}/{categoryName}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProductSubCategory(CreateProductCategoryDto newProductSubCategory)
         {
             if (ModelState.IsValid)
@@ -260,7 +260,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                 {
                     case CreateProductCategoryResult.Success:
                         TempData[SuccessMessage] = "دسته بندی جدید محصول با موفقیت ایجاد شد.";
-                        return RedirectToAction("FilterProductCategories", "Product", new { area = "Administration" });
+                        return RedirectToAction("FilterProductSubCategories", "Product", new { area = "Administration", parentId = newProductSubCategory.ParentId, categoryName = newProductSubCategory.ParentName });
                     case CreateProductCategoryResult.Error:
                         TempData[ErrorMessage] = "فرایند ایجاد دسته بندی جدید محصول با خطا مواجه شد، لطفا بعدا امتحان کنید.";
                         break;
@@ -295,7 +295,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                 {
                     case EditProductCategoryResult.Success:
                         TempData[SuccessMessage] = "دسته بندی محصول موردنظر با ویرایش ایجاد شد.";
-                        return RedirectToAction("FilterProductCategories", "Product", new { area = "Administration" });
+                        return RedirectToAction("FilterProductSubCategories", "Product", new { area = "Administration", parentId = productSubCategory.ParentId, categoryName = productSubCategory.Title });
                     case EditProductCategoryResult.NotFound:
                         TempData[WarningMessage] = "دسته بندی محصول موردنظر یافت نشد";
                         break;

@@ -92,7 +92,7 @@
                                         <div class="nk-tb-col"><span></span>‌‌ایجاد شده در</div>
                                         <div class="nk-tb-col"><span></span>‌آخرین به روزرسانی در</div>
                                         <div class="nk-tb-col"><span>وضعیت</span></div>
-                                        <div class="nk-tb-col"><span>اقدام</span></div>
+                                        <div class="nk-tb-col nk-tb-col-tools"><span>اقدام</span></div>
                                     </div>
                                     <!-- .nk-tb-item -->
                                     @foreach (var productCategory in Model.ProductCategories)
@@ -138,18 +138,19 @@
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
                                                                            asp-action="EditProductSubCategory"
-                                                                           asp-route-id="@productCategory.Id"><em class="icon ni ni-edit"></em><span>ویرایش دسته بندی محصول</span></a>
+                                                                           asp-route-id="@productCategory.Id"><em class="icon ni ni-edit"></em><span>ویرایش</span></a>
                                                                     </li>
                                                                     <li>
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
-                                                                           asp-action="EditProductCategory"
-                                                                           asp-route-productId="@productCategory.Id"><em class="icon ni ni-plus"></em><span>ایجاد زیر دسته بندی برای @productCategory.Title</span></a>
+                                                                           asp-action="CreateProductSubCategory"
+                                                                           asp-route-parentId="@productCategory.Id"
+                                                                           asp-route-categoryName="@productCategory.UrlName"><em class="icon ni ni-plus"></em><span>ایجاد زیر دسته بندی برای @productCategory.Title</span></a>
                                                                     </li>
                                                                     <li>
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
-                                                                           asp-action="ShowProductDetails"
+                                                                           asp-action="ShowProductSubCategoryDetails"
                                                                            asp-route-productId="@productCategory.Id"><em class="icon ni ni-eye"></em><span>مشاهده جزئيات</span></a>
                                                                     </li>
                                                                     <li>
@@ -157,7 +158,7 @@
                                                                            asp-controller="Product"
                                                                            asp-action="FilterProductSubCategories"
                                                                            asp-route-parentId="@productCategory.Id"
-                                                                           asp-route-categoryName="@productCategory.Title"><em class="icon ni ni-eye"></em><span>مشاهده زیر دسته بندی ها</span></a>
+                                                                           asp-route-categoryName="@productCategory.UrlName"><em class="icon ni ni-eye"></em><span>مشاهده زیر دسته بندی ها</span></a>
                                                                     </li>
                                                                     <li>
 
@@ -165,7 +166,7 @@
                                                                            asp-controller="Product"
                                                                            asp-action="@(productCategory.IsActive ? "DeActivateProductCategory" : "ActivateProductCategory")"
                                                                            asp-route-id="@productCategory.Id">
-                                                                            <em class="icon ni ni-trash"></em><span>@(productCategory.IsActive ? "غیرفعال کردن" : "فعال کردن")</span>
+                                                                            <em class="icon ni ni-trash"></em><span>@(productCategory.IsActive ? "غیرفعال کردن " : "فعال کردن")</span>
                                                                         </a>
 
                                                                     </li>
