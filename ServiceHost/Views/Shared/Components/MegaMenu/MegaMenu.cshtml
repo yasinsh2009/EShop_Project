@@ -10,14 +10,14 @@
                     <div class="top-menu-menu">
                         <ul class="navbar-nav align-items-center">
                             <li class="position-relative m-0"></li>
-                            @if (Model is not null && Model.Any())
+                            @if (Model.Any())
                             {
                                 <li class="nav-item main-menu-head">
                                     <a class="btn text-white btn-xl rounded-4 font-16 main-color-one-bg" href="">
                                         <i class="bi bi-grid"></i>
                                         دسته بندی محصولات
                                     </a>
-                                    @if (Model is not null && Model.Any())
+                                    @if (Model.Any())
                                     {
                                         <ul class="main-menu mega-container">
                                             @foreach (var category in Model.Where(x => x.ParentId is null))
@@ -28,7 +28,7 @@
                                                         @category.Title
                                                     </a>
                                                     <ul class="main-menu-sub back-menu"
-                                                        style=" background: #fff url(@(!string.IsNullOrWhiteSpace(category.Image) ? PathExtension.ProductCategoryOrigin + category.Image : PathExtension.NoImage)) no-repeat;">
+                                                        style="background: #fff url(@(!string.IsNullOrWhiteSpace(category.Image) ? PathExtension.ProductCategoryOrigin + category.Image : PathExtension.NoImage)) no-repeat;">
                                                         @if (Model.Any(x => x.ParentId == category.Id))
                                                         {
                                                             @foreach (var subCategory in Model.Where(x => x.ParentId == category.Id))
@@ -48,16 +48,15 @@
                                                                 else
                                                                 {
                                                                     <li>
-                                                                        <partial name="NoItemFound" />
+                                                                        <a class="title my-flex-baseline" href="">---</a>
                                                                     </li>
-
                                                                 }
                                                             }
                                                         }
                                                         else
                                                         {
                                                             <li>
-                                                                <partial name="NoItemFound" />
+                                                                <a class="title my-flex-baseline" href="">---</a>
                                                             </li>
                                                         }
                                                     </ul>
@@ -69,7 +68,7 @@
                                     {
                                         <ul class="main-menu mega-container">
                                             <li>
-                                                <partial name="NoItemFound" />
+                                                <a class="title my-flex-baseline" href="">---</a>
                                             </li>
                                         </ul>
                                     }

@@ -63,12 +63,8 @@ public class DatabaseContext : DbContext
 
     #region Product Category
 
-    // todo: Capitiliza This Props //
-
-    public DbSet<ProductCategory> productCategories { get; set; }
-    public DbSet<ProductSelectedCategory> productSelectedCategories { get; set; }
-
-    // todo: Capitiliza This Props //
+    public DbSet<ProductCategory> ProductCategories { get; set; }
+    public DbSet<ProductSelectedCategory> ProductSelectedCategories { get; set; }
 
     #endregion
 

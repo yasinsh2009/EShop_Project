@@ -39,7 +39,8 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpGet("CreateProduct")]
         public async Task<IActionResult> CreateProduct()
         {
-            return View();
+            var productCategories = await _productService.GetAllActiveProductCategories();
+            return View(productCategories);
         }
 
 
@@ -64,6 +65,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                         break;
                 }
             }
+            var productCategories = await _productService.GetAllActiveProductCategories();
             return View(newProduct);
         }
 
@@ -121,8 +123,9 @@ namespace ServiceHost.Areas.Administration.Controllers
         #region Create Product Category
 
         [HttpGet("CreateProductCategory")]
-        public IActionResult CreateProductCategory()
+        public async Task<IActionResult> CreateProductCategory()
         {
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
             return View();
         }
 
@@ -148,6 +151,8 @@ namespace ServiceHost.Areas.Administration.Controllers
                         break;
                 }
             }
+
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
             return View(newProductCategory);
         }
 

@@ -16,11 +16,13 @@ namespace EShop.Application.Services.Implementation
 
         private readonly IGenericRepository<Product> _productRepository;
         private readonly IGenericRepository<ProductCategory> _productCategoryRepository;
+        private readonly IGenericRepository<ProductSelectedCategory> _productSelectedCategoryRepository;
 
-        public ProductService(IGenericRepository<Product> productRepository, IGenericRepository<ProductCategory> productCategoryRepository)
+        public ProductService(IGenericRepository<Product> productRepository, IGenericRepository<ProductCategory> productCategoryRepository, IGenericRepository<ProductSelectedCategory> productSelectedCategoryRepository)
         {
             _productRepository = productRepository;
             _productCategoryRepository = productCategoryRepository;
+            _productSelectedCategoryRepository = productSelectedCategoryRepository;
         }
 
         #endregion
@@ -131,6 +133,12 @@ namespace EShop.Application.Services.Implementation
                     SellCount = 0,
                     ViewCount = 0
                 };
+
+                if (product.SelectedCategories is not null)
+                {
+                    await AddProductSelectedCategories(newProduct.Id, product.SelectedCategories);
+                    await _productSelectedCategoryRepository.SaveChanges();
+                }
 
                 await _productRepository.AddEntity(newProduct);
                 await _productRepository.SaveChanges();
@@ -319,8 +327,8 @@ namespace EShop.Application.Services.Implementation
 
                     return EditProductCategoryResult.Success;
                 }
-                
-                    return EditProductCategoryResult.NotFound;
+
+                return EditProductCategoryResult.NotFound;
             }
             catch (Exception)
             {
@@ -365,6 +373,36 @@ namespace EShop.Application.Services.Implementation
 
             return false;
         }
+
+        #region Add / Remove Product Category
+
+        public async Task AddProductSelectedCategories(long productId, List<long> productSelectedCategoriesId)
+        {
+            var productSelectedCategories = new List<ProductSelectedCategory>();
+
+            foreach (var categoryId in productSelectedCategoriesId)
+            {
+                productSelectedCategories.Add(new ProductSelectedCategory
+                {
+                    ProductCategoryId = categoryId,
+                    ProductId = productId
+                });
+            }
+
+            await _productSelectedCategoryRepository.AddRangeEntity(productSelectedCategories);
+        }
+
+        public async Task RemoveProductSelectedCategories(long productId)
+        {
+            var productSelectedCategories = await _productSelectedCategoryRepository
+                .GetQuery()
+                .Where(x => x.Id == productId)
+                .ToListAsync();
+
+            _productSelectedCategoryRepository.DeletePermanentEntities(productSelectedCategories);
+        }
+
+        #endregion
 
         #endregion
 

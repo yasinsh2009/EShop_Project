@@ -1,13 +1,77 @@
-﻿@model EShop.Domain.DTOs.Product.CreateProductDto
+﻿@using EShop.Domain.Entities.Product
+@model EShop.Domain.DTOs.Product.CreateProductDto
 
 @{
     ViewData["Title"] = "ایجاد محصول جدید";
+    var productCategories = ViewBag.Categories as List<ProductCategory>;
 }
 
 <div class="nk-content nk-content-fluid">
     <div class="container-xl wide-xl">
         <div class="nk-content-body">
             <div class="components-preview wide-xl mx-auto">
+                @if (productCategories is not null && productCategories.Any())
+                {
+                    <!-- .nk-block -->
+                    <div class="nk-block">
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <div id="checkbox-tree" class="jstree jstree-5 jstree-rtl jstree-default jstree-checkbox-selection" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="j5_7" aria-busy="false">
+                                    <ul class="jstree-container-ul jstree-children jstree-wholerow-ul jstree-no-dots" role="presentation">
+                                        @foreach (var parentCategory in productCategories.Where(x => x.ParentId == null))
+                                        {
+                                            <li role="none" id="j5_1" class="jstree-node jstree-open">
+                                                <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+                                                <i class="jstree-icon jstree-ocl" role="presentation" aria-expanded="true"></i>
+                                                <a class="jstree-anchor" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="1" aria-expanded="true" id="j5_1_anchor">
+                                                    <i class="jstree-icon jstree-checkbox" role="presentation"></i><i class="@parentCategory.Icon" role="presentation"></i>
+                                                    @parentCategory.Title
+                                                </a>
+
+                                                <ul role="group" class="jstree-children" style="">
+                                                    @foreach (var subCategory in productCategories.Where(x => x.ParentId == parentCategory.Id))
+                                                    {
+                                                        <li role="none" data-jstree="{ &quot;opened&quot; : true }" id="j5_4" class="jstree-node jstree-last jstree-open">
+                                                            <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+                                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                            <a class="jstree-anchor" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="2" aria-expanded="true" id="j5_4_anchor">
+                                                                <i class="jstree-icon jstree-checkbox" role="presentation"></i><i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                                                در ابتدا باز
+                                                            </a>
+                                                            <ul role="group" class="jstree-children" style="">
+                                                                @* <li role="none" data-jstree="{ &quot;disabled&quot; : true }" id="j5_5" class="jstree-node  jstree-leaf">
+                                                                    <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+                                                                    <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                    <a class="jstree-anchor jstree-disabled" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="3" aria-disabled="true" id="j5_5_anchor">
+                                                                        <i class="jstree-icon jstree-checkbox" role="presentation"></i>
+                                                                        <i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                                                        گره غیرفعال
+                                                                    </a>
+                                                                </li> *@
+                                                                @foreach (var secondSubCategory in productCategories.Where(x => x.ParentId == subCategory.Id))
+                                                                {
+                                                                    <li role="none" data-jstree="{ &quot;type&quot; : &quot;file&quot; }" id="j5_6" class="jstree-node  jstree-leaf jstree-last">
+                                                                        <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+                                                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                        <a class="jstree-anchor" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="3" id="j5_6_anchor">
+                                                                            <i class="jstree-icon jstree-checkbox" role="presentation"></i><i class="@secondSubCategory.Icon" role="presentation"></i>
+                                                                            @secondSubCategory.Title
+                                                                        </a>
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .nk-block -->
+                }
                 <!-- .nk-block-head -->
                 <div class="nk-block nk-block-lg">
                     <div class="nk-block-head">
