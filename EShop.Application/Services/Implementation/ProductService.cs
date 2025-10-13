@@ -150,6 +150,90 @@ namespace EShop.Application.Services.Implementation
                 return CreateProductResult.Error;
             }
         }
+        public async Task<EditProductDto> GetProductForEdit(long id)
+        {
+            var existingProduct = await _productRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            var selectedCategories = await _productSelectedCategoryRepository
+                .GetQuery()
+                .Where(x => x.ProductId == id)
+                .Select(x => x.ProductCategoryId)
+                .ToListAsync();
+
+            if (existingProduct != null)
+            {
+                return new EditProductDto
+                {
+                    Id = id,
+                    Title = existingProduct.Title,
+                    ShortDescription = existingProduct.ShortDescription,
+                    Description = existingProduct.Description,
+                    Price = existingProduct.Price,
+                    ImageFileName = existingProduct.Image,
+                    SelectedCategories = selectedCategories,
+                    IsActive = existingProduct.IsActive,
+                };
+            }
+
+            return null;
+        }
+        public async Task<EditProductResult> EditProduct(EditProductDto product, string editorName)
+        {
+            try
+            {
+                var existingProduct = await _productRepository
+                .GetQuery()
+                .SingleOrDefaultAsync(x => x.Id == product.Id);
+
+                if (existingProduct != null)
+                {
+                    if (product.Image is not null)
+                    {
+                        if (product.Image.IsImage())
+                        {
+                            var productImageName = Guid.NewGuid().ToString("N") + Path.GetExtension(product.Image.FileName);
+                            product.Image.AddImageToServer(productImageName, PathExtension.ProductOriginServer,
+                                100, 100, PathExtension.ProductThumbServer);
+
+                            existingProduct.Image = productImageName;
+                        }
+                        else
+                        {
+                            return EditProductResult.ImageErrorType;
+                        }
+                    }
+
+                    existingProduct.Id = product.Id;
+                    existingProduct.Title = product.Title;
+                    existingProduct.ShortDescription = product.ShortDescription;
+                    existingProduct.Description = product.Description;
+                    existingProduct.Price = product.Price;
+                    existingProduct.IsActive = product.IsActive;
+
+
+                    if (product.SelectedCategories is not null)
+                    {
+                        await RemoveProductSelectedCategories(product.Id);
+
+                        await AddProductSelectedCategories(product.Id, product.SelectedCategories);
+                        await _productCategoryRepository.SaveChanges();
+                    }
+
+                    _productRepository.EditEntityByEditor(existingProduct, editorName);
+                    await _productRepository.SaveChanges();
+
+                    return EditProductResult.Success;
+                }
+
+                return EditProductResult.NotFound;
+            }
+            catch (Exception)
+            {
+                return EditProductResult.Error;
+            }
+        }
         public async Task<bool> ActivateProduct(long id)
         {
             var product = await _productRepository
@@ -391,7 +475,6 @@ namespace EShop.Application.Services.Implementation
 
             await _productSelectedCategoryRepository.AddRangeEntity(productSelectedCategories);
         }
-
         public async Task RemoveProductSelectedCategories(long productId)
         {
             var productSelectedCategories = await _productSelectedCategoryRepository

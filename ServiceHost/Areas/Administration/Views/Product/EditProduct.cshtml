@@ -1,8 +1,8 @@
 ﻿@using EShop.Domain.Entities.Product
-@model EShop.Domain.DTOs.Product.CreateProductDto
+@model EShop.Domain.DTOs.Product.EditProductDto
 
 @{
-    ViewData["Title"] = "ایجاد محصول جدید";
+    ViewData["Title"] = "ویرایش محصول";
     var productCategories = ViewBag.Categories as List<ProductCategory>;
 }
 
@@ -19,7 +19,9 @@
                     </div>
                     <div class="card">
                         <div class="card-inner">
-                            <form asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data" id="create_product_form">
+                            <form asp-area="Administration" asp-controller="Product" asp-action="EditProduct" method="post" enctype="multipart/form-data" id="create_product_form">
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" asp-for="ImageFileName" />
                                 <div class="form-group">
                                     <label class="form-label font-20">انتخاب دسته بندی محصول<span class="text-danger ms-1">*</span></label>
                                     <br />

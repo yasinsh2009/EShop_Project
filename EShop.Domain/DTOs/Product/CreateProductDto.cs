@@ -35,6 +35,9 @@ namespace EShop.Domain.DTOs.Product
         [Display(Name = "تصویر محصول")]
         public IFormFile? Image { get; set; }
 
+        [Display(Name = "نام تصویر محصول")]
+        public string? ImageFileName { get; set; }
+
         //public List<CreateProductColorDto> ProductColors { get; set; }
         //public List<CreateProductSizeDto> ProductSize { get; set; }
         //public List<CreateProductFeatureDto> ProductFeatures { get; set; }

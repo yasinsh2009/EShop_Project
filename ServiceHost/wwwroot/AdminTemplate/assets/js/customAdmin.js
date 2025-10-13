@@ -126,3 +126,23 @@ function FillPageId(pageId) {
     $('#PageId').val(pageId);
     $('#filter-form').submit();
 }
+
+$(function () {
+    // hide all subcategories on page load
+    $('[id^="sub_categories_"]').hide();
+
+    // (optional) make sure main checkboxes are visible
+    $('[main_category_checkbox]').show();
+
+    // checkbox change handler
+    $('[main_category_checkbox]').on('change', function (e) {
+        var isChecked = $(this).is(':checked');
+        var selectedCategoryId = $(this).attr('main_category_checkbox');
+        if (isChecked) {
+            $('#sub_categories_' + selectedCategoryId).slideDown(300);
+        } else {
+            $('#sub_categories_' + selectedCategoryId).slideUp(300);
+            $('[parent-category-id="' + selectedCategoryId + '"]').prop('checked', false);
+        }
+    });
+})

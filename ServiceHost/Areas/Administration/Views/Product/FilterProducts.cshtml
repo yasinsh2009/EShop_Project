@@ -152,21 +152,21 @@
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
                                                                            asp-action="EditProduct"
-                                                                           asp-route-id="@product.Id"><em class="icon ni ni-edit"></em><span>ویرایش دسته بندی محصول</span></a>
+                                                                           asp-route-productId="@product.Id"><em class="icon ni ni-edit"></em><span>ویرایش محصول</span></a>
                                                                     </li>
                                                                     <li>
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
                                                                            asp-action="ShowProductDetails"
-                                                                           asp-route-id="@product.Id"><em class="icon ni ni-eye"></em><span>مشاهده دسته بندی محصول</span></a>
+                                                                           asp-route-id="@product.Id"><em class="icon ni ni-eye"></em><span>مشاهده جزئیات</span></a>
                                                                     </li>
                                                                     <li>
 
                                                                         <a asp-area="Administration"
                                                                            asp-controller="Product"
-                                                                           asp-action="@(product.IsActive ? "DeActivateProductCategory" : "ActivateProductCategory")"
+                                                                           asp-action="@(product.IsActive ? "DeActivateProduct" : "ActivateProduct")"
                                                                            asp-route-id="@product.Id">
-                                                                            <em class="icon ni ni-trash"></em><span>@(product.IsActive ? "غیرفعال کردن دسته بندی محصول" : "فعال کردن دسته بندی محصول")</span>
+                                                                            <em class="icon ni ni-trash"></em><span>@(product.IsActive ? "غیرفعال کردن محصول" : "فعال کردن محصول")</span>
                                                                         </a>
 
                                                                     </li>

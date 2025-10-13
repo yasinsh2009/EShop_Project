@@ -10,6 +10,8 @@ namespace EShop.Application.Services.Interface
 
         Task<FilterProductDto> FilterProducts(FilterProductDto product);
         Task<CreateProductResult> CreateProduct(CreateProductDto product);
+        Task<EditProductDto> GetProductForEdit(long id);
+        Task<EditProductResult> EditProduct(EditProductDto product, string editorName);
         Task<bool> ActivateProduct(long id);
         Task<bool> DeActivateProduct(long id);
 

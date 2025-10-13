@@ -39,8 +39,8 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpGet("CreateProduct")]
         public async Task<IActionResult> CreateProduct()
         {
-            var productCategories = await _productService.GetAllActiveProductCategories();
-            return View(productCategories);
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
+            return View();
         }
 
 
@@ -65,11 +65,49 @@ namespace ServiceHost.Areas.Administration.Controllers
                         break;
                 }
             }
-            var productCategories = await _productService.GetAllActiveProductCategories();
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
             return View(newProduct);
         }
 
         #endregion
+
+        #region Edit Product
+
+        [HttpGet("EditProduct/{productId}")]
+        public async Task<IActionResult> EditProduct(long productId)
+        {
+            var product = await _productService.GetProductForEdit(productId);
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
+            return View(product);
+        }
+
+        [HttpPost("EditProduct/{productId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProduct(EditProductDto product)
+        {
+            if (ModelState.IsValid)
+            {
+                var editorName = await _userService.GetUserFullNameById(User.GetUserId());
+                var result = await _productService.EditProduct(product, editorName);
+
+                switch (result)
+                {
+                    case EditProductResult.Success:
+                        TempData[SuccessMessage] = "دسته بندی محصول موردنظر با ویرایش ایجاد شد.";
+                        return RedirectToAction("FilterProducts", "Product", new { area = "Administration" });
+                    case EditProductResult.NotFound:
+                        TempData[WarningMessage] = "محصول موردنظر یافت نشد";
+                        break;
+                    case EditProductResult.Error:
+                        TempData[ErrorMessage] = "در فرایند ویرایش محصول موردنظر خطایی رخ داد، لطفا بعدا تلاش کنید.";
+                        break;
+                    case EditProductResult.ImageErrorType:
+                        TempData[ErrorMessage] = "لطفا تصویری با فرمت مناسب بارگذاری کنید.";
+                        break;
+                }
+            }
+            ViewBag.Categories = await _productService.GetAllActiveProductCategories();
+            return View(product);
+        }
 
         #region Activate / DeActivate Product
 
@@ -314,6 +352,8 @@ namespace ServiceHost.Areas.Administration.Controllers
             }
             return View(productSubCategory);
         }
+
+        #endregion
 
         #endregion
 
