@@ -1,6 +1,7 @@
 ﻿using EShop.Domain.DTOs.Product;
 using EShop.Domain.DTOs.Product.ProductCategory;
 using EShop.Domain.DTOs.Product.ProductColor;
+using EShop.Domain.DTOs.Product.ProductDiscount;
 using EShop.Domain.DTOs.Product.ProductFeature;
 using EShop.Domain.DTOs.Product.ProductGallery;
 using EShop.Domain.Entities.Product;
@@ -58,6 +59,16 @@ namespace EShop.Application.Services.Interface
         Task<CreateOrEditProductGalleryResult> CreateProductGallery(CreateOrEditProductGalleryDto gallery, long productId, IFormFile galleryImage, string? creatorName);
         Task<CreateOrEditProductGalleryDto> GetProductGalleryForEdit(long galleryId);
         Task<CreateOrEditProductGalleryResult> EditProductGallery(CreateOrEditProductGalleryDto gallery, long  galleryId, IFormFile galleryImage, string? modifierName);
+
+        #endregion
+
+        #region Product Discount
+
+        Task<FilterProductDiscountDto> FilterProductDiscounts(FilterProductDiscountDto filterProductDiscount);
+        Task<CreateProductDiscountResult> CreateProductDiscount(CreateProductDiscountDto productDiscount, string? creatorName);
+        Task<EditProductDiscountDto> GetProductDisCountForEdit(long productDiscountId);
+        Task<EditProductDiscountResult> EditProductDiscount(EditProductDiscountDto productDiscount, string? modifierName);
+
 
         #endregion
     }

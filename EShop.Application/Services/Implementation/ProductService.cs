@@ -5,6 +5,7 @@ using EShop.Domain.DTOs.Paging;
 using EShop.Domain.DTOs.Product;
 using EShop.Domain.DTOs.Product.ProductCategory;
 using EShop.Domain.DTOs.Product.ProductColor;
+using EShop.Domain.DTOs.Product.ProductDiscount;
 using EShop.Domain.DTOs.Product.ProductFeature;
 using EShop.Domain.DTOs.Product.ProductGallery;
 using EShop.Domain.Entities.Product;
@@ -26,13 +27,17 @@ namespace EShop.Application.Services.Implementation
         private readonly IGenericRepository<ProductColor> _productColorRepository;
         private readonly IGenericRepository<ProductFeature> _productFeatureRepository;
         private readonly IGenericRepository<ProductGallery> _productGalleryRepository;
+        private readonly IGenericRepository<ProductDiscount> _productDiscountRepository;
+        private readonly IGenericRepository<ProductDiscountUse> _productDiscountUseRepository;
 
         public ProductService(IGenericRepository<Product> productRepository,
             IGenericRepository<ProductCategory> productCategoryRepository,
             IGenericRepository<ProductSelectedCategory> productSelectedCategoryRepository,
             IGenericRepository<ProductColor> productColorRepository,
             IGenericRepository<ProductFeature> productFeatureRepository,
-            IGenericRepository<ProductGallery> productGalleryRepository)
+            IGenericRepository<ProductGallery> productGalleryRepository,
+            IGenericRepository<ProductDiscount> productDiscountRepository,
+            IGenericRepository<ProductDiscountUse> productDiscountUseRepository)
         {
             _productRepository = productRepository;
             _productCategoryRepository = productCategoryRepository;
@@ -40,6 +45,8 @@ namespace EShop.Application.Services.Implementation
             _productColorRepository = productColorRepository;
             _productFeatureRepository = productFeatureRepository;
             _productGalleryRepository = productGalleryRepository;
+            _productDiscountRepository = productDiscountRepository;
+            _productDiscountUseRepository = productDiscountUseRepository;
         }
 
         #endregion
@@ -48,7 +55,9 @@ namespace EShop.Application.Services.Implementation
 
         public async Task<FilterProductDto> FilterProducts(FilterProductDto filterProduct)
         {
-            var query = _productRepository
+            try
+            {
+                var query = _productRepository
                 .GetQuery()
                 .Where(q => q.IsPublished)
                 .Include(q => q.ProductColors)
@@ -56,73 +65,85 @@ namespace EShop.Application.Services.Implementation
                 .Include(q => q.ProductGalleries)
                 .AsQueryable();
 
-            if (query != null)
-            {
-                #region Display Order
-
-                switch (filterProduct.OrderBy)
+                if (query != null)
                 {
-                    case FilterProductOrderBy.CreateDateDescending:
-                        query = query.OrderByDescending(q => q.CreatedAt);
-                        break;
-                    case FilterProductOrderBy.CreateDateAscending:
-                        query = query.OrderBy(q => q.CreatedAt);
-                        break;
-                    case FilterProductOrderBy.PriceAscending:
-                        query = query.OrderBy(q => q.Price);
-                        break;
-                    case FilterProductOrderBy.PriceDescending:
-                        query = query.OrderByDescending(q => q.Price);
-                        break;
-                    case FilterProductOrderBy.ViewCountDescending:
-                        query = query.OrderByDescending(q => q.ViewCount);
-                        break;
-                    case FilterProductOrderBy.SellCountDescending:
-                        query = query.OrderByDescending(q => q.SellCount);
-                        break;
-                    default:
-                        return new FilterProductDto();
+                    #region Display Order
+
+                    switch (filterProduct.OrderBy)
+                    {
+                        case FilterProductOrderBy.CreateDateDescending:
+                            query = query.OrderByDescending(q => q.CreatedAt);
+                            break;
+                        case FilterProductOrderBy.CreateDateAscending:
+                            query = query.OrderBy(q => q.CreatedAt);
+                            break;
+                        case FilterProductOrderBy.PriceAscending:
+                            query = query.OrderBy(q => q.Price);
+                            break;
+                        case FilterProductOrderBy.PriceDescending:
+                            query = query.OrderByDescending(q => q.Price);
+                            break;
+                        case FilterProductOrderBy.ViewCountDescending:
+                            query = query.OrderByDescending(q => q.ViewCount);
+                            break;
+                        case FilterProductOrderBy.SellCountDescending:
+                            query = query.OrderByDescending(q => q.SellCount);
+                            break;
+                        default:
+                            return new FilterProductDto();
+                    }
+
+                    #endregion
+
+                    #region Filter By Price
+
+                    var expenciveProduct = await query.OrderByDescending(q => q.Price).FirstOrDefaultAsync();
+                    var cheapProduct = await query.OrderBy(q => q.Price).FirstOrDefaultAsync();
+
+                    if (expenciveProduct is not null || cheapProduct is not null)
+                    {
+                        filterProduct.FilterMaxPrice = expenciveProduct.Price;
+                        filterProduct.FilterMinPrice = cheapProduct.Price;
+                    }
+
+                    if (filterProduct.SelectedMinPrice is not null || filterProduct.SelectedMaxPrice is not null)
+                    {
+                        query = query.Where(q => q.Price <= filterProduct.SelectedMaxPrice);
+                        query = query.Where(q => q.Price >= filterProduct.SelectedMinPrice);
+                    }
+
+
+                    #endregion
+
+                    if (!string.IsNullOrWhiteSpace(filterProduct.ProductTitle))
+                    {
+                        query = query.Where(x => EF.Functions.Like(x.Title, $"%{filterProduct.ProductTitle}%"));
+                    }
+
+                    #region Pagination
+
+                    var productCount = await query.CountAsync();
+                    filterProduct.ProductsCount = productCount;
+
+                    var pager = Pager.Build(filterProduct.PageId, productCount, filterProduct.TakeEntity,
+                        filterProduct.HowManyShowPageAfterAndBefore);
+
+                    var allEntities = await query.Paging(pager).ToListAsync();
+
+                    #endregion
+
+                    return filterProduct.SetPaging(pager).SetProduct(allEntities);
                 }
-
-                #endregion
-
-                #region Filter By Price
-
-                var expenciveProduct = await query.OrderByDescending(q => q.Price).FirstOrDefaultAsync();
-                var cheapProduct = await query.OrderBy(q => q.Price).FirstOrDefaultAsync();
-
-                if (expenciveProduct is not null || cheapProduct is not null)
+                else
                 {
-                    filterProduct.FilterMaxPrice = expenciveProduct.Price;
-                    filterProduct.FilterMinPrice = cheapProduct.Price;
+                    return null;
                 }
-
-                if (filterProduct.SelectedMinPrice is not null || filterProduct.SelectedMaxPrice is not null)
-                {
-                    query = query.Where(q => q.Price <= filterProduct.SelectedMaxPrice);
-                    query = query.Where(q => q.Price >= filterProduct.SelectedMinPrice);
-                }
-
-
-                #endregion
-
-                #region Pagination
-
-                var productCount = await query.CountAsync();
-                filterProduct.ProductsCount  = productCount;
-
-                var pager = Pager.Build(filterProduct.PageId, productCount, filterProduct.TakeEntity,
-                    filterProduct.HowManyShowPageAfterAndBefore);
-
-                var allEntities = await query.Paging(pager).ToListAsync();
-
-                #endregion
-
-                return filterProduct.SetPaging(pager).SetProduct(allEntities);
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+                Logger.ShowError(ex);
+
+                return new FilterProductDto();
             }
         }
         public async Task<FilterProductDto> FilterProductsInAdminPanel(FilterProductDto product)
@@ -1052,6 +1073,84 @@ namespace EShop.Application.Services.Implementation
 
                 return CreateOrEditProductGalleryResult.Error;
             }
+        }
+
+        #endregion
+
+        #region Product Discount
+
+        public async Task<FilterProductDiscountDto> FilterProductDiscounts(FilterProductDiscountDto filterProductDiscount)
+        {
+            try
+            {
+                var query = _productDiscountRepository
+               .GetQuery()
+               .Where(q => q.ProductId == filterProductDiscount.ProductId)
+               .Include(q => q.Product)
+               .OrderByDescending(q => q.CreatedAt);
+
+                #region Paginate
+
+                var productDiscountCount = await query.CountAsync();
+
+                var pager = Pager.Build(filterProductDiscount.PageId, productDiscountCount, filterProductDiscount.TakeEntity,
+                    filterProductDiscount.HowManyShowPageAfterAndBefore);
+
+                var allEntities = await query.Paging(pager).ToListAsync();
+
+                #endregion
+
+                return filterProductDiscount.SetPaging(pager).SetProductDiscount(allEntities);
+            }
+            catch (Exception ex)
+            {
+                Logger.ShowError(ex);
+
+                return new FilterProductDiscountDto();
+            }
+
+        }
+
+        public async Task<CreateProductDiscountResult> CreateProductDiscount(CreateProductDiscountDto productDiscount, string? creatorName)
+        {
+            try
+            {
+                var product = await _productRepository.GetEntityById(productDiscount.ProductId);
+
+                if (product is null)
+                {
+                    return CreateProductDiscountResult.ProductNotFound;
+                }
+
+                var newProductDiscount = new ProductDiscount
+                {
+                    ProductId = product.Id,
+                    Percentage = productDiscount.Percentage,
+                    ExpireDate = Convert.ToDateTime(productDiscount.ExpireDate),
+                    DiscountNumber = productDiscount.DiscountNumber,
+                };
+
+                await _productDiscountRepository.AddEntity(newProductDiscount, creatorName);
+                await _productDiscountRepository.SaveChanges();
+
+                return CreateProductDiscountResult.Success;
+            }
+            catch (Exception ex)
+            {
+                Logger.ShowError(ex);
+
+                return CreateProductDiscountResult.Error;
+            }
+        }
+
+        public Task<EditProductDiscountDto> GetProductDisCountForEdit(long productDiscountId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<EditProductDiscountResult> EditProductDiscount(EditProductDiscountDto productDiscount, string? modifierName)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -48,6 +48,7 @@ namespace EShop.Domain.Entities.Product
         public ICollection<ProductColor> ProductColors { get; set; }
         public ICollection<ProductFeature> PruductFeatures { get; set; }
         public ICollection<ProductGallery> ProductGalleries { get; set; }
+        public ICollection<ProductDiscountUse> productDiscountUses { get; set; }
 
         #endregion
     }

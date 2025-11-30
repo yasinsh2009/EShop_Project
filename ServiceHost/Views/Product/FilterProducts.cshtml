@@ -1,4 +1,5 @@
 ﻿@using EShop.Application.Utilities
+@using EShop.Domain.DTOs.Product
 @model EShop.Domain.DTOs.Product.FilterProductDto
 
 @{
@@ -144,7 +145,7 @@
                             <label for="search-products" class="filter-title">جستجو محصولات</label>
                             <div class="position-relative">
                                 <input id="search-products" type="text" asp-for="ProductTitle" class="form-control py-3 rounded-4 w-100 bs-bg-gray-100" placeholder="جستجوی محصول ...">
-                                <button type="submit" class="position-absolute me-3 end-0 top-50 translate-middle-y">
+                                <button class="btn btn-secondary" type="submit" title="جستجوی محصولات">
                                     <i class="bi bi-search"></i>
                                 </button>
                             </div>
@@ -152,20 +153,26 @@
                         <section class="mb-4 border-ui  shadow-xl filter-container">
                             <h2 class="filter-title">فیلتر قیمت</h2>
                             <div class="filter-price">
-                                <ul class="filter-range mb-4">
-                                    <li>
-                                        <input type="number" asp-for="SelectedMaxPrice" placeholder="@Model.FilterMaxPrice" class="js-slider-range-from min-price-filter">
-                                        <span>تومان</span>
-                                    </li>
-                                    <li class="label fw-bold">تا</li>
-                                    <li>
-                                        <input type="number" asp-for="SelectedMinPrice" placeholder="@Model.FilterMinPrice" class="js-slider-range-to max-price-filter">
-                                        <span>تومان</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="form-check mt-2">
-                                <button type="submit">فیلتر قیمت محصولات</button>
+                                <div class="form-group">
+                                    <label class="">قیمت از</label>
+                                    <input type="number"
+                                           asp-for="SelectedMinPrice"
+                                           class="form-control"
+                                           placeholder="@Model.FilterMinPrice"
+                                           value="@(Model.SelectedMinPrice == 0 ? "" : Model.SelectedMinPrice.ToString())" />
+                                    <br />
+                                    <label class="">قیمت تا</label>
+                                    <input type="number"
+                                           asp-for="SelectedMaxPrice"
+                                           class="form-control"
+                                           placeholder="@Model.FilterMaxPrice"
+                                           value="@(Model.SelectedMaxPrice == 0 ? "" : Model.SelectedMaxPrice.ToString())" />                                    <br />
+                                    <div class="show-more-btn mt-2 text-center">
+                                        <button class="btn border-0 main-color-two-bg shadow-box waves-effect waves-light" type="submit">
+                                            اعمال فیلتر <i class="bi bi-filter"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </aside>
@@ -180,15 +187,18 @@
                             <div class="container-fluid">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="box_filter d-lg-block d-none">
+                                        <h5 class="mb-3">مرتب سازی بر اساس:</h5>
                                         <ul class="list-inline text-start mb-0">
-                                            <li class="list-inline-item title-font ms-0">مرتب سازی بر اساس :</li>
-                                            <li class="list-inline-item"><a href="#">گران ترین</a></li>
-                                            <li class="list-inline-item">
-                                                <a class="active_custom" href="#">ارزان ترین</a>
-                                            </li>
-                                            <li class="list-inline-item"><a href="#">پروفروش ترین</a></li>
-                                            <li class="list-inline-item"><a href="#">داغ ترین</a></li>
-                                            <li class="list-inline-item"><a href="#">محبوب ترین</a></li>
+                                            @foreach (var productOrder in Html.GetEnumSelectList<FilterProductOrderBy>())
+                                            {
+                                                <span class="buttonFilter main-color-one-color">
+                                                    <input type="radio" id="@productOrder.Value" value="@productOrder.Value" name="@nameof(Model.OrderBy)"
+                                                           @(Convert.ToInt32(productOrder.Value) == Convert.ToInt32(Model.OrderBy) ? "checked" : "") />
+                                                    <label class="font-16 fw-bold" style="margin-left:10px;" for="@productOrder.Value">
+                                                        @productOrder.Text
+                                                    </label>
+                                                </span>
+                                            }
                                         </ul>
                                     </div>
                                     <div class="box_filter_counter fs-6"><i class="bi bi-card-list me-2"></i> @Model.ProductsCount کالا</div>

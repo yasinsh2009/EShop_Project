@@ -86,6 +86,13 @@ public class ApplicationDbContext : DbContext
 
     #endregion
 
+    #region Product Discount
+
+    public DbSet<ProductDiscount> ProductDiscounts { get; set; }
+    public DbSet<ProductDiscountUse> ProductDiscountUses { get; set; }
+
+    #endregion
+
     #endregion
 
     #region OnModelCreating

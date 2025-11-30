@@ -16,6 +16,7 @@ namespace EShop.Domain.DTOs.Product
 
         #region Properties
 
+        
         public long ProductId { get; set; }
         public string Search { get; set; }
         public string ProductTitle { get; set; }

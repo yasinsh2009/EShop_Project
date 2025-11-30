@@ -23,7 +23,7 @@
                                             @foreach (var category in Model.Where(x => x.ParentId is null))
                                             {
                                                 <li class="">
-                                                    <a href="">
+                                                    <a asp-controller="Product" asp-action="FilterProducts" asp-route-categoryId="@category.Id">
                                                         <i class="@(!string.IsNullOrWhiteSpace(category.Icon) ? category.Icon : "bi bi-grid")"></i>
                                                         @category.Title
                                                     </a>
@@ -34,14 +34,14 @@
                                                             @foreach (var subCategory in Model.Where(x => x.ParentId == category.Id))
                                                             {
                                                                 <li>
-                                                                    <a class="title my-flex-baseline" href="">@subCategory.Title</a>
+                                                                    <a asp-controller="Product" asp-action="FilterProducts" asp-route-categoryId="@subCategory.Id" class="title my-flex-baseline">@subCategory.Title</a>
                                                                 </li>
                                                                 @if (Model.Any(x => x.ParentId == subCategory.Id))
                                                                 {
                                                                     @foreach (var secondSubCategory in Model.Where(x => x.ParentId == category.Id))
                                                                     {
                                                                         <li>
-                                                                            <a class="title my-flex-baseline" href="">@secondSubCategory.Title</a>
+                                                                            <a asp-controller="Product" asp-action="FilterProducts" asp-route-categoryId="@secondSubCategory.Id" class="title my-flex-baseline">@secondSubCategory.Title</a>
                                                                         </li>
                                                                     }
                                                                 }

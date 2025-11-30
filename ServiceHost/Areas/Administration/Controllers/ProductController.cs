@@ -1,7 +1,9 @@
-﻿using EShop.Application.Services.Interface;
+﻿using Azure.Identity;
+using EShop.Application.Services.Interface;
 using EShop.Domain.DTOs.Product;
 using EShop.Domain.DTOs.Product.ProductCategory;
 using EShop.Domain.DTOs.Product.ProductColor;
+using EShop.Domain.DTOs.Product.ProductDiscount;
 using EShop.Domain.DTOs.Product.ProductFeature;
 using EShop.Domain.DTOs.Product.ProductGallery;
 using Microsoft.AspNetCore.Mvc;
@@ -604,6 +606,89 @@ namespace ServiceHost.Areas.Administration.Controllers
             }
 
             return View(gallery);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Product Discount
+
+
+        #region Filter Product Discounts
+
+        [HttpGet("FilterProductDiscounts/{productId}")]
+        public async Task<IActionResult> FilterProductDiscounts(FilterProductDiscountDto filterProductDiscount, long productId)
+        {
+            ViewBag.ProductId = productId;
+            var productDiscounts = await _productService.FilterProductDiscounts(filterProductDiscount);
+            return View(productDiscounts);
+        }
+
+        #endregion
+
+        #region Create Product Discount
+
+        [HttpGet("CreateProductDiscount/{productId}")]
+        public async Task<IActionResult> CreateProductDiscount(long productId)
+        {
+            return View();
+        }
+
+
+        [HttpPost("CreateProductDiscount/{productId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProductDiscount(CreateProductDiscountDto newProductDiscunt)
+        {
+            var creatorName = await _userService.GetUserFullNameById(User.GetUserId());
+            var result = await _productService.CreateProductDiscount(newProductDiscunt, creatorName);
+
+            switch (result)
+            {
+                case CreateProductDiscountResult.Success:
+                    TempData[SuccessMessage] = "تخفیف برای محصول موردنظر با موفقیت اضافه شد.";
+                    return RedirectToAction("FilterProductDiscounts", "Product", new { area = "Administration", newProductDiscunt.ProductId });
+                case CreateProductDiscountResult.ProductNotFound:
+                    TempData[WarningMessage] = "هیچ محصولی با این مشخصات یافت نشد.";
+                    break;
+                case CreateProductDiscountResult.Error:
+                    TempData[ErrorMessage] = "هنگام فرایند افزودن تخفیف برای محصول موردنظر خطایی رخ داد، لطفا بعدا تلاش کنید.";
+                    break;
+            }
+
+            return View(newProductDiscunt);
+        }
+
+        #endregion
+
+        #region Edit Product Category
+
+        [HttpGet("EditProductDiscount/{productId}")]
+        public async Task<IActionResult> EditProductDiscount(long productId)
+        {
+            var productDiscount = await _productService.GetProductDisCountForEdit(productId);
+            return View(productDiscount);
+        }
+
+        [HttpPost("EditProductDiscount/{productId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProductDiscount(EditProductDiscountDto discount)
+        {
+            var modifierName = await _userService.GetUserFullNameById(User.GetUserId());
+            var result = await _productService.EditProductDiscount(discount, modifierName);
+
+            switch (result)
+            {
+                case EditProductDiscountResult.Success:
+                    TempData[SuccessMessage] = "تخفیف محصول موردنظر با موفقیت ویرایش شد.";
+                    return RedirectToAction("FilterProductDiscounts", "Product", new { area = "Administration", discount.ProductId });
+                case EditProductDiscountResult.ProductNotFound:
+                    TempData[WarningMessage] = "هیچ محصولی با این مشخصات یافت نشد.";
+                    break;
+                case EditProductDiscountResult.Error:
+                    TempData[ErrorMessage] = "هنگام فرایند ویرایش تخفیف محصول موردنظر، خطایی رخ داد، لطفا بعدا تلاش کنید.";
+                    break;
+            }
+
+            return View(discount);
         }
 
         #endregion
