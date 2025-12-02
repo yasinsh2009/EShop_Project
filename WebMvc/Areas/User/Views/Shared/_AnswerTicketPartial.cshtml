@@ -1,0 +1,20 @@
+﻿@using EcommerApp.Domain.DTOs.Contact.Ticket
+@model AnswerTicketDto
+
+
+    <h5 class="mb-3">ارسال پیام</h5>
+    <form asp-area="User" asp-controller="Ticket" asp-action="AnswerTicket" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label class="form-label">پیام:</label>
+            <textarea asp-for="Text" class="form-control form-control-rounded" ckeditor="1" rows="8" placeholder="پیام خود را وارد کنید..."></textarea>
+            <span class="text-danger" asp-validation-for="Text"></span>
+        </div>
+        <div class="text-right">
+            <button type="submit" class="btn py-3 px-5 main-color-one-bg">
+                ارسال
+                پیام
+            </button>
+        </div>
+    </form>
+

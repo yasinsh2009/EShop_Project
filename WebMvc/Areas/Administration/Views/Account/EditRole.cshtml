@@ -1,0 +1,46 @@
+﻿@using EcommerApp.Domain.DTOs.Account.Role
+@model EditRoleDto
+
+@{
+    ViewData["Title"] = $"ویرایش نقش {Model.RoleName}";
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <div class="nk-block-head nk-block-head-lg wide-sm">
+                    <div class="nk-block-head-content">
+                        <h2 class="nk-block-title fw-normal">@ViewData["Title"]</h2>
+                    </div>
+                </div>
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg">
+                    <div class="card">
+                        <div class="card-inner">
+                            <form asp-area="Administration" asp-controller="Account" asp-action="EditRole" method="post" class="form-validate" novalidate="novalidate">
+                                <input type="hidden" asp-for="Id" />
+                                <div class="row g-gs">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="fv-full-name">عنوان نقش</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="RoleName" type="text" class="form-control invalid">
+                                                <span asp-validation-for="RoleName" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

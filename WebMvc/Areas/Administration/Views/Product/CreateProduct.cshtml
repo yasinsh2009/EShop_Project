@@ -1,0 +1,151 @@
+﻿@model CreateProductDto
+@using EcommerApp.Domain.DTOs.Product
+@using EcommerApp.Domain.Entities.Product
+
+@{
+    ViewData["Title"] = "ایجاد محصول جدید";
+    var productCategories = ViewBag.Categories as List<ProductCategory>;
+}
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <!-- .nk-block-head -->
+                <div class="nk-block nk-block-lg">
+                    <div class="nk-block-head">
+                        <div class="nk-block-head-content">
+                            <h4 class="title nk-block-title">@ViewData["Title"]</h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-inner">
+                            <form asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data" id="create_product_form">
+                                <div class="form-group">
+                                    <label class="form-label font-20">انتخاب دسته بندی محصول<span class="text-danger ms-1">*</span></label>
+                                    <br />
+                                    <br />
+                                    @if (productCategories != null && productCategories.Any())
+                                    {
+                                        @foreach (var parentCategory in productCategories.Where(x => x.ParentId == null))
+                                        {
+                                            <ul>
+                                                <li>
+                                                    <label style="padding-left: 5px;">@parentCategory.Title</label>
+                                                    <input type="checkbox" style="margin-top: 7px; width: 15px; height: 15px;"
+                                                           value="@parentCategory.Id" main_category_checkbox="@parentCategory.Id"
+                                                           name="@nameof(Model.SelectedCategories)">
+                                                    <br />
+                                                    @if (productCategories.Any(x => x.ParentId == parentCategory.Id))
+                                                    {
+                                                        <div id="sub_categories_@parentCategory.Id">
+                                                            @foreach (var subCategory in productCategories.Where(x => x.ParentId == parentCategory.Id))
+                                                            {
+
+                                                                <label style="padding-left: 5px;">@subCategory.Title</label>
+                                                                <input type="checkbox" style="margin-top: 7px; margin-left: 5px; width: 15px; height: 15px;"
+                                                                       parent-category-id="@parentCategory.Id"
+                                                                       value="@subCategory.Id" main_category_checkbox="@subCategory.Id"
+                                                                       name="@nameof(Model.SelectedCategories)">
+
+
+                                                                <div id="sub_categories_@subCategory.Id">
+                                                                    @foreach (var secondSubCategory in productCategories.Where(x => x.ParentId == subCategory.Id))
+                                                                    {
+
+                                                                        <label style="padding-left: 5px;">@secondSubCategory.Title</label>
+                                                                        <input type="checkbox" style="margin-top: 7px; margin-left: 5px; width: 15px; height: 15px;"
+                                                                               parent-category-id="@subCategory.Id"
+                                                                               value="@secondSubCategory.Id"
+                                                                               name="@nameof(Model.SelectedCategories)">
+                                                                        <br />
+                                                                    }
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <br />
+                                                    }
+                                                </li>
+                                            </ul>
+                                            <hr />
+                                        }
+                                    }
+                                </div>
+                                <br />
+                                <div class="row g-gs">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">نام محصول</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="Title" type="text" class="form-control">
+                                                <span asp-validation-for="Title" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">قیمت محصول</label>
+                                            <div class="form-control-wrap">
+                                                <input asp-for="Price" type="number" class="form-control">
+                                                <span asp-validation-for="Price" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">توضیحات کوتاه</label>
+                                            <div class="form-control-wrap">
+                                                <textarea asp-for="ShortDescription" class="form-control form-control-sm" placeholder="توضیحات کوتاه محصول را بنویسید"></textarea>
+                                                <span asp-validation-for="ShortDescription" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">توضیحات کامل</label>
+                                            <div class="form-control-wrap">
+                                                <textarea asp-for="Description" class="form-control form-control-sm" placeholder="توضیحات محصول را بنویسید"></textarea>
+                                                <span asp-validation-for="Description" class="invalid"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">تصویر محصول</label>
+                                            <div class="form-control-wrap">
+                                                <div class="form-file">
+                                                    <input asp-for="Image" name="Image" id="Image" type="file" class="form-file-input">
+                                                    <label class="form-file-label" for="Image">انتخاب تصویر محصول</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">تنظیمات</label>
+                                            <ul class="custom-control-group g-3 align-center">
+                                                <li>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input asp-for="IsActive" type="checkbox" class="custom-control-input invalid" name="IsActive" id="IsActive">
+                                                        <label class="custom-control-label" for="IsActive">فعال / غیرفعال</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- .nk-block -->
+            </div>
+            <!-- .components-preview -->
+        </div>
+    </div>
+</div>
