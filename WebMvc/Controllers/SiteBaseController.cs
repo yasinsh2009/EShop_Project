@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Controllers
+namespace ECommerceApp.WebMvc.Controllers
 {
     public class SiteBaseController : Controller
     {

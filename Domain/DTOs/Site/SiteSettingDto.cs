@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Site;
+namespace ECommerceApp.Domain.DTOs.Site;
 
 public class SiteSettingDto
 {

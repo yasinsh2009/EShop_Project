@@ -1,13 +1,13 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.DTOs.Account.Role;
-using EcommerApp.Domain.DTOs.Account.User;
-using EcommerApp.WebMvc.PresentationExtensions;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.DTOs.Account.Role;
+using ECommerceApp.Domain.DTOs.Account.User;
+using ECommerceApp.WebMvc.PresentationExtensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Areas.Administration.Controllers
+namespace ECommerceApp.WebMvc.Areas.Administration.Controllers
 {
     [Authorize("UserManagement", Roles = Roles.Administrator)]
     public class AccountController : AdminBaseController

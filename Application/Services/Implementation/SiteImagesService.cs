@@ -1,14 +1,14 @@
-﻿using EcommerApp.Application.Extensions;
-using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.DTOs.Site.Banner;
-using EcommerApp.Domain.DTOs.Site.Silder;
-using EcommerApp.Domain.Entities.Site;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Application.Extensions;
+using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.DTOs.Site.Banner;
+using ECommerceApp.Domain.DTOs.Site.Silder;
+using ECommerceApp.Domain.Entities.Site;
+using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Application.Services.Implementation
+namespace ECommerceApp.Application.Services.Implementation
 {
     public class SiteImagesService : ISiteImagesService
     {

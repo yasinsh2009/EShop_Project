@@ -1,9 +1,8 @@
-﻿using EcommerApp.Domain.Entities.Account.Role;
-using EcommerApp.Domain.Entities.Common;
-using EcommerApp.Domain.Entities.Contact;
+﻿using ECommerceApp.Domain.Entities.Common;
+using ECommerceApp.Domain.Entities.Contact;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.Entities.Account.User;
+namespace ECommerceApp.Domain.Entities.Account.User;
 
 public class User : BaseEntity
 {

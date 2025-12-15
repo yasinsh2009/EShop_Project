@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.DTOs.Site;
+﻿using ECommerceApp.Domain.DTOs.Site;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Account.User;
+namespace ECommerceApp.Domain.DTOs.Account.User;
 
 public class UserLoginDto : CaptchaDto
 {

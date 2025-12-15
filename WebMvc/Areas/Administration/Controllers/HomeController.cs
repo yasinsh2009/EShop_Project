@@ -1,10 +1,10 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.DTOs.Contact;
-using EcommerApp.Domain.DTOs.Site;
-using EcommerApp.WebMvc.PresentationExtensions;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.DTOs.Contact;
+using ECommerceApp.Domain.DTOs.Site;
+using ECommerceApp.WebMvc.PresentationExtensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Areas.Administration.Controllers
+namespace ECommerceApp.WebMvc.Areas.Administration.Controllers
 {
     public class HomeController : AdminBaseController
     {

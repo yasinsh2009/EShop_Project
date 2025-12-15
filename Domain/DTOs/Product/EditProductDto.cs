@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Domain.DTOs.Product
+﻿namespace ECommerceApp.Domain.DTOs.Product
 {
     public class EditProductDto : CreateProductDto
     {

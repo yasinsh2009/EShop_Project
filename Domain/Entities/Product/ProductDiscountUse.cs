@@ -1,6 +1,6 @@
-﻿using EcommerApp.Domain.Entities.Common;
+﻿using ECommerceApp.Domain.Entities.Common;
 
-namespace EcommerApp.Domain.Entities.Product
+namespace ECommerceApp.Domain.Entities.Product
 {
     public class ProductDiscountUse : BaseEntity
     {

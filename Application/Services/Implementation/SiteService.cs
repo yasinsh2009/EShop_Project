@@ -1,11 +1,11 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.DTOs.Site;
-using EcommerApp.Domain.Entities.Site;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.DTOs.Site;
+using ECommerceApp.Domain.Entities.Site;
+using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Application.Services.Implementation;
+namespace ECommerceApp.Application.Services.Implementation;
 
 public class SiteService : ISiteService
 {

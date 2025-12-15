@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Domain.DTOs.Account.Auth
+﻿namespace ECommerceApp.Domain.DTOs.Account.Auth
 {
     public class AuthViewModel
     {

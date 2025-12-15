@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.DTOs.Paging;
+﻿using ECommerceApp.Domain.DTOs.Paging;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Account.User
+namespace ECommerceApp.Domain.DTOs.Account.User
 {
     public class FilterUserDto : BasePaging
     {

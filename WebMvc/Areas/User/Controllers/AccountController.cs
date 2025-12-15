@@ -1,10 +1,10 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.DTOs.Account.User;
-using EcommerApp.WebMvc.PresentationExtensions;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.DTOs.Account.User;
+using ECommerceApp.WebMvc.PresentationExtensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Areas.User.Controllers
+namespace ECommerceApp.WebMvc.Areas.User.Controllers
 {
     public class AccountController : UserBaseController
     {

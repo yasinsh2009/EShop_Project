@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.Entities.Common;
+﻿using ECommerceApp.Domain.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.Entities.Account.Role;
+namespace ECommerceApp.Domain.Entities.Account.Role;
 
 public class Role : BaseEntity
 {

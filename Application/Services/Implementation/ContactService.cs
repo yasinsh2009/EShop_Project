@@ -1,14 +1,14 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.DTOs.Contact;
-using EcommerApp.Domain.DTOs.Contact.Ticket;
-using EcommerApp.Domain.DTOs.Paging;
-using EcommerApp.Domain.Entities.Contact;
-using EcommerApp.Domain.Entities.Contact.Ticket;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.DTOs.Contact;
+using ECommerceApp.Domain.DTOs.Contact.Ticket;
+using ECommerceApp.Domain.DTOs.Paging;
+using ECommerceApp.Domain.Entities.Contact;
+using ECommerceApp.Domain.Entities.Contact.Ticket;
+using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Application.Services.Implementation;
+namespace ECommerceApp.Application.Services.Implementation;
 
 public class ContactService : IContactService
 {

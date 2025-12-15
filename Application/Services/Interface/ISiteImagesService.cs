@@ -1,9 +1,9 @@
-﻿using EcommerApp.Domain.DTOs.Site.Banner;
-using EcommerApp.Domain.DTOs.Site.Silder;
-using EcommerApp.Domain.Entities.Site;
+﻿using ECommerceApp.Domain.DTOs.Site.Banner;
+using ECommerceApp.Domain.DTOs.Site.Silder;
+using ECommerceApp.Domain.Entities.Site;
 using Microsoft.AspNetCore.Http;
 
-namespace EcommerApp.Application.Services.Interface
+namespace ECommerceApp.Application.Services.Interface
 {
     public interface ISiteImagesService : IAsyncDisposable
     {

@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.Entities.Common;
+﻿using ECommerceApp.Domain.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.Entities.Product
+namespace ECommerceApp.Domain.Entities.Product
 {
     public class ProductFeature : BaseEntity
     {

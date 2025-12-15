@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.DTOs.Paging;
+﻿using ECommerceApp.Domain.DTOs.Paging;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Product
+namespace ECommerceApp.Domain.DTOs.Product
 {
     public class FilterProductDto : BasePaging
     {

@@ -1,10 +1,10 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.DTOs.Account.Auth;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.DTOs.Account.Auth;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace EcommerApp.Application.Services.Implementation
+namespace ECommerceApp.Application.Services.Implementation
 {
     public class AuthHelper : IAuthHelper
     {

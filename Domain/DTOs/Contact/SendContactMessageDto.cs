@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.DTOs.Site;
+﻿using ECommerceApp.Domain.DTOs.Site;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Contact;
+namespace ECommerceApp.Domain.DTOs.Contact;
 
 public class SendContactMessageDto : CaptchaDto
 {

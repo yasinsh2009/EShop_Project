@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Domain.DTOs.Site.Silder
+﻿namespace ECommerceApp.Domain.DTOs.Site.Silder
 {
     public class EditSliderDto : CreateSliderDto
     {

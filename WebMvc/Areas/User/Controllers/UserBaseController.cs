@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Areas.User.Controllers
+namespace ECommerceApp.WebMvc.Areas.User.Controllers
 {
     [Authorize]
     [Area("User")]

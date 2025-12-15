@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace EcommerApp.Application.Utilities;
+namespace ECommerceApp.Application.Utilities;
 
 public static class PasswordManager
 {

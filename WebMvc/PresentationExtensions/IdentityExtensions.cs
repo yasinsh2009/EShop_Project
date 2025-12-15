@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 
-namespace EcommerApp.WebMvc.PresentationExtensions
+namespace ECommerceApp.WebMvc.PresentationExtensions
 {
     public static class IdentityExtensions
     {

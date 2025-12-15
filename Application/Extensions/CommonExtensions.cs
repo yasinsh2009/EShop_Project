@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Reflection;
 
-namespace EcommerApp.Application.Extensions
+namespace ECommerceApp.Application.Extensions
 {
     public static class CommonExtensions
     {

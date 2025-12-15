@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Product.ProductCategory
+namespace ECommerceApp.Domain.DTOs.Product.ProductCategory
 {
     public class CreateProductCategoryDto
     {

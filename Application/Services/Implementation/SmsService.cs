@@ -1,8 +1,8 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
 using Microsoft.Extensions.Configuration;
 
-namespace EcommerApp.Application.Services.Implementation;
+namespace ECommerceApp.Application.Services.Implementation;
 
 public class SmsService : ISmsService
 {

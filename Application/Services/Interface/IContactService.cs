@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.DTOs.Contact;
-using EcommerApp.Domain.DTOs.Contact.Ticket;
+﻿using ECommerceApp.Domain.DTOs.Contact;
+using ECommerceApp.Domain.DTOs.Contact.Ticket;
 
-namespace EcommerApp.Application.Services.Interface;
+namespace ECommerceApp.Application.Services.Interface;
 
 public interface IContactService : IAsyncDisposable
 {

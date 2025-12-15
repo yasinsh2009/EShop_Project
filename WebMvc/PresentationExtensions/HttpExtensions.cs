@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.WebMvc.PresentationExtensions;
+﻿namespace ECommerceApp.WebMvc.PresentationExtensions;
 
 public static class HttpExtensions
 {

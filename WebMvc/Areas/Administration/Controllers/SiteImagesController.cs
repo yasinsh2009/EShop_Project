@@ -1,10 +1,10 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.DTOs.Site.Banner;
-using EcommerApp.Domain.DTOs.Site.Silder;
-using EcommerApp.WebMvc.PresentationExtensions;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.DTOs.Site.Banner;
+using ECommerceApp.Domain.DTOs.Site.Silder;
+using ECommerceApp.WebMvc.PresentationExtensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Areas.Administration.Controllers
+namespace ECommerceApp.WebMvc.Areas.Administration.Controllers
 {
     public class SiteImagesController : AdminBaseController
     {

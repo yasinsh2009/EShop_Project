@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace EcommerApp.Application.Utilities
+namespace ECommerceApp.Application.Utilities
 {
     public static class PersianDate
     {

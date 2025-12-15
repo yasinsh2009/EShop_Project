@@ -1,10 +1,10 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.Entities.Account.Role;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.Entities.Account.Role;
+using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Application.Services.Implementation;
+namespace ECommerceApp.Application.Services.Implementation;
 
 public class RoleService : IRoleService
 {

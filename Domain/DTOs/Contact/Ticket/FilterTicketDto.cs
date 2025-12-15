@@ -1,8 +1,8 @@
-﻿using EcommerApp.Domain.DTOs.Paging;
-using EcommerApp.Domain.Entities.Contact.Ticket;
+﻿using ECommerceApp.Domain.DTOs.Paging;
+using ECommerceApp.Domain.Entities.Contact.Ticket;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Contact.Ticket
+namespace ECommerceApp.Domain.DTOs.Contact.Ticket
 {
     public class FilterTicketDto : BasePaging
     {

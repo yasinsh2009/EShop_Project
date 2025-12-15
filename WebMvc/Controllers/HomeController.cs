@@ -1,10 +1,10 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.DTOs.Contact;
-using EcommerApp.WebMvc.PresentationExtensions;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.DTOs.Contact;
+using ECommerceApp.WebMvc.PresentationExtensions;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Controllers
+namespace ECommerceApp.WebMvc.Controllers
 {
     public class HomeController : SiteBaseController
     {

@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.Entities.Account.User;
-using EcommerApp.Domain.Entities.Contact.Ticket;
+﻿using ECommerceApp.Domain.Entities.Account.User;
+using ECommerceApp.Domain.Entities.Contact.Ticket;
 
-namespace EcommerApp.Domain.DTOs.Contact.Ticket
+namespace ECommerceApp.Domain.DTOs.Contact.Ticket
 {
     public class TicketDetailDto
     {

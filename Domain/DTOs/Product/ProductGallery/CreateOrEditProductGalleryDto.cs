@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Product.ProductGallery
+namespace ECommerceApp.Domain.DTOs.Product.ProductGallery
 {
     public class CreateOrEditProductGalleryDto
     {

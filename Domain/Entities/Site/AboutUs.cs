@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.Entities.Common;
+﻿using ECommerceApp.Domain.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.Entities.Site;
+namespace ECommerceApp.Domain.Entities.Site;
 
 public class AboutUs : BaseEntity
 {

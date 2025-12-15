@@ -1,8 +1,8 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.Entities.Site;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.Entities.Site;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.ViewComponents
+namespace ECommerceApp.WebMvc.ViewComponents
 {
     #region Site Header
 

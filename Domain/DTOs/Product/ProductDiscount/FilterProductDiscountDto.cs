@@ -1,6 +1,6 @@
-﻿using EcommerApp.Domain.DTOs.Paging;
+﻿using ECommerceApp.Domain.DTOs.Paging;
 
-namespace EcommerApp.Domain.DTOs.Product.ProductDiscount
+namespace ECommerceApp.Domain.DTOs.Product.ProductDiscount
 {
     public class FilterProductDiscountDto : BasePaging
     {

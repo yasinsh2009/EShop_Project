@@ -1,13 +1,13 @@
-﻿using EcommerApp.Domain.DTOs.Product;
-using EcommerApp.Domain.DTOs.Product.ProductCategory;
-using EcommerApp.Domain.DTOs.Product.ProductColor;
-using EcommerApp.Domain.DTOs.Product.ProductDiscount;
-using EcommerApp.Domain.DTOs.Product.ProductFeature;
-using EcommerApp.Domain.DTOs.Product.ProductGallery;
-using EcommerApp.Domain.Entities.Product;
+﻿using ECommerceApp.Domain.DTOs.Product;
+using ECommerceApp.Domain.DTOs.Product.ProductCategory;
+using ECommerceApp.Domain.DTOs.Product.ProductColor;
+using ECommerceApp.Domain.DTOs.Product.ProductDiscount;
+using ECommerceApp.Domain.DTOs.Product.ProductFeature;
+using ECommerceApp.Domain.DTOs.Product.ProductGallery;
+using ECommerceApp.Domain.Entities.Product;
 using Microsoft.AspNetCore.Http;
 
-namespace EcommerApp.Application.Services.Interface
+namespace ECommerceApp.Application.Services.Interface
 {
     public interface IProductService : IAsyncDisposable
     {

@@ -1,9 +1,9 @@
-﻿using EcommerApp.Domain.Context;
-using EcommerApp.Domain.Entities.Common;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Domain.Context;
+using ECommerceApp.Domain.Entities.Common;
+using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Domain.Repository.Implementation;
+namespace ECommerceApp.Domain.Repository.Implementation;
 
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 {
@@ -31,7 +31,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public async Task AddEntity(TEntity entity, string? creatorName)
     {
-        entity.CreatedAt = DateTime.Now;
         entity.LastModifiedAt = DateTime.Now;
         entity.CreatedBy = creatorName;
         await _dbSet.AddAsync(entity);
@@ -41,7 +40,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         foreach (var entity in entities)
         {
-            entity.CreatedAt = DateTime.Now;
             entity.LastModifiedAt = DateTime.Now;
             entity.CreatedBy = creatorName;
             await AddEntity(entity, creatorName);

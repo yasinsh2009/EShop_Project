@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Product.ProductFeature
+namespace ECommerceApp.Domain.DTOs.Product.ProductFeature
 {
     public class FilterProductFeatureDto
     {

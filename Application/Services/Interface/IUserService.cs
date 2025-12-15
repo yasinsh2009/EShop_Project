@@ -1,10 +1,11 @@
-﻿using EcommerApp.Domain.DTOs.Account.Role;
-using EcommerApp.Domain.DTOs.Account.User;
-using EcommerApp.Domain.Entities.Account.Role;
-using EcommerApp.Domain.Entities.Account.User;
+﻿using ECommerceApp.Domain.DTOs.Account.Role;
+using ECommerceApp.Domain.DTOs.Account.User;
+using ECommerceApp.Domain.Entities.Account.Role;
+using ECommerceApp.Domain.Entities.Account.User;
+using ECommerceApp.Domain.Enums.User;
 using Microsoft.AspNetCore.Http;
 
-namespace EcommerApp.Application.Services.Interface;
+namespace ECommerceApp.Application.Services.Interface;
 
 public interface IUserService : IAsyncDisposable
 {
@@ -12,7 +13,7 @@ public interface IUserService : IAsyncDisposable
 
     #region User Validation
 
-    Task<UserValidationResult> IsUserValidate(UserValidationDto validate);
+    Task<UserValidationResult> ValidateUser(UserValidationDto validate);
 
     #endregion
 

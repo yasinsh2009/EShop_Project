@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Application.Services.Interface;
+﻿namespace ECommerceApp.Application.Services.Interface;
 
 public interface ISmsService : IAsyncDisposable
 {

@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.DTOs.Site;
+﻿using ECommerceApp.Domain.DTOs.Site;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Account.User;
+namespace ECommerceApp.Domain.DTOs.Account.User;
 
 public class UserValidationDto : CaptchaDto
 {
@@ -11,12 +11,4 @@ public class UserValidationDto : CaptchaDto
     [MinLength(11, ErrorMessage = "{0} نمی تواند کمتر از {1} کاراکتر باشد")]
     [RegularExpression("^[0-9]*$", ErrorMessage = "فقط اعداد مجاز می باشد")]
     public string Mobile { get; set; }
-}
-
-public enum UserValidationResult
-{
-    ExistAndActive,
-    ExistAndNotActive,
-    NotExists,
-    Error
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Contact.Ticket
+namespace ECommerceApp.Domain.DTOs.Contact.Ticket
 {
     public class AnswerTicketDto
     {

@@ -2,7 +2,7 @@
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 
-namespace EcommerApp.Application.Utilities
+namespace ECommerceApp.Application.Utilities
 {
     public class ImageOptimizer
     {

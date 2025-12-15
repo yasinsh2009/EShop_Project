@@ -1,6 +1,6 @@
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.Context;
-using EcommerApp.WebMvc.DIContainer;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.Context;
+using ECommerceApp.WebMvc.DIContainer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 

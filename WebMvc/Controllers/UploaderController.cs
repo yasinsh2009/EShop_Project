@@ -1,9 +1,9 @@
-﻿using EcommerApp.Application.Extensions;
-using EcommerApp.Application.Utilities;
+﻿using ECommerceApp.Application.Extensions;
+using ECommerceApp.Application.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace EcommerApp.WebMvc.Controllers
+namespace ECommerceApp.WebMvc.Controllers
 {
     public class UploaderController : SiteBaseController
     {

@@ -1,6 +1,6 @@
-﻿using EcommerApp.Domain.DTOs.Account.Auth;
+﻿using ECommerceApp.Domain.DTOs.Account.Auth;
 
-namespace EcommerApp.Application.Services.Interface
+namespace ECommerceApp.Application.Services.Interface
 {
     public interface IAuthHelper
     {

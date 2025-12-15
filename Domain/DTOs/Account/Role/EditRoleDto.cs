@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Domain.DTOs.Account.Role
+﻿namespace ECommerceApp.Domain.DTOs.Account.Role
 {
     public class EditRoleDto : CreateRoleDto
     {

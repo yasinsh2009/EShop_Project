@@ -1,7 +1,7 @@
-﻿using EcommerApp.Application.Utilities;
+﻿using ECommerceApp.Application.Utilities;
 using Microsoft.AspNetCore.Http;
 
-namespace EcommerApp.Application.Extensions
+namespace ECommerceApp.Application.Extensions
 {
     public static class UploadImageExtension
     {

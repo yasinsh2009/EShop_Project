@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Domain.DTOs.Site.Banner
+﻿namespace ECommerceApp.Domain.DTOs.Site.Banner
 {
     public class EditSiteBannerDto : CreateSiteBannerDto
     {

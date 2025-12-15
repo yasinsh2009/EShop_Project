@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 
-namespace EcommerApp.Application.Utilities
+namespace ECommerceApp.Application.Utilities
 {
     public static class CheckContentImage
     {

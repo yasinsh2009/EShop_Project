@@ -1,12 +1,13 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.DTOs.Account.User;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.DTOs.Account.User;
+using ECommerceApp.Domain.Enums.User;
 using GoogleReCaptcha.V3.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace EcommerApp.WebMvc.Controllers
+namespace ECommerceApp.WebMvc.Controllers
 {
     public class AccountController : SiteBaseController
     {
@@ -51,19 +52,19 @@ namespace EcommerApp.WebMvc.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _userService.IsUserValidate(validate);
+                var result = await _userService.ValidateUser(validate);
 
                 switch (result)
                 {
-                    case UserValidationResult.ExistAndActive:
+                    case UserValidationResult.Active:
                         return RedirectToAction("UserLogin", "Account",
                             new { mobile = validate.Mobile });
-                    case UserValidationResult.ExistAndNotActive:
+                    case UserValidationResult.NotActive:
                         string activationText =
                             $"به نظر می رسد که حساب شما فعال نیست، برای فعالسازی حساب کاربری خود لطفا کد شش رقمی ارسال شده به شماره همراه {validate.Mobile} را وارد کنید.";
                         return RedirectToAction("ActivateMobile", "Account",
                             new { mobile = validate.Mobile, activateText = activationText });
-                    case UserValidationResult.NotExists:
+                    case UserValidationResult.NotFound:
                         return RedirectToAction("UserRegister", "Account",
                             new { mobile = validate.Mobile });
                     case UserValidationResult.Error:

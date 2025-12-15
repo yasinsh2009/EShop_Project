@@ -1,19 +1,19 @@
-﻿using EcommerApp.Application.Extensions;
-using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.DTOs.Paging;
-using EcommerApp.Domain.DTOs.Product;
-using EcommerApp.Domain.DTOs.Product.ProductCategory;
-using EcommerApp.Domain.DTOs.Product.ProductColor;
-using EcommerApp.Domain.DTOs.Product.ProductDiscount;
-using EcommerApp.Domain.DTOs.Product.ProductFeature;
-using EcommerApp.Domain.DTOs.Product.ProductGallery;
-using EcommerApp.Domain.Entities.Product;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Application.Extensions;
+using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.DTOs.Paging;
+using ECommerceApp.Domain.DTOs.Product;
+using ECommerceApp.Domain.DTOs.Product.ProductCategory;
+using ECommerceApp.Domain.DTOs.Product.ProductColor;
+using ECommerceApp.Domain.DTOs.Product.ProductDiscount;
+using ECommerceApp.Domain.DTOs.Product.ProductFeature;
+using ECommerceApp.Domain.DTOs.Product.ProductGallery;
+using ECommerceApp.Domain.Entities.Product;
+using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Application.Services.Implementation
+namespace ECommerceApp.Application.Services.Implementation
 {
     public class ProductService : IProductService
     {

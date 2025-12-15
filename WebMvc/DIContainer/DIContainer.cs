@@ -1,13 +1,13 @@
-﻿using EcommerApp.Application.Services.Implementation;
-using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.Repository.Implementation;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Application.Services.Implementation;
+using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.Repository.Implementation;
+using ECommerceApp.Domain.Repository.Interface;
 using GoogleReCaptcha.V3;
 using GoogleReCaptcha.V3.Interface;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
-namespace EcommerApp.WebMvc.DIContainer;
+namespace ECommerceApp.WebMvc.DIContainer;
 
 public static class DIContainer
 {

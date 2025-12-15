@@ -1,7 +1,7 @@
-﻿using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.Entities.Site;
+﻿using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.Entities.Site;
 
-namespace EcommerApp.Application.EntitiesExtentions
+namespace ECommerceApp.Application.EntitiesExtentions
 {
     public static class BannersExtensions
     {

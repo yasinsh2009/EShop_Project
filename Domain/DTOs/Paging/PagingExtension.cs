@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Domain.DTOs.Paging
+﻿namespace ECommerceApp.Domain.DTOs.Paging
 {
     public static class PagingExtension
     {

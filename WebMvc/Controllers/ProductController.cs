@@ -1,8 +1,8 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.DTOs.Product;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.DTOs.Product;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Controllers
+namespace ECommerceApp.WebMvc.Controllers
 {
     public class ProductController : SiteBaseController
     {

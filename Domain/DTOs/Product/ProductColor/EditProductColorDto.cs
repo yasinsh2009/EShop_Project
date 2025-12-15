@@ -1,4 +1,4 @@
-﻿namespace EcommerApp.Domain.DTOs.Product.ProductColor
+﻿namespace ECommerceApp.Domain.DTOs.Product.ProductColor
 {
     public class EditProductColorDto : CreateProductColorDto
     {

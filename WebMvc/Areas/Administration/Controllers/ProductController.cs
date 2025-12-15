@@ -1,14 +1,14 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.Domain.DTOs.Product;
-using EcommerApp.Domain.DTOs.Product.ProductCategory;
-using EcommerApp.Domain.DTOs.Product.ProductColor;
-using EcommerApp.Domain.DTOs.Product.ProductDiscount;
-using EcommerApp.Domain.DTOs.Product.ProductFeature;
-using EcommerApp.Domain.DTOs.Product.ProductGallery;
-using EcommerApp.WebMvc.PresentationExtensions;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Domain.DTOs.Product;
+using ECommerceApp.Domain.DTOs.Product.ProductCategory;
+using ECommerceApp.Domain.DTOs.Product.ProductColor;
+using ECommerceApp.Domain.DTOs.Product.ProductDiscount;
+using ECommerceApp.Domain.DTOs.Product.ProductFeature;
+using ECommerceApp.Domain.DTOs.Product.ProductGallery;
+using ECommerceApp.WebMvc.PresentationExtensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Areas.Administration.Controllers
+namespace ECommerceApp.WebMvc.Areas.Administration.Controllers
 {
     public class ProductController : AdminBaseController
     {

@@ -1,6 +1,6 @@
-﻿using EcommerApp.Domain.Entities.Common;
+﻿using ECommerceApp.Domain.Entities.Common;
 
-namespace EcommerApp.Domain.Repository.Interface;
+namespace ECommerceApp.Domain.Repository.Interface;
 
 public interface IGenericRepository<TEntity> : IAsyncDisposable where TEntity : BaseEntity
 {

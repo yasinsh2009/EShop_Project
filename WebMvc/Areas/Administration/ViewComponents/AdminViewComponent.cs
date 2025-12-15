@@ -1,8 +1,8 @@
-﻿using EcommerApp.Application.Services.Interface;
-using EcommerApp.WebMvc.PresentationExtensions;
+﻿using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.WebMvc.PresentationExtensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcommerApp.WebMvc.Areas.Administration.ViewComponents
+namespace ECommerceApp.WebMvc.Areas.Administration.ViewComponents
 {
 
     public class AdminSidebarDashboardViewComponent : ViewComponent

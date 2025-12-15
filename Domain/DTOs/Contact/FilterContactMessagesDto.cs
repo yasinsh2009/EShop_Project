@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.DTOs.Paging;
-using EcommerApp.Domain.Entities.Contact;
+﻿using ECommerceApp.Domain.DTOs.Paging;
+using ECommerceApp.Domain.Entities.Contact;
 
-namespace EcommerApp.Domain.DTOs.Contact
+namespace ECommerceApp.Domain.DTOs.Contact
 {
     public class FilterContactMessagesDto : BasePaging
     {

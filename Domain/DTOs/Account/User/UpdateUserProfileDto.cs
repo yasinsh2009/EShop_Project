@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Account.User;
+namespace ECommerceApp.Domain.DTOs.Account.User;
 
 public class UpdateUserProfileDto
 {

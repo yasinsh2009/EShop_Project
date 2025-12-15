@@ -1,6 +1,6 @@
-﻿using EcommerApp.Domain.DTOs.Site;
+﻿using ECommerceApp.Domain.DTOs.Site;
 
-namespace EcommerApp.Application.Services.Interface;
+namespace ECommerceApp.Application.Services.Interface;
 
 public interface ISiteService : IAsyncDisposable
 {

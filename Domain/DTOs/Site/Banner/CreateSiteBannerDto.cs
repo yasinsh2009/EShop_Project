@@ -1,7 +1,7 @@
-﻿using EcommerApp.Domain.Entities.Site;
+﻿using ECommerceApp.Domain.Entities.Site;
 using System.ComponentModel.DataAnnotations;
 
-namespace EcommerApp.Domain.DTOs.Site.Banner
+namespace ECommerceApp.Domain.DTOs.Site.Banner
 {
     public class CreateSiteBannerDto
     {

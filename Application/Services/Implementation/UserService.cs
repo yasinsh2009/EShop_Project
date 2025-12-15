@@ -1,16 +1,17 @@
-﻿using EcommerApp.Application.Extensions;
-using EcommerApp.Application.Services.Interface;
-using EcommerApp.Application.Utilities;
-using EcommerApp.Domain.DTOs.Account.Role;
-using EcommerApp.Domain.DTOs.Account.User;
-using EcommerApp.Domain.DTOs.Paging;
-using EcommerApp.Domain.Entities.Account.Role;
-using EcommerApp.Domain.Entities.Account.User;
-using EcommerApp.Domain.Repository.Interface;
+﻿using ECommerceApp.Application.Extensions;
+using ECommerceApp.Application.Services.Interface;
+using ECommerceApp.Application.Utilities;
+using ECommerceApp.Domain.DTOs.Account.Role;
+using ECommerceApp.Domain.DTOs.Account.User;
+using ECommerceApp.Domain.DTOs.Paging;
+using ECommerceApp.Domain.Entities.Account.Role;
+using ECommerceApp.Domain.Entities.Account.User;
+using ECommerceApp.Domain.Enums.User;
+using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Application.Services.Implementation;
+namespace ECommerceApp.Application.Services.Implementation;
 
 public class UserService : IUserService
 {
@@ -37,7 +38,7 @@ public class UserService : IUserService
     #region Account
 
     #region User Validation
-    public async Task<UserValidationResult> IsUserValidate(UserValidationDto validate)
+    public async Task<UserValidationResult> ValidateUser(UserValidationDto validate)
     {
         try
         {
@@ -45,20 +46,16 @@ public class UserService : IUserService
             .GetQuery()
             .SingleOrDefaultAsync(x => x.Mobile == validate.Mobile);
 
-            if (user != null)
+            if (user is null)
+                return UserValidationResult.NotFound;
+
+            if (!user.IsMobileActive)
             {
-                if (user.IsMobileActive)
-                {
-                    return UserValidationResult.ExistAndActive;
-                }
-
                 await _smsService.SendVerificationSms(validate.Mobile, user.MobileActiveCode);
-
-
-                return UserValidationResult.ExistAndNotActive;
+                return UserValidationResult.NotFound;
             }
 
-            return UserValidationResult.NotExists;
+            return UserValidationResult.Active;
         }
         catch (Exception ex)
         {

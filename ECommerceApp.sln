@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11123.170
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcommerApp.WebApi", "WebApi\EcommerApp.WebApi.csproj", "{F29000B2-8A36-4C8F-84EA-7DA02ACD5291}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceApp.Main.WebApi", "WebApi\ECommerceApp.Main.WebApi.csproj", "{F29000B2-8A36-4C8F-84EA-7DA02ACD5291}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcommerApp.Infrastructure", "Infrastructure\EcommerApp.Infrastructure.csproj", "{1B0254B3-C282-4FCB-8D4A-28C0C62D50AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceApp.Infrastructure", "Infrastructure\ECommerceApp.Infrastructure.csproj", "{1B0254B3-C282-4FCB-8D4A-28C0C62D50AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcommerApp.Application", "Application\EcommerApp.Application.csproj", "{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceApp.Application", "Application\ECommerceApp.Application.csproj", "{F80C4E72-27A0-12B5-0634-DD5C11CFB0C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcommerApp.Domain", "Domain\EcommerApp.Domain.csproj", "{E528BBC3-1C26-8C35-F682-23718816ADCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceApp.Domain", "Domain\ECommerceApp.Domain.csproj", "{E528BBC3-1C26-8C35-F682-23718816ADCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcommerApp.WebMvc", "WebMvc\EcommerApp.WebMvc.csproj", "{DF15B980-389E-ED05-5528-291D9B065E1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceApp.WebMvc", "WebMvc\ECommerceApp.WebMvc.csproj", "{DF15B980-389E-ED05-5528-291D9B065E1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceApp.Admin.WebApi", "ECommerceApp.AdminWebApi\ECommerceApp.Admin.WebApi.csproj", "{74A749AE-D21A-45B6-95B0-13B6E3CCFEF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{DF15B980-389E-ED05-5528-291D9B065E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF15B980-389E-ED05-5528-291D9B065E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF15B980-389E-ED05-5528-291D9B065E1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74A749AE-D21A-45B6-95B0-13B6E3CCFEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74A749AE-D21A-45B6-95B0-13B6E3CCFEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74A749AE-D21A-45B6-95B0-13B6E3CCFEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74A749AE-D21A-45B6-95B0-13B6E3CCFEF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,12 @@
-﻿using EcommerApp.Domain.Entities.Account.Role;
-using EcommerApp.Domain.Entities.Account.User;
-using EcommerApp.Domain.Entities.Contact;
-using EcommerApp.Domain.Entities.Contact.Ticket;
-using EcommerApp.Domain.Entities.Product;
-using EcommerApp.Domain.Entities.Site;
+﻿using ECommerceApp.Domain.Entities.Account.Role;
+using ECommerceApp.Domain.Entities.Account.User;
+using ECommerceApp.Domain.Entities.Contact;
+using ECommerceApp.Domain.Entities.Contact.Ticket;
+using ECommerceApp.Domain.Entities.Product;
+using ECommerceApp.Domain.Entities.Site;
 using Microsoft.EntityFrameworkCore;
 
-namespace EcommerApp.Domain.Context;
+namespace ECommerceApp.Domain.Context;
 
 public class ApplicationDbContext : DbContext
 {
