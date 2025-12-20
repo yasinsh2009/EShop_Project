@@ -137,7 +137,7 @@ namespace ECommerceApp.WebMvc.ViewComponents
 
     #endregion
 
-    #region Latest Arrival Products Section
+    #region Latest Arrival Products
 
     public class LatestArrivalProductsViewComponent : ViewComponent
     {
@@ -152,6 +152,26 @@ namespace ECommerceApp.WebMvc.ViewComponents
         {
             var latestArrivalProducts = await _productService.GetLatestArrivalProducts(15);
             return View("LatestArrivalProducts", latestArrivalProducts);
+        }
+    }
+
+    #endregion
+
+    #region Product Amazing Discount
+
+    public class AmazingProductDiscountViewComponent : ViewComponent
+    {
+        private readonly IProductService _productService;
+
+        public AmazingProductDiscountViewComponent(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var AmazingProductDiscount = await _productService.GetAmazingProductDiscount(5);
+            return View("AmazingProductDiscount", AmazingProductDiscount);
         }
     }
 

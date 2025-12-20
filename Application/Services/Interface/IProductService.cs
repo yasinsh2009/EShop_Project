@@ -13,6 +13,7 @@ namespace ECommerceApp.Application.Services.Interface
     {
         #region Product
 
+        Task<ProductDetailsDto> GetProductDetails(long id);
         Task<FilterProductDto> FilterProducts(FilterProductDto filterProduct);
         Task<FilterProductDto> FilterProductsInAdminPanel(FilterProductDto product);
         Task<CreateProductResult> CreateProduct(CreateProductDto product, string? creatorName);
@@ -69,6 +70,12 @@ namespace ECommerceApp.Application.Services.Interface
         Task<EditProductDiscountDto> GetProductDisCountForEdit(long productDiscountId);
         Task<EditProductDiscountResult> EditProductDiscount(EditProductDiscountDto productDiscount, string? modifierName);
 
+
+        #endregion
+
+        #region Amazing Product Discount
+
+        Task<List<AmazingProductDiscountDto>> GetAmazingProductDiscount(int take);
 
         #endregion
     }

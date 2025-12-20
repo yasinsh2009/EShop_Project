@@ -22,5 +22,13 @@ namespace ECommerceApp.WebMvc.Controllers
             ViewBag.ProductCategories = await _productService.GetAllActiveProductCategories();
             return View(products);
         }
+
+        [HttpGet("product/{id}")]
+        public async Task<IActionResult> ProductDetails(long id)
+        {
+            var product = await _productService.GetProductDetails(id);
+
+            return View(product);
+        }
     }
 }

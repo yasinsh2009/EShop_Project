@@ -12,6 +12,7 @@ using ECommerceApp.Domain.Entities.Product;
 using ECommerceApp.Domain.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECommerceApp.Application.Services.Implementation
 {
@@ -51,6 +52,57 @@ namespace ECommerceApp.Application.Services.Implementation
 
         #region Product
 
+        public async Task<ProductDetailsDto> GetProductDetails(long id)
+        {
+            var product = await _productRepository
+                .GetQuery()
+                .Include(x => x.PruductFeatures)
+                .Include(x => x.ProductGalleries)
+                .Include(x => x.ProductColors)
+                .Include(x => x.ProductDiscounts)
+                .Include(x => x.ProductSelectedCategories)
+                .ThenInclude(x => x.ProductCategory)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            var productDiscount = await _productDiscountRepository
+                .GetQuery()
+                .Include(x => x.ProductDiscountUse)
+                .OrderByDescending(x => x.CreatedAt)
+                .SingleOrDefaultAsync(x => x.ProductId == id && x.ExpireDate >= DateTime.Now);
+
+            var productSelectedCategiesIds = product.ProductSelectedCategories.Select(x => x.ProductCategoryId).ToList();
+
+            var relatedProduct = await _productRepository
+                .GetQuery()
+                .Include(x => x.ProductDiscounts)
+                .Where(x => x.ProductSelectedCategories.Any(c => productSelectedCategiesIds.Contains(c.ProductCategoryId)) && x.Id != id)
+                .ToListAsync();
+
+            product.ViewCount = +1;
+            await _productRepository.SaveChanges();
+
+            var productDetails = new ProductDetailsDto
+            {
+                ProductId = product.Id,
+                Title = product.Title,
+                Code = product.Code,
+                Price = product.Price,
+                Image = product.Image,
+                ViewCount = product.ViewCount,
+                ShortDescription = product.ShortDescription,
+                Description = product.Description,
+                ProductCategories = product.ProductSelectedCategories.Select(x => x.ProductCategory).ToList(),
+                ProductColors = product.ProductColors.ToList(),
+                ProductDiscount = productDiscount,
+                ProductGalleries = product.ProductGalleries.ToList(),
+                ProductFeatures = product.PruductFeatures.ToList(),
+                RelatedProducts = relatedProduct,
+                //ProductBrand = product.ProductBrand,
+                //ProductComments = product.ProductComments.ToList()
+            };
+
+            return productDetails;
+        }
         public async Task<FilterProductDto> FilterProducts(FilterProductDto filterProduct)
         {
             try
@@ -61,6 +113,7 @@ namespace ECommerceApp.Application.Services.Implementation
                 .Include(q => q.ProductColors)
                 .Include(q => q.PruductFeatures)
                 .Include(q => q.ProductGalleries)
+                .Include(q => q.ProductDiscounts)
                 .AsQueryable();
 
                 if (query != null)
@@ -401,7 +454,8 @@ namespace ECommerceApp.Application.Services.Implementation
             {
                 var latestArrivalProducts = await _productRepository
                 .GetQuery()
-                .Where(x => x.IsActive && !x.IsPublished)
+                .Where(x => x.IsActive && x.IsPublished)
+                .Include(x => x.ProductDiscounts)
                 .OrderByDescending(x => x.ViewCount)
                 .Skip(0)
                 .Take(take)
@@ -975,7 +1029,6 @@ namespace ECommerceApp.Application.Services.Implementation
                 return new List<ProductGallery>();
             }
         }
-
         public async Task<CreateOrEditProductGalleryResult> CreateProductGallery(CreateOrEditProductGalleryDto gallery, long productId, IFormFile galleryImage, string? creatorName)
         {
             try
@@ -1015,7 +1068,6 @@ namespace ECommerceApp.Application.Services.Implementation
             }
 
         }
-
         public async Task<CreateOrEditProductGalleryDto> GetProductGalleryForEdit(long galleryId)
         {
             var gallery = await _productGalleryRepository
@@ -1034,7 +1086,6 @@ namespace ECommerceApp.Application.Services.Implementation
                 DisplayPriority = gallery.DisplayPriority
             };
         }
-
         public async Task<CreateOrEditProductGalleryResult> EditProductGallery(CreateOrEditProductGalleryDto gallery, long galleryId, IFormFile galleryImage, string? modifierName)
         {
             try
@@ -1108,7 +1159,6 @@ namespace ECommerceApp.Application.Services.Implementation
             }
 
         }
-
         public async Task<CreateProductDiscountResult> CreateProductDiscount(CreateProductDiscountDto productDiscount, string? creatorName)
         {
             try
@@ -1140,15 +1190,47 @@ namespace ECommerceApp.Application.Services.Implementation
                 return CreateProductDiscountResult.Error;
             }
         }
-
         public Task<EditProductDiscountDto> GetProductDisCountForEdit(long productDiscountId)
         {
             throw new NotImplementedException();
         }
-
         public Task<EditProductDiscountResult> EditProductDiscount(EditProductDiscountDto productDiscount, string? modifierName)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Product Amazing Discount
+
+        public async Task<List<AmazingProductDiscountDto>> GetAmazingProductDiscount(int take)
+        {
+            try
+            {
+                var amazingDiscount = await _productDiscountRepository
+                    .GetQuery()
+                    .Include(x => x.Product)
+                    .Where(x => x.ExpireDate >= DateTime.Now)
+                    .Take(take)
+                    .Select(x => new AmazingProductDiscountDto
+                    {
+                        ProductId = x.ProductId,
+                        ProductTitle = x.Product.Title,
+                        DiscountNumber = x.DiscountNumber,
+                        Percentage = x.Percentage,
+                        ExpireDate = x.ExpireDate,
+                        ProductImage = x.Product.Image,
+                        ProductPrice = x.Product.Price
+                    }).ToListAsync();
+
+                return amazingDiscount;
+            }
+            catch (Exception ex)
+            {
+                Logger.ShowError(ex);
+
+                return new List<AmazingProductDiscountDto>();
+            }
         }
 
         #endregion

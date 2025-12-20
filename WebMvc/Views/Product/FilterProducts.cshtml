@@ -2,9 +2,6 @@
 @using ECommerceApp.Application.Utilities
 @using ECommerceApp.Domain.DTOs.Product
 @using ECommerceApp.Domain.Entities.Product
-@using ECommerceApp.Application.Utilities
-@using ECommerceApp.Domain.DTOs.Product
-@using ECommerceApp.Domain.Entities.Product
 
 @{
     ViewData["Title"] = "محصولات فروشگاه";
@@ -191,21 +188,21 @@
                             <div class="container-fluid">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="box_filter d-lg-block d-none">
-                                        <h5 class="mb-3">مرتب سازی بر اساس:</h5>
                                         <ul class="list-inline text-start mb-0">
+                                            <li class="list-inline-item title-font ms-0">مرتب سازی بر اساس :</li>
                                             @foreach (var productOrder in Html.GetEnumSelectList<FilterProductOrderBy>())
                                             {
-                                                <span class="buttonFilter main-color-one-color">
+                                                <li class="list-inline-item">
                                                     <input type="radio" id="@productOrder.Value" value="@productOrder.Value" name="@nameof(Model.OrderBy)"
                                                            @(Convert.ToInt32(productOrder.Value) == Convert.ToInt32(Model.OrderBy) ? "checked" : "") />
                                                     <label class="font-16 fw-bold" style="margin-left:10px;" for="@productOrder.Value">
                                                         @productOrder.Text
                                                     </label>
-                                                </span>
+                                                </li>
                                             }
                                         </ul>
                                     </div>
-                                    <div class="box_filter_counter fs-6"><i class="bi bi-card-list me-2"></i> @Model.ProductsCount کالا</div>
+                                    <div class="box_filter_counter fs-6"><i class="bi bi-card-list me-2"></i>@Model.ProductsCount کالا</div>
                                 </div>
                                 <div class="d-lg-none d-block">
                                     <form>
@@ -227,10 +224,19 @@
                         {
                             <div class="col-lg-4">
                                 <div class="product-box border-ui">
-                                    <a asp-controller="Product" asp-action="ProductDetails" asp-route-productId="@product.Id">
+                                    <div class="product-timer position-relative">
+                                        <div class="product-header-btn flex-column position-absolute top-0">
+                                            <a href="" class="mb-1 border-ui" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="مقایسه"><i class="bi bi-shuffle"></i></a>
+                                            <a href="" class="mb-1 border-ui" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="افزودن به علاقه مندی ها"><i class="bi bi-heart"></i></a>
+                                            <a href="" class="mb-1 border-ui" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="نمایش سریع"><i class="bi bi-eye"></i></a>
+                                        </div>
+                                    </div>
+                                    <a asp-controller="Product" asp-action="ProductDetails" asp-route-id="@product.Id">
                                         <div class="product-image">
-                                            <img src="@(!string.IsNullOrWhiteSpace(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)" alt="@product.Title" title="@product.Title" class="img-fluid one-image">
-                                            <img src="@(!string.IsNullOrWhiteSpace(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)" alt="@product.Title" title="@product.Title" loading="lazy" class="img-fluid two-image">
+                                            <img src="@(!string.IsNullOrWhiteSpace(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)"
+                                                 alt="@product.Title" title="@product.Title" class="img-fluid one-image" loading="lazy">
+                                            <img src="@(!string.IsNullOrWhiteSpace(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)"
+                                                 alt="@product.Title" title="@product.Title" class="img-fluid two-image" loading="lazy">
                                         </div>
                                         <div class="d-flex h-80-px align-items-center justify-content-between ">
                                             <h6 class="font-14 text-overflow-2 my-3 lh-lg">
@@ -242,11 +248,21 @@
                                                 <span class="btn main-color-one-bg"><i class="bi bi-cart"></i></span>
                                             </div>
                                             <div class="price d-flex justify-content-end flex-column align-content-end">
-                                                <p class="new-price me-0 text-end">پیاده سازی نشده <span class="fw-normal">تومان</span></p>
-                                                <p class="old-price">
-                                                    <span class="badge bg-danger rounded-pill me-2">پیاده سازی نشده%</span>
-                                                    @product.Price.ToString("##,###")
-                                                </p>
+                                                @if (product.ProductDiscounts is not null && product.ProductDiscounts.Any(x => x.ExpireDate >= DateTime.Now))
+                                                {
+                                                    @foreach (var discount in product.ProductDiscounts)
+                                                    {
+                                                        <p class="new-price me-0 text-end">@(Convert.ToInt32(product.Price - ((product.Price * discount.Percentage) / (double)100)).ToString("#,0")) <span class="fw-normal">تومان</span></p>
+                                                        <p class="old-price">
+                                                            <span class="badge bg-danger rounded-pill me-2">@discount.Percentage%</span>
+                                                            @product.Price.ToString("##,###")
+                                                        </p>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <p class="new-price me-0 text-end">@product.Price.ToString("##,###") <span class="fw-normal">تومان</span></p>
+                                                }
                                             </div>
                                         </div>
                                     </a>

@@ -4,6 +4,7 @@ using ECommerceApp.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EShop.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20251220104310_Modify_Product_Entity")]
+    partial class Modify_Product_Entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Account.User.User", b =>
@@ -137,7 +140,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Contact.ContactUs", b =>
@@ -194,7 +197,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Contact.Ticket.Ticket", b =>
@@ -247,7 +250,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Tickets", (string)null);
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Contact.Ticket.TicketMessage", b =>
@@ -289,7 +292,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("TicketMessages", (string)null);
+                    b.ToTable("TicketMessages");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.Product", b =>
@@ -350,7 +353,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.ProductCategory", b =>
@@ -404,7 +407,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.ProductColor", b =>
@@ -450,7 +453,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductColors", (string)null);
+                    b.ToTable("ProductColors");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.ProductDiscount", b =>
@@ -492,7 +495,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductDiscounts", (string)null);
+                    b.ToTable("ProductDiscounts");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.ProductDiscountUse", b =>
@@ -528,7 +531,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("ProductDiscountId");
 
-                    b.ToTable("ProductDiscountUses", (string)null);
+                    b.ToTable("ProductDiscountUses");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.ProductFeature", b =>
@@ -570,7 +573,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductFeatures", (string)null);
+                    b.ToTable("ProductFeatures");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.ProductGallery", b =>
@@ -610,7 +613,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductGalleries", (string)null);
+                    b.ToTable("ProductGalleries");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Product.ProductSelectedCategory", b =>
@@ -648,7 +651,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductSelectedCategories", (string)null);
+                    b.ToTable("ProductSelectedCategories");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Site.AboutUs", b =>
@@ -685,7 +688,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AboutUs", (string)null);
+                    b.ToTable("AboutUs");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Site.Feature", b =>
@@ -722,7 +725,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features", (string)null);
+                    b.ToTable("Features");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Site.Question", b =>
@@ -759,7 +762,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Site.SiteBanner", b =>
@@ -807,7 +810,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SiteBanners", (string)null);
+                    b.ToTable("SiteBanners");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Site.SiteSetting", b =>
@@ -871,7 +874,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SiteSettings", (string)null);
+                    b.ToTable("SiteSettings");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Site.Slider", b =>
@@ -919,7 +922,7 @@ namespace EShop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("ECommerceApp.Domain.Entities.Account.User.User", b =>
